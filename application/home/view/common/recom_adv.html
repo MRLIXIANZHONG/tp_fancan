@@ -1,0 +1,62 @@
+{if $IsPostFufei == 1 }
+<div class="fl-tips-pay">
+    <i></i><span>您的账号发布权限已用完，发布需支付{$pay_price}元，信息立即显示！</span>请勿发布违法违规信息，否则信息将无偿删除
+</div>
+{else /}
+{if ($recom_adv.posttjpay == 1) }
+<div class="sendTopr">
+    <div class="buyConD">
+        <div class="conBox">
+            <div class="cpriceC">
+                <div class="cPriceL">
+                    <p class="pT"><span class="stit">置顶推荐</span><span class="stj">推荐</span>信息黄金位置展示，效果提高 <i class="iNO">6~8</i> 倍！ <a href="javascript:;" class="checkXg">效果预览</a></p>
+                    <div class="d1 topBtn">
+                        {if $recom_adv.arra_tjprice}
+                        {volist name="recom_adv.arra_tjprice" id="vad" }
+                                            <span day="{$vad.Num}" money="{:number_format($vad.price,2)}" num="{:number_format($vad.price/$vad.Num,2)}" ppid="{$vad.id}" >
+                                                {$vad.Num}天
+                                                {if ($i eq 2) OR ($i eq 3)}
+                                                    <i class="disIcon">优惠</i>
+                                                {elseif ($i gt 3) /}
+                                                    <i class="disIcon">特惠</i>
+                                                {/if}
+                                                <i class="checkIcon"></i>
+                                            </span>
+                        {/volist}
+                        {/if}
+                    </div>
+                    <p class="priS" style="display:none">已选择置顶推荐 <span class="f60" id="day">--天</span>，需支付 <span class="f60 bold" id="money">￥--</span>&nbsp;(平均每天 <span class="f60" id="num">￥--</span>)</p>
+                </div>
+                <div class="cImg"><i></i></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    //效果预览
+    $('.checkXg').click(function(){
+        if({$tjprice_cid} >= 3){
+            ShowWin('置顶推荐','/post/fabu/helpshow.asp?cid={$tjprice_cid}','800px','500px');
+        }else{
+            ShowWin('置顶推荐','/post/fabu/helpshow.asp?cid={$tjprice_cid}','800px','600px');
+        }
+
+
+    });
+    //置顶操作
+    $('.topBtn span').click(function(){
+        var day=$(this).attr('day');
+        var money=$(this).attr('money');
+        var num=$(this).attr('num');
+        var ppid=$(this).attr('ppid');
+        $('.priS').show();
+        $('#day').text(day+'天');
+        $('#money').text('￥'+money);
+        $('#num').text('￥'+num);
+        $(this).addClass('active').siblings().removeClass('active');
+        document.cookie="tpid{$tjprice_cid}="+ppid+";path=/";
+    })
+</script>
+<div class="clear"></div>
+{/if}
+{/if}

@@ -1,0 +1,112 @@
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="fbbd-con">
+
+    <script type="text/javascript">
+        var lhd;
+        $(document).ready(function () {
+            $(document).keyup(function (evnet) {
+                if (evnet.keyCode == '13') {
+                    load_ing();
+                }
+            });
+        })
+
+        lhd=$.dialog({
+            content:
+                    '<div class="w_load clearfix">\
+                      <p class="w_error_tip"></p>\
+                      <ul class="w_ul1 clearfix">\
+                        <li>\
+                          <span>用户名 : </span><input class="w_name" type="text" id="uName" placeholder="手机号/用户名/邮箱">\
+                        </li>\
+                        <li>\
+                          <span>密&nbsp;&nbsp;&nbsp;码 : </span><input class="w_password" type="password" id="uPwd" placeholder="输入密码"><a href="/login/recover.asp">忘记密码？</a>\
+                        </li>\
+                      </ul>\
+                      <p class="w_load_go clearfix"><span onclick="load_ing()">登录</span><a href="/reg/reg.asp">注册账号</a></p>\
+                      <ul class="w_ul2 clearfix">\
+                        <li class="pos_qq">\
+                          <a href="http://passport.ccoo.cn/?Path=http%3A%2F%2Fwww%2Exinchang%2Eccoo%2Ecn%2Fpost%2Ffabu%2F%3Fch%3Dfwcd"><span></span>QQ登录</a>\
+                        </li>\
+                        <li class="pos_wx">\
+                          <a href="http://wxlogin.ccoo.cn/?siteid=1507&callback=http%3A%2F%2Fwww%2Exinchang%2Eccoo%2Ecn%2Fpost%2Ffabu%2F%3Fch%3Dfwcd"><span></span>微信登录</a>\
+                        </li>\
+                        <li class="pos_wb">\
+                          <a href="http://passport.ccoo.cn/sina/?Path=http%3A%2F%2Fwww%2Exinchang%2Eccoo%2Ecn%2Fpost%2Ffabu%2F%3Fch%3Dfwcd"><span></span>微博登录</a>\
+                        </li>\
+                      </ul>\
+                    </div>'
+            ,
+            title:'会员登录',
+            min:false,
+            max:false,
+            lock:true,
+            cancel:false
+        })
+
+        function load_ing(){
+            console.log(1)
+            if($.trim($(".w_name").val())==""){
+                $(".w_error_tip").html("请输入用户名！").slideDown();
+                $(".w_name").focus();
+                return;
+            }
+            if($.trim($(".w_password").val())==""){
+                $(".w_error_tip").html("请输入密码！").slideDown();
+                $(".w_password").focus();
+                return;
+            }else{
+                $(".w_error_tip").slideUp()
+            }
+
+            $.post("/post/users/ajaxlogin.asp", {
+                username: $('#uName').val(),
+                password: $('#uPwd').val()
+            }, function(data) {
+                if (parseInt(data) != 9999) {
+                    $(".w_error_tip").html(data).slideDown();
+                } else {
+                    $(".w_error_tip").html("登录成功！").slideDown();
+                    isUserFabu = 0;
+                    isUserName =$('#uName').val();
+                    CheckUserTel();
+
+                    window.location.href='{$url}';
+
+                }
+            })
+            return false;
+
+
+        }
+
+
+        function CheckUserTel() {
+            var TelVal = $('#co_phone').val();
+            if (TelVal != '') {
+                if (/^(([0\\+]\\d{2,3}-)?(0\\d{2,3})-)?(\\d{7,8})(-(\\d{3,}))?$|(^(1[3|4|5|6|7|8|9])[0-9]{9}$)/.test(TelVal)) {
+                    $.ajax({
+                        type: 'GET',
+                        beforeSend: function() {},
+                        url: '/post/ajax/ajax.asp',
+                        data: {
+                            action: 'fabutel',
+                            tel: TelVal,
+                            channel: channel,
+                            n: Math.random()
+                        },
+                        dataType: 'json',
+                        error: '',
+                        success: function(data) {
+                            if (data.err == 0) {
+                                CheckTel();
+                            }
+                        }
+                    })
+                }
+            }
+        }
+
+
+    </script>
+
+</table>

@@ -1,0 +1,199 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+<meta name="applicable-device" content="pc" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<meta http-equiv="Cache-Control" content="no-transform" />
+{block name="meta"}
+{/block}
+<link rel="stylesheet" type="text/css" href="http://r.imgccoo.cn/post/images/header_w.css">
+{block name="fc_css"}
+{/block}
+{block name='css'}
+{/block}
+</head>
+<body>
+<link href="http://r.imgccoo.cn/post/js/msgbox/msgbox.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="http://r.imgccoo.cn/post/js/msgbox/msgbox.js"></script>
+{include file="public:top_nav0"/}
+<!--logo-->
+{block name='top_js'}
+<script type="text/javascript">
+    var siteid = "{$site_id}";
+
+    function getNumber(startNum, endNum) {
+        var randomNumber;
+        randomNumber = Math.round(Math.random() * (endNum - startNum)) + startNum;
+        return randomNumber;
+    }
+
+    function indexValue(sid, i) {
+        $('#' + sid).val(i);
+    }
+
+    function indexSo(strId, strText) {
+        if ($('#' + strId).val() == "" || $('#' + strId).val() == strText) {
+            $('#' + strId).val("");
+            $('#' + strId).focus();
+            alert(strText);
+            return false
+        }
+    }
+
+    function sTopFocus(i, strId, strText) {
+        if (i == 1) {
+            if ($('#' + strId).val() == strText) {
+                $('#' + strId).val("");
+            }
+        } else {
+            if ($('#' + strId).val() == "") {
+                $('#' + strId).val(strText);
+            }
+        }
+    }
+    $(function() {
+        $(".topnav").hover(function() {
+            $(this).addClass("curr");
+            $(this).children("div").show();
+        }, function() {
+            $(this).removeClass("curr");
+            $(this).children("div").hide();
+        });
+        $(".topnav li").hover(function() {
+            $(this).addClass("tcurr");
+        }, function() {
+            $(this).removeClass("tcurr");
+        });
+    });
+    //收藏
+    function GetCollection(stype, dataid) {
+        $.ajax({
+            type: 'GET',
+            beforeSend: function () {
+                showTip({tit:'数据处理中...',time:1000000})
+            },
+            url: '/post/ajax/post_shoucang.asp',
+            data: {
+                action: 'insert',
+                stype: stype,
+                id: dataid,
+                n: Math.random()
+            },
+            dataType: 'json',
+            success: function (json) {
+                removeTip();
+                switch (json.code) {
+                    case 0:
+                        $('#scBtn1 .xicon-shouchang1').addClass('xicon-shouchang2').removeClass('xicon-shouchang1');
+                        showTip({tit:'已经收藏过!',time:1000})
+                        break;
+                    case 1:
+                        showTip({tit:'收藏成功!',time:1000})
+                        $('#scBtn1 .xicon-shouchang1').addClass('xicon-shouchang2').removeClass('xicon-shouchang1');
+                        $('#scBtn2').addClass('on').find('.xicon-xingxing3').addClass('xicon-xingxing4').removeClass('xicon-xingxing3')
+                        break;
+                    case 2:
+                        showTip({tit:'请登录后进行收藏!',time:1000},function () {
+                            ShowWin('会员登录', '/post/users/login.asp?iscloseurl=1', 350, 230);
+                        });
+                        break;
+                    default:
+                        showTip({tit:json.msg,time:1000})
+                }
+            },
+            error:function(){
+                removeTip();
+                showTip({tit:'请求失败请稍候再试!',time:1000})
+            }
+        });
+    }
+</script>
+{/block}
+
+{block name='search'}
+<div id="cz" class="w newred-search">
+    <div id="logo" class="fl"> <a href="/"><img src="http://c.imgccoo.cn/logo/{$site_id}.gif" alt="{$site_id}" />
+        <span><b>·</b> {:get_menu($class1)}</span></a> </div>
+    <form name="form33" action="/post/chaxun.html" method="post" accept-charset="gbk" _charset="gbk" onSubmit="return indexSo('topKeyInput','请输入关键字');">
+        <div id="search" class="fl">
+            <!-- <div class="s_left fl"></div> -->
+            <div class="sea-box">
+                <div class="s_leib fl" id="x_sou">
+                    <input type="hidden" name="class1" id="indexTopClass" value="0" />
+                    <p>全部信息</p>
+                    <i class="row"></i>
+                    <ul>
+                        <li><a href="javascript:void(0);" onclick="indexValue('indexTopClass',0);return false;">全部信息</a></li>
+                        <li><a href="javascript:void(0);" onclick="indexValue('indexTopClass',1);return false;">招聘求职</a></li>
+                        <li><a href="javascript:void(0);" onclick="indexValue('indexTopClass',3);return false;">房屋出售</a></li>
+                        <li><a href="javascript:void(0);" onclick="indexValue('indexTopClass',32);return false;">房屋出租</a></li>
+                        <li><a href="javascript:void(0);" onclick="indexValue('indexTopClass',2);return false;">二手信息</a></li>
+                        <li><a href="javascript:void(0);" onclick="indexValue('indexTopClass',5);return false;">车辆买卖</a></li>
+                        <li><a href="javascript:void(0);" onclick="indexValue('indexTopClass',6);return false;">生活服务</a></li>
+                        <li><a href="javascript:void(0);" onclick="indexValue('indexTopClass',642);return false;">同城交友</a></li>
+                        <li><a href="javascript:void(0);" onclick="indexValue('indexTopClass',8);return false;">宠物世界</a></li>
+                    </ul>
+                </div>
+                <div class="s_text fl">
+                    <input name="keys" type="text" id="topKeyInput" onfocus="sTopFocus(1,'topKeyInput','请输入关键字');" onblur="sTopFocus(2,'topKeyInput','请输入关键字');" value="请输入关键字" maxlength="30" class="dss"/>
+                </div>
+                <div class="s_sous fl">
+                    <input type="submit" value="" />
+                </div>
+            </div>
+            <!--<div class="s_right fl"></div>-->
+            <div class="btn_1 fr"><a href="/post/fabu/">发布信息</a></div>
+        </div>
+    </form>
+    <div class="c"></div>
+</div>
+{/block}
+
+{block name='menu'}
+{include file="public:top_nav"/}
+{/block}
+
+{block name="crumbs"}
+<div class="fenleiq">您当前的位置：<a href="/">{$siteName}首页</a> &gt;&gt; <a href="/post/">分类信息首页</a> &gt;&gt; <a href="/post/job/">招聘求职首页</a> &gt;&gt; </div>
+{/block}
+
+{block name="content"}
+
+{/block}
+
+{include file="public:footer"}
+
+{block name="zhushou"}
+
+{/block}
+
+
+
+
+<div style="display:none">
+    <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fba3e2a3158b5ce0af78a2e8067c48985' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script src="http://s11.cnzz.com/stat.php?id=2084254&web_id=2084254&show=pic1" language="JavaScript"></script>
+    <div style="width:300px;margin:0 auto; padding:20px 0;">
+        <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=22080202000105" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;">
+            <img src="" style="float:left;"/>
+            <p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:"#939393;">吉公网安备 22080202000105号</p>
+        </a>
+        <script src="https://s5.cnzz.com/stat.php?id=3834609&web_id=3834609&show=pic" language="JavaScript"></script>
+    </div>
+    <script type="text/javascript">
+        var hm2 = document.createElement("script");
+        hm2.src = "http://count.ccoo.cn/stat.asp?siteid={$site_id}";
+        var s2 = document.getElementsByTagName("script")[0];
+        s2.parentNode.insertBefore(hm2, s2);
+    </script>
+    {block name="under_js"}
+
+    {/block}
+</div>
+</body>
+</html>

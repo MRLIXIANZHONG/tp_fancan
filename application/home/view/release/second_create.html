@@ -1,0 +1,1697 @@
+{extend name="public/base" /}
+
+{block name="title"}
+<title>分类信息发布，免费发布信息-新昌在线</title>
+{/block}
+{block name="keywords"}
+
+{/block}
+{block name="description"}
+<meta name="description" content="新昌招聘信息、求职信息、房屋出租出售、二手房、二手信息、车辆买卖、商机、培训信息、交友信息，免费发布！">
+{/block}
+
+
+{block name='css'}
+<link rel="stylesheet" type="text/css" href="http://r.imgccoo.cn/post/images/biaodan.css">
+<link rel="stylesheet" type="text/css" href="http://r.imgccoo.cn/post/images/fabu1.css">
+<link rel="stylesheet" type="text/css" href="http://r.imgccoo.cn/post/images/fenlei_v2.css">
+<script type="text/javascript" src="http://r.imgccoo.cn/post/images/js/form/form.js" charset="gb2312"></script>
+<script type="text/javascript" src="http://r.imgccoo.cn/post/images/js/form/regex.js" charset="gb2312"></script>
+<script type="text/javascript" src="http://r.imgccoo.cn/post/images/js/cookie.js" charset="gb2312"></script>
+<script type="text/javascript" src="http://r.imgccoo.cn/post/images/js/xheditor-1.2.1.min.js" charset="utf-8"></script>
+<link href="http://r.imgccoo.cn/post/js/xcConfirm/xcConfirm.css" rel="stylesheet" type="text/css">
+
+<script type="text/javascript" src="http://r.imgccoo.cn/post/js/xcConfirm/xcConfirm.js" charset="gb2312"></script>
+<script type="text/javascript" src="http://r.imgccoo.cn/post/images/js/laydate/laydate.js" charset="gb2312"></script>
+<link type="text/css" rel="stylesheet" href="http://r.imgccoo.cn/post/images/js/laydate/need/laydate.css">
+<link type="text/css" rel="stylesheet" href="http://r.imgccoo.cn/post/images/js/laydate/skins/default/laydate.css" id="LayDateSkin">
+<script type="text/javascript" src="http://r.imgccoo.cn/post/js/dialog/fun.js" charset="gb2312"></script>
+<script>
+    if (/Android|webOS|iPhone|iPod|BlackBerry|Windows CE|Windows Phone/i.test(navigator.userAgent)) {
+        if (window.location.href.indexOf("?pc") < 0) {
+            window.location.href = "http://m.xinchang.ccoo.cn/post/fabu/";
+        }
+    }
+</script>
+
+{/block}
+
+{block name="crumbs"}
+
+{/block}
+
+{block name="content"}
+<div class="sylb">
+
+    {include file="common/house_crumb" /}
+
+
+    <script type="text/javascript" src="http://r.imgccoo.cn/post/images/date/WdatePicker.js"></script>
+    <script language="javascript">
+        //字符判断
+        function len(s) {
+            var l = 0;
+            var a = s.split("");
+            for (var i = 0; i < a.length; i++) {
+                if (a[i].charCodeAt(0) < 299) {
+                    l++;
+                } else {
+                    l += 2;
+                }
+            }
+            return l;
+        }
+        //去掉所有的html标记
+        function delHtmlTag(str) {
+            return str.replace(/<[^>]+>/g, "");
+        }
+
+        $(pageInit);
+
+        function pageInit() {
+            $('#HtmlIde').xheditor({
+                tools: 'Bold,Italic,Underline,FontColor,BackColor,Align',
+                skin: 'default',
+                layerShadow: 3,
+                cleanPaste: 3,
+                clickCancelDialog: false,
+                forcePtag: true,
+                loadCSS: '<style>body{font-size:14px;lineheight:28px}</style>',
+                focus: dofocus,
+                blur: delfocus
+            });
+        }
+
+        function dofocus() {
+            $("#HtmlIdeTip").html('<span class="onFocus"><span class="onFocus_top">5-2000字符，不能填写QQ电话号码等联系方式</br>如发现此信息中出现联系方式，信息将被删除</span><span class="onFocus_bot"></span></span>')
+            $("#HtmlIdeTip").show()
+            $.cookie('Rec_HtmlIde', $("#HtmlIde").val());
+        }
+
+        function delfocus() {
+            if (len(delHtmlTag($('#HtmlIde').val())) > 4000 || len(delHtmlTag($('#HtmlIde').val())) < 10) {
+                $("#HtmlIdeTip").html('<span class="onError"><span class="onError_top">您输入的详细描述字数不符合要求，请按要求填写</span><span class="onError_bot"></span></span>')
+                $.cookie('Rec_HtmlIde', $("#HtmlIde").val());
+            } else {
+                $("#HtmlIdeTip").html('<span class="onCorrect"></span>')
+                $.cookie('Rec_HtmlIde', $("#HtmlIde").val());
+            }
+        }
+
+        $(pageInit2);
+
+        function pageInit2() {
+            $('#sInfo').xheditor({
+                tools: 'Bold,Italic,Underline,FontColor,BackColor,Align',
+                skin: 'default',
+                layerShadow: 3,
+                cleanPaste: 3,
+                clickCancelDialog: false,
+                forcePtag: true,
+                loadCSS: '<style>body{font-size:14px;lineheight:28px}</style>',
+                focus: dofocus2,
+                blur: delfocus2
+            });
+        }
+
+        function dofocus2() {
+            $("#sInfoTip").html('<span class="onFocus"><span class="onFocus_top">5-2000字符，不能填写QQ电话号码等联系方式</br>如发现此信息中出现联系方式，信息将被删除</span><span class="onFocus_bot"></span></span>')
+            $("#sInfoTip").show()
+            $.cookie('Rec_sInfo', $("#sInfo").val());
+        }
+        function delfocus2() {
+            if (len(delHtmlTag($('#sInfo').val())) > 4000 || len(delHtmlTag($('#sInfo').val())) < 10) {
+                $("#sInfoTip").html('<span class="onError"><span class="onError_top">您输入的详细描述字数不符合要求，请按要求填写</span><span class="onError_bot"></span></span>')
+                $.cookie('Rec_sInfo', $("#sInfo").val());
+            } else {
+                $("#sInfoTip").html('<span class="onCorrect"></span>')
+                $.cookie('Rec_sInfo', $("#sInfo").val());
+            }
+        }
+    </script>
+
+    {if $is_login == 1}
+    {include file="common/live_tip" /}
+    {/if}
+    <script type="text/javascript">
+
+
+
+        $(function(){
+            $.formValidator.initConfig({validatorGroup:"7",formID:"",theme:"ArrowSolidBox",onError:function(msg){alert(msg)},onSuccess:function(){subAjax();}});
+
+
+
+
+
+            $('#form1').keydown(function(){
+                $.cookie('recState','1');
+                $.cookie('mainCls','7');
+            });
+            $('#form1').bind('paste', function(){
+                $.cookie('recState','1');
+                $.cookie('mainCls','7');
+            });
+            $("#kindId").blur(function(){
+                $.cookie('Rec_kindId',$("#kindId").val());
+
+            });
+            $("#ClassId").blur(function(){
+                $.cookie('Rec_ClassId',$("#ClassId").val());
+
+            });
+            $("input:radio[name='hclassx']").blur(function(){
+                $.cookie('Rec_hclassx',$("input:radio[name='hclassx']:checked").val());
+            });
+            $("input:radio[name='IsSource']").blur(function(){
+                $.cookie('Rec_IsSource',$("input:radio[name='IsSource']:checked").val());
+            });
+
+            $("#TitleName").blur(function(){
+                $.cookie('Rec_TitleName',$("#TitleName").val());
+            });
+            $("#chengse").blur(function(){
+                $.cookie('Rec_chengse',$("#chengse").val());
+            });
+
+            $("#price").blur(function(){
+                $.cookie('Rec_price',$("#price").val());
+            });
+            $("#HtmlArea").blur(function(){
+                $.cookie('Rec_HtmlArea',$("#HtmlArea").val());
+            });
+
+            $("input:radio[name='IsExchange']").blur(function(){
+                $.cookie('Rec_IsExchange',$("input:radio[name='IsExchange']:checked").val());
+            });
+
+            $("#HtmlExchange").blur(function(){
+                $.cookie('Rec_HtmlExchange',$("#HtmlExchange").val());
+            });
+
+            $("#linkman").blur(function(){
+                $.cookie('Rec_linkman',$("#linkman").val());
+            });
+            $("#tel").blur(function(){
+                $.cookie('Rec_TelIde',$("#tel").val());
+            });
+            $("#email").blur(function(){
+                $.cookie('Rec_email',$("#email").val());
+            });
+            $("#qq").blur(function(){
+                $.cookie('Rec_qq',$("#qq").val());
+            });
+            //以下是2014.7.15日新加内容
+            $("#areaid").blur(function(){
+                $.cookie('Rec_areaid',$("#areaid").val());
+            });
+
+            $("#xinghao").blur(function(){
+                $.cookie('Rec_xinghao',$("#xinghao").val());
+            });
+
+            $("#buyYear").blur(function(){
+                $.cookie('Rec_buyYear',$("#buyYear").val());
+            });
+            $('#buyYear').focus(function(){
+                WdatePicker({dateFmt:'yyyy-MM'})
+            });
+
+            $('input[name=fapiao]').blur(function(){
+                var Rec_fapiao="";
+                $('input[name=fapiao]:checked').each(function(){
+                    Rec_fapiao+=$(this).val()+","
+                });
+                $.cookie('Rec_fapiao',Rec_fapiao);
+            });
+
+            $("#xuninum").blur(function(){
+                $.cookie('Rec_xuninum',$("#xuninum").val());
+            });
+
+            $("#qinglvnum").blur(function(){
+                $.cookie('Rec_qinglvnum',$("#qinglvnum").val());
+            });
+
+            $("#CPUpinpai").blur(function(){
+                $.cookie('Rec_CPUpinpai',$("#CPUpinpai").val());
+            });
+
+            $("#CPUheshu").blur(function(){
+                $.cookie('Rec_CPUheshu',$("#CPUheshu").val());
+            });
+
+            $("#neicun").blur(function(){
+                $.cookie('Rec_neicun',$("#neicun").val());
+            });
+
+            $("#yingpan").blur(function(){
+                $.cookie('Rec_yingpan',$("#yingpan").val());
+            });
+
+            $("#pingmuchicun").blur(function(){
+                $.cookie('Rec_pingmuchicun',$("#pingmuchicun").val());
+            });
+
+            $("#xianka").blur(function(){
+                $.cookie('Rec_xianka',$("#xianka").val());
+            });
+
+            $("#smallclassid").blur(function(){
+                $.cookie('Rec_smallclassid',$("#smallclassid").val());
+            });
+            $("#smallclassidF").blur(function(){
+                $.cookie('Rec_smallclassidF',$("#smallclassidF").val());
+            });
+
+            $("#FourthId").blur(function(){
+                $.cookie('Rec_FourthId',$("#FourthId").val());
+            });
+
+            $("#rongji").blur(function(){
+                $.cookie('Rec_rongji',$("#rongji").val());
+            });
+            $("#rongjiF").blur(function(){
+                $.cookie('Rec_rongjiF',$("#rongjiF").val());
+            });
+
+            //求购时隐藏内容
+            $("input:radio[name='hclassx']").click(function(){
+                if($(this).val()==1){
+                    $("#show_fjfp1").hide();
+                    $("#show_fjfp").hide();
+                }else{
+                    $("#show_fjfp1").show();
+                    $("#show_fjfp").show();
+                }
+                //alert(gongqiuname);
+            });
+
+
+            $('input[name=isqinglvnum]').click(function(){
+                if($("#isqinglvnum").attr("checked")==true){
+                    $("#qinglvnum").show();
+                }else{
+                    $("#qinglvnum").hide();
+                }
+            });
+
+            $("#ClassId").change(function(){
+                if($("#ClassId").val()==334 || $("#ClassId").val()==335 || $("#ClassId").val()==336|| $("#ClassId").val()==346|| $("#ClassId").val()==347|| $("#ClassId").val()==348|| $("#ClassId").val()==349|| $("#ClassId").val()==350){
+                    $("#xinghaoz").show();
+                }else if($("#kindId").val()==330 || $("#kindId").val()==332 || $("#kindId").val()==96|| $("#kindId").val()==99|| $("#kindId").val()==100){
+                    $("#xinghaoz").show();
+                }else{
+                    $("#xinghaoz").hide();
+                }
+            });
+//内存，硬盘，屏幕尺寸和显卡
+            $("#kindId").change(function(){
+                if(($("#kindId").val()==96 || $("#kindId").val()==99 || $("#kindId").val()==103) && $("input:radio[name='hclassx']:checked").val()==2){
+                    $("#nypx").show();
+                }else{
+                    $("#nypx").hide();
+                }
+            });
+
+//虚拟号码
+            $("#kindId").change(function(){
+                if(($("#kindId").val()==82 || $("#kindId").val()==83 || $("#kindId").val()==84) && $("input:radio[name='hclassx']:checked").val()==2){
+                    $("#xnh").show();
+                }else{
+                    $("#xnh").hide();
+                }
+            });
+
+
+//型号判断，要结合ASP
+
+            $("#kindId").change(function(){
+                if($("#kindId").val()==96 || $("#kindId").val()==99 || $("#kindId").val()==100){
+                    $("#xinghaoz").show();
+                }else{
+                    $("#xinghaoz").hide();
+                }
+            });
+
+
+//购买时间判断，要结合ASP
+            $("#kindId").change(function(){
+                if(($("#kindId").val()==100 || $("#kindId").val()==199 || $("#kindId").val()==200 || $("#kindId").val()==201 || $("#kindId").val()==202 || $("#kindId").val()==203 || $("#kindId").val()==204 || $("#kindId").val()==205 || $("#kindId").val()==206 || $("#kindId").val()==207 || $("#kindId").val()==328 || $("#kindId").val()==329 || $("#kindId").val()==330 || $("#kindId").val()==331 || $("#kindId").val()==332 || $("#kindId").val()==333 )  && $("input:radio[name='hclassx']:checked").val()==2){
+                    $("#goumaishijianz").show();
+                }else{
+                    $("#goumaishijianz").hide();
+                }
+            });
+
+//容积显示判断
+            $("#ClassId").click(function(){
+                if($("#ClassId").val()==334 && $("input:radio[name='hclassx']:checked").val()==2){
+                    $("#rongjis").show();
+                    $("#rongjiz").hide();
+                }else if($("#kindId").val()==203){
+                    $("#rjdw").text("升");
+                    $("#rongjiz").show();
+                    $("#rongjis").hide();
+                }else if($("#kindId").val()==202){
+                    $("#rjdw").text("升");
+                    $("#rongjiz").show();
+                    $("#rongjis").hide();
+                }else if($("#kindId").val()==200){
+                    $("#rjdw").text("公斤");
+                    $("#rongjiz").show();
+                    $("#rongjis").hide();
+                }else{
+                    $("#rongjis").hide();
+                    $("#rongjiz").hide();
+                }
+            })
+
+//===================内容调取开始=======================
+            var peijianid;
+            var sanjileiid;
+            var sijileiid;
+            var cpuid;
+
+//==========配件部分判断调取==============================================
+            $("#ClassId").change(function(){
+                if ($("#kindId").val()==96 && $("input:radio[name='hclassx']:checked").val()==2){
+                    peijianid=1;
+                    $("#show_pjfp").show();
+                }else if($("#kindId").val()==100 && $("input:radio[name='hclassx']:checked").val()==2){
+                    peijianid=2;
+                    $("#show_pjfp").show();
+                    //}else if($("#kindId").val()==329 && $("input:radio[name='hclassx']:checked").val()==2){
+                }else if(($("#ClassId").val()==346 || $("#ClassId").val()==347 || $("#ClassId").val()==348 || $("#ClassId").val()==349 || $("#ClassId").val()==350) && $("input:radio[name='hclassx']:checked").val()==2){
+                    peijianid=3;
+                    $("#show_pjfp").show();
+                }else if($("#kindId").val()==330 && $("input:radio[name='hclassx']:checked").val()==2){
+                    peijianid=4;
+                    $("#show_pjfp").show();
+                    //}else if($("#kindId").val()==331 && $("input:radio[name='hclassx']:checked").val()==2){
+                }else if(($("#ClassId").val()==366 || $("#ClassId").val()==367 || $("#ClassId").val()==368 || $("#ClassId").val()==369 || $("#ClassId").val()==370 || $("#ClassId").val()==371 || $("#ClassId").val()==372 || $("#ClassId").val()==373 || $("#ClassId").val()==374) && $("input:radio[name='hclassx']:checked").val()==2){
+                    peijianid=5;
+                    $("#show_pjfp").show();
+                }else if($("#kindId").val()==332 && $("input:radio[name='hclassx']:checked").val()==2){
+                    peijianid=6;
+                    $("#show_pjfp").show();
+                }else if(($("#ClassId").val()==334 || $("#ClassId").val()==335 || $("#ClassId").val()==336) && $("input:radio[name='hclassx']:checked").val()==2){
+                    peijianid=7;
+                    $("#show_pjfp").show();
+                }else if($("#ClassId").val()==337 && $("input:radio[name='hclassx']:checked").val()==2){
+                    peijianid=8;
+                    $("#show_pjfp").show();
+                }else{
+                    peijianid=0;
+                    $("#show_pjfp").hide();
+                }
+
+                getDatapeijian(peijianid);
+            });
+            function getDatapeijian(peijianid){
+                $.ajax({
+                    url: '/post/fabu/kind.asp',
+                    type:'POST',
+                    data: 'action=getpeijian&peijianid=' + peijianid + '&num=' + Math.random()*100,
+                    success: function(ajax_mingdata){
+                        $('#peijian').html(ajax_mingdata);
+                    }
+                });
+            }
+//==========配件部分判断调取结束==============================================
+
+//==========CPU品牌和CPU术数调取==============================================
+            $("#kindId").change(function(){
+                if ($("#kindId").val()==96 && $("input:radio[name='hclassx']:checked").val()==2){
+                    cpuid=1;
+                    $("#show_cpucontent").show();
+                    $("#cpuming").html("CPU：");
+                }else if($("#kindId").val()==99 && $("input:radio[name='hclassx']:checked").val()==2){
+                    cpuid=1;
+                    $("#show_cpucontent").show();
+                    $("#cpuming").html("CPU：");
+                }else if($("#kindId").val()==103 && $("input:radio[name='hclassx']:checked").val()==2){
+                    cpuid=1;
+                    $("#show_cpucontent").show();
+                    $("#cpuming").html("CPU：");
+                }else if($("#kindId").val()==201 && $("input:radio[name='hclassx']:checked").val()==2){
+                    cpuid=2;
+                    $("#show_cpucontent").show();
+                    $("#cpuming").html("变频功率：");
+                }else{
+                    cpuid=0;
+                    $("#show_cpucontent").hide();
+                    $("#cpuming").html("");
+                }
+
+                getDatacpu(cpuid);
+            });
+            function getDatacpu(cpuid){
+                $.ajax({
+                    url: '/post/fabu/kind.asp',
+                    type:'POST',
+                    data: 'action=getcpu&cpuid=' + cpuid + '&num=' + Math.random()*100,
+                    success: function(ajax_cpudata){
+                        //alert(ajax_cpudata);
+                        $('#cpucontent').html(ajax_cpudata);
+                    }
+                });
+            }
+//==========CPU品牌和CPU术数调取==============================================
+
+//==========三级非联动类别调取==============================================
+//	$("#kindId").change(function(){
+//		if ($("#kindId").val()==203){
+//			sanjileiidA=1;
+//			$("#sanjileicontent").show();
+//		}else if($("#kindId").val()==202){
+//			sanjileiidA=2;
+//			$("#sanjileicontent").show();
+//		}else if($("#kindId").val()==199){
+//			sanjileiidA=3;
+//			$("#sanjileicontent").show();
+//		}else if($("#kindId").val()==201){
+//			sanjileiidA=4;
+//			$("#sanjileicontent").show();
+//		}else if($("#kindId").val()==200){
+//			sanjileiidA=5;
+//			$("#sanjileicontent").show();
+//		}else if($("#kindId").val()==388){
+//			sanjileiidA=6;
+//			$("#sanjileicontent").show();
+//		}else if($("#kindId").val()==389){
+//			sanjileiidA=7;
+//			$("#sanjileicontent").show();
+//		}else if($("#kindId").val()==394){
+//			sanjileiidA=8;
+//			$("#sanjileicontent").show();
+//		}else if($("#kindId").val()==644){
+//			sanjileiidA=9;
+//			$("#sanjileicontent").show();
+//		}else if($("#kindId").val()==645){
+//			sanjileiidA=10;
+//			$("#sanjileicontent").show();
+//		}else{
+//			sanjileiidA=0;
+//			$("#sanjileicontent").hide();
+//		}
+//
+//		getDatasanjilei(sanjileiidA);
+//	});
+            function getDatasanjilei(sanjileiidA){
+                $.ajax({
+                    url: '/post/fabu/kind.asp',
+                    type:'POST',
+                    data: 'action=getsanjileis&sanjileiidA=' + sanjileiidA + '&num=' + Math.random()*100,
+                    success: function(ajax_sanjileidata){
+                        $('#sanjileicontent').html(ajax_sanjileidata);
+                    }
+                });
+            }
+//==========三级非联动类别调取==============================================
+
+//==========四级类别调取==============================================
+
+            $("#ClassId").change(function(){
+                if($("#ClassId").val()==334){
+                    sijileiidA=2;
+                    $("#sijileicontent").show();
+
+                }else if($("#ClassId").val()==337){
+                    sijileiidA=3;
+                    $("#sijileicontent").show();
+                }else if ($("#kindId").val()==199){
+                    sijileiidA=1;
+                    $("#sijileicontent").show();
+                }else{
+                    sijileiidA=0;
+                    $("#sijileicontent").hide();
+                }
+                getDatasijilei(sijileiidA);
+            });
+            function getDatasijilei(sijileiidA){
+                $.ajax({
+                    url: '/post/fabu/kind.asp',
+                    type:'POST',
+                    data: 'action=getsijileis&sijileiidA=' + sijileiidA + '&num=' + Math.random()*100,
+                    success: function(ajax_sijileidata){
+                        $('#sijileicontent').html(ajax_sijileidata);
+                    }
+                });
+            }
+//==========类别调取结束==============================================
+
+            $("#ClassId").formValidator({validatorGroup:"7",tipID:"kindIdTip",empty:true,onShow:"",onFocus:"请选择类别",onCorrect:"填写正确",defaultValue:""}).inputValidator({min:1,onError:"请选择类别"});
+            $("#FourthId").formValidator({validatorGroup:"7",tipID:"kindIdTip",empty:true,onShow:"",onFocus:"请选择类别",onCorrect:"填写正确",defaultValue:""}).inputValidator({min:1,onError:"请选择类别"});
+            $("#smallclassid").formValidator({validatorGroup:"7",tipID:"kindIdTip",empty:true,onShow:"",onFocus:"请选择类别",onCorrect:"填写正确",defaultValue:""}).inputValidator({min:1,onError:"请选择类别"});
+            $("#smallclassidF").formValidator({validatorGroup:"7",tipID:"kindIdTip",empty:true,onShow:"",onFocus:"请选择类别",onCorrect:"填写正确",defaultValue:""}).inputValidator({min:1,onError:"请选择类别"});
+            $("#rongji").formValidator({validatorGroup:"7",tipID:"kindIdTip",empty:true,onShow:"",onFocus:"请填写容积",onCorrect:"填写正确",defaultValue:""}).inputValidator({min:1,onError:"请填写容积"});
+            $("#xinghao").formValidator({validatorGroup:"7",tipID:"kindIdTip",empty:true,onShow:"",onFocus:"请填写型号",onCorrect:"填写正确",defaultValue:""}).inputValidator({min:1,onError:"请填写型号"});
+            $("#areaid").formValidator({validatorGroup:"7",tipID:"HtmlAreaTip",empty:true,onShow:"",onFocus:"请选择区域",onCorrect:"填写正确",defaultValue:""}).inputValidator({min:1,onError:"请选择区域"});
+            $("#buyYear").formValidator({validatorGroup:"7",empty:true,onShow:"",onFocus:"请选择购买时间",onCorrect:"填写正确",defaultValue:""}).inputValidator({min:1,onError:"请选择购买时间"});
+            $("#xuninum").formValidator({validatorGroup:"7",empty:true,onShow:"",onFocus:"请填写号码",onCorrect:"填写正确",defaultValue:""}).inputValidator({min:1,onError:"请填写号码"});
+            $("#qinglvnum").formValidator({validatorGroup:"7",empty:true,tipID:"xuninumTip",onShow:"",onFocus:"请填写号码",onCorrect:"填写正确",defaultValue:""}).inputValidator({min:1,onError:"请填写号码"});
+            $("#rongjiF").formValidator({validatorGroup:"7",empty:true,onShow:"",onFocus:"请选择快门次数",onCorrect:"填写正确",defaultValue:""}).inputValidator({min:1,onError:"请选择快门次数"});
+
+            $("#CPUpinpai").formValidator({validatorGroup:"7",empty:true,onShow:"",onFocus:"请选择",onCorrect:"填写正确",defaultValue:""}).inputValidator({min:1,onError:"请选择"});
+            $("#CPUheshu").formValidator({validatorGroup:"7",empty:true,tipID:"CPUpinpaiTip",onShow:"",onFocus:"请选择",onCorrect:"填写正确",defaultValue:""}).inputValidator({min:1,onError:"请选择"});
+
+            $("#neicun").formValidator({validatorGroup:"7",empty:true,onShow:"",onFocus:"请选择内存大小",onCorrect:"填写正确",defaultValue:""}).inputValidator({min:1,onError:"请选择内存大小"});
+            $("#yingpan").formValidator({validatorGroup:"7",empty:true,tipID:"neicunTip",onShow:"",onFocus:"请选择硬盘大小",onCorrect:"填写正确",defaultValue:""}).inputValidator({min:1,onError:"请选择硬盘大小"});
+            $("#pingmuchicun").formValidator({validatorGroup:"7",empty:true,onShow:"",onFocus:"请选择屏幕尺寸",onCorrect:"填写正确",defaultValue:""}).inputValidator({min:1,onError:"请选择屏幕尺寸"});
+            $("#xianka").formValidator({validatorGroup:"7",empty:true,tipID:"pingmuchicunTip",onShow:"",onFocus:"请选择显卡类型",onCorrect:"填写正确",defaultValue:""}).inputValidator({min:1,onError:"请选择显卡类型"});
+
+            $("#kindId").formValidator({validatorGroup:"7",onShow:"",onFocus:"请选择类别",onCorrect:"填写正确",defaultValue:""}).inputValidator({min:1,onError:"请选择类别"});
+
+            $(":radio[name='hclassx']").formValidator({validatorGroup:"7",tipID:"gongxuTip",onShow:"",onFocus:"您是出售物品还是求购物品？",onCorrect:"输入正确",defaultvalue:["1"]}).inputValidator({min:1,max:1,onError:"请确认"});
+            $(":radio[name='IsSource']").formValidator({validatorGroup:"7",tipID:"IsSourceTip",onShow:"",onFocus:"选择物品是个人或者是商家",onCorrect:"输入正确"}).inputValidator({min:1,max:1,onError:"请确认"});
+            $("#chengse").formValidator({validatorGroup:"7",onShow:"",onFocus:"请选择二手物品成色",onCorrect:"填写正确",defaultValue:""}).inputValidator({min:1,onError:"请选择二手物品成色!"});
+            $("#price").formValidator({validatorGroup:"7",empty:true,onShow:"",onFocus:"填写物品价格，不填为面议",onCorrect:"填写正确"}).inputValidator({min:1,max:10000000000,type:"value",onErrorMin:"你输入的值必须大于等于1",onError:"请正确填写你的价格数字"});
+            $("#HtmlArea").formValidator({validatorGroup:"7",empty:true,onShow:"",onFocus:"填写货源所在地",onCorrect:"填写正确"}).inputValidator({min:4,max:60,empty:{leftEmpty:false,emptyError:"所属地两边不能有空符号"},onError:"填写货源所在地应2-30个字符请确认"});
+            $("#TitleName").formValidator({validatorGroup:"7",onShow:"",onFocus:"5-25个字符，如出售9成新诺基亚N8一台",onCorrect:"填写正确",defaultValue:""}).inputValidator({min:10,max:50,empty:{leftEmpty:false,rightEmpty:false,emptyError:"标题两边不能有空符号"},onError:"标题长度应为5-25个字符请确认"});
+            $("#HtmlIde").formValidator({validatorGroup:"7",onShow:"",onFocus:"5-2000字符，不能填写QQ电话号码等联系方式</br>如发现此信息中出现联系方式，信息将被删除",onCorrect:"填写正确",defaultvalue:"详细的介绍说明，会让别人更加了解你的需求，增加交易的成功率"}).inputValidator({min:10,max:4000,onError:"您输入的详细描述字数不符合要求，请按要求填写"});
+            $(":radio[name='IsExchange']").formValidator({validatorGroup:"7",tipID:"IsExchangeTip",onShow:"",onFocus:"选择你的物品是否可用其他的物品交换",onCorrect:"输入正确",defaultvalue:["1"]}).inputValidator({min:1,max:1,onError:"请确认"});
+            $("#HtmlExchange").formValidator({validatorGroup:"7",empty:true,onShow:"",onFocus:"请请写出您对交换物品的条件要求",onCorrect:"填写正确",defaultvalue:"详细的介绍说明，会让别人更加了解你的需求，增加交易的成功率"}).inputValidator({min:10,max:2000,onError:"您输入的详细描述字数不符合要求，请按要求填写"});
+            if({$strTempLink} == 0){
+                $("#linkman").formValidator({validatorGroup:"7",empty:true,onShow:"",onFocus:"请输入联系人姓名",onCorrect:"填写正确",defaultValue:""}).inputValidator({min:4,max:20,empty:{leftEmpty:false,emptyError:"内容两边不能有空符号"},onError:"联系人姓名长度为2-10个字符"});
+                $("#tel").formValidator({validatorGroup:"7",onShow:"",onFocus:"填写手机号或者座机号码，格式为：</br>13988888888或010-82873836",onCorrect:"填写正确"}).regexValidator({regExp:"^(([0\\+]\\d{2,3}-)?(0\\d{2,3})-)?(\\d{7,8})(-(\\d{3,}))?$|(^(13|14|15|16|17|18|19)[0-9]{9}$)",onError:"你输入的联系电话格式不正确"});
+                $("#email").formValidator({validatorGroup:"7",empty:true,onShow:"",onFocus:"请输入邮箱,邮箱6-100个字符",onCorrect:"填写正确"}).inputValidator({min:6,max:100,onError:"你输入的邮箱长度非法,请确认"}).regexValidator({regExp:"email",dataType:"enum",onError:"邮箱格式不正确"});
+                $("#qq").formValidator({validatorGroup:"7",empty:true,onShow:"",onFocus:"请填写QQ号码，方便别人与您联系",onCorrect:"填写正确"}).regexValidator({regExp:"qq",dataType:"enum",onError:"QQ号码格式不正确"});
+            }
+        })
+        var users;
+        users = 0;
+        function ofapiao() {
+            var xfapiao = "";
+            $(":checkbox[name='fapiao']:checked").each(function() {
+                xfapiao += $(this).val() + ","
+            });
+            return xfapiao
+        }
+
+        function subAjax() {
+
+            if (parseInt($("#upNum").val()) < 0) {
+                if (confirm('图片数量过多，图片数量最多为8张，是否直接上传？\n您可以选"是"直接上传，将删除超过8张后面的图片；\n也可以选"否"进行手动删除！')) {
+                    $("#Imagesli").children().eq(7).nextAll().remove()
+                    $('#upNum').val(8 - $('#Imagesli').children().length)
+                    UpImages()
+                } else {
+                    return false;
+                }
+            }
+
+            var strLink, strTel, strEmail, strQq, code;
+            if (users == 0) {
+                strLink = escape($('#linkman').val());
+                strTel = escape($('#tel').val());
+                strEmail = escape($('#email').val());
+                strQq = $('#qq').val();
+                code = escape($('#code').val());
+                pw1 = escape($('#Pwd1').val());
+                pw2 = escape($('#Pwd2').val());
+            } else {
+                strLink = '';
+                strTel = '';
+                strEmail = '';
+                strQq = '';
+                code = '';
+                pw1 = '';
+                pw2 = '';
+            }
+            if ($("input[name='IsExchange']:checked").val() == 0) {
+                $('#HtmlExchange').val("");
+            }
+            $("#msgbox").html("<img src='http://r.imgccoo.cn/post/images/loading.gif' border='0' />提交中…");
+            $('#button').attr("disabled", true);
+
+            saveAllRec();
+            $.ajax({
+                type: "POST",
+                url: "/home/release/secondHandSave",
+                data: {
+                    Title: escape($('#TitleName').val()),
+                    Hclass: escape($("input:radio[name='hclassx']:checked").val()),
+                    ChannelId: escape('{$type_id}'),
+                    ClassId: escape($('#kindId').val()),
+                    oTherId: escape($('#ClassId').val()),
+                    HtmlArea: escape($('#HtmlArea').val()),
+                    Chengse: escape($('#chengse').val()),
+                    IsSource: escape($("input:radio[name='IsSource']:checked").val()),
+                    Price: escape($('#price').val()),
+                    linkman: strLink,
+                    tel: strTel,
+                    email: strEmail,
+                    qq: strQq,
+                    telmsg: escape($('#telbd').val()),
+                    info: escape($('#HtmlIde').val()),
+                    IsExchange: escape($("input:radio[name='IsExchange']:checked").val()),
+                    HtmlExchange: escape($('#HtmlExchange').val()),
+                    upLoadList: escape($('#upLoadList').val()),
+                    //2014.7.15改版新加字段如下
+                    areaid: escape($('#areaid').val()),
+                    xinghao: escape($('#xinghao').val()),
+                    buyYear: escape($('#buyYear').val()),
+                    fapiao: escape(ofapiao()),
+                    xuninum: escape($('#xuninum').val()),
+                    qinglvnum: escape($('#qinglvnum').val()),
+                    CPUpinpai: escape($('#CPUpinpai').val()),
+                    CPUheshu: escape($('#CPUheshu').val()),
+                    neicun: escape($('#neicun').val()),
+                    yingpan: escape($('#yingpan').val()),
+                    pingmuchicun: escape($('#pingmuchicun').val()),
+                    xianka: escape($('#xianka').val()),
+                    smallclassid: escape($('#smallclassid').val()),
+                    //这里要有个判断，非联动的要用smallclassidF
+                    smallclassidF: escape($('#smallclassidF').val()),
+                    //这里要有个判断，非联动的要用smallclassidF
+                    FourthId: escape($('#FourthId').val()),
+                    rongji: escape($('#rongji').val()),
+                    rongjiF: escape($('#rongjiF').val())
+                },
+                error: function() {
+                    alert("系统错误，请与管理员联系！");
+                },
+                success: function(data) {
+                    if (data > 888) {
+                        $.cookie('recState', '2'); //成功后，改变状态。
+
+                        if({$IsPostFufei} == 1){
+                            ShowWinAuto('信息发布权限购买','/post/buy_fabu_step.asp?action=fb&cid=3&tname=idle_info&id='+data+'',520,420,function(){
+
+                                var a=confirm("本条信息支付后才能显示，确认关闭？");
+                                if(a==true)
+                                {
+                                    window.location.href='/post/users/essj/'
+                                }
+                                else
+                                {
+                                    return false;
+                                }
+                            });
+                            return false;
+                        }else{
+                            clearRecFun(); //清空表单项
+                            location.href = '/post/es/url/' + data + '/';
+                        }
+
+                    } else {
+                        switch (data) {
+                            case '0':
+                                alert('此用户不是新昌在线用户，不能在新昌在线发布分类信息!');
+                                location.reload();
+                                break;
+                            case 6:
+                                alert('您的账号被管理员禁发，没有发布信息的权限，如需发布请联系本站！联系电话：{$service_comptel}');
+                                location.reload();
+                                break;
+                            case 7:
+                                alert('联系电话是您的必填项!');
+                                $('#msgbox').hide();
+                                $('#button').attr("disabled", false);
+                                break;
+                            case '8':
+                                alert('您已选择交换物品,交换说明是您的必填项!');
+                                $('#msgbox').hide();
+                                $('#button').attr("disabled", false);
+                                break;
+                            case '9':
+                                alert('根据国家法律法规，您的信息涉及到非法字符，请修改后发布!');
+                                break;
+                            case '10':
+                                alert('详细说明是必填项!');
+                                $('#msgbox').hide();
+                                $('#button').attr("disabled", false);
+                                break;
+
+                            default:
+                                alert(unescape(data));
+                                //location.reload();
+                                $('#msgbox').hide();
+                                $('#button').attr("disabled", false);
+                        }
+                    }
+                }
+            });
+        }
+
+        function ShowExchange(id) {
+            if (id == 1) {
+                $('#HtmlExchangeId').show();
+            } else {
+                $('#HtmlExchangeId').hide();
+            }
+        }
+        function showCode() {
+            $('#imgCode').attr('src', '/reg/verifycode.asp?t=' + Math.random())
+        }
+        function sloadcate(id) {
+            $(".onError").hide();
+            $(".onCorrect").hide();
+            $(".sylb").html('');
+            $(".sylb1").show();
+            if (id == 1) {
+                LoadList2('es', 0, 0);
+            }
+            if (id == 2) {
+                LoadList3('es', 1 , 0, 0);
+            }
+            if (id == 3) {
+                LoadList4('es', 1 , 0 , 0);
+            }
+        }
+        $(function() {
+            $('#ClassId').hide();
+            $('#smallclassid').hide();
+        });
+
+        var chirData = eval({$chirData | raw });
+        console.log(chirData);
+        var subval2 = chirData;
+        //var subval2 = new Array();
+
+        var subval3 = new Array(); //四级类，没有，不显示
+
+        function changeselect1(locationpro) {   //locationpro 当前父级类
+            document.form1.ClassId.length = 0;
+            document.form1.ClassId.options[0] = new Option('==请选择==', '');
+            document.form1.smallclassid.length = 0;
+            document.form1.smallclassid.options[0] = new Option('==请选择==', '');
+            var ClassIdistrue;
+            ClassIdistrue = 0;
+            for (i = 0; i < subval2.length; i++) {
+                if (subval2[i][1] == locationpro) { //
+                    ClassIdistrue = 1;
+                    document.form1.ClassId.options[document.form1.ClassId.length] = new Option(subval2[i][0], subval2[i][2]);
+                }
+            }
+            if (ClassIdistrue == 1) {
+                $('#ClassId').show(); //判断三级是否显示
+            } else {
+                $('#ClassId').hide();
+            }
+        }
+
+        function changeselect2(locationpro) {
+            document.form1.smallclassid.length = 0;
+            document.form1.smallclassid.options[0] = new Option('==请选择==', '');
+            var smallclassidistrue;
+            smallclassidistrue = 0;
+            for (i = 0; i < subval3.length; i++) {
+                if (subval3[i][1] == locationpro) {
+                    smallclassidistrue = 1;
+                    document.form1.smallclassid.options[document.form1.smallclassid.length] = new Option(subval3[i][0], subval3[i][2]);
+                }
+                if (smallclassidistrue == 1) {
+                    $('#smallclassid').show();
+                } else {
+                    $('#smallclassid').hide();
+                }
+            }
+        }
+    </script>
+    <form method="post" id="form1" name="form1" onsubmit="return $.formValidator.pageIsValid('7');">
+        {include file="common/live_top" /}
+        <div class="fbbd">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr style="display:none;">
+                    <td width="120" height="41" align="right"><font color="#FF0000">*</font> 供　　需：</td>
+                    <td><table width="100%" border="0" cellspacing="0">
+                        <tr>
+                            <td width="16%"><label>
+                                <input type="radio" value="1" name="hclassx" id="hclassx1"/>
+                                求购</label>
+                                <label>
+                                    <input name="hclassx" type="radio" id="hclassx2" value="2" checked="checked"/>
+                                    出售 </label></td>
+                            <td width="84%"><div id="gongxuTip" style="width:280px"></div></td>
+                        </tr>
+                    </table></td>
+                </tr>
+                <tr>
+                    <td width="120" height="41" align="right"><font color="#FF0000">*</font> 来　　源：</td>
+                    <td><table width="100%" border="0" cellspacing="0">
+                        <tr>
+                            <td width="16%"><label>
+                                <input type="radio" value="1" name="IsSource" id="IsSource1" {if $strTempLink == 0} checked="checked" {/if} />
+                                个人</label>
+                                <label>
+                                    <input type="radio" value="2" name="IsSource" id="IsSource2" {if $strTempLink == 1} checked="checked" {/if} />
+                                    商家</label></td>
+                            <td width="84%"><div id="IsSourceTip" style="width:280px"></div></td>
+                        </tr>
+                    </table></td>
+                </tr>
+                <tr id="trKind">
+                    <td width="120" height="41" align="right"><font color="#FF0000">*</font> 类　　别：</td>
+                    <td><table width="100%" border="0" cellspacing="0">
+                        <tr>
+                            <td width="65%"><select size="1" name="kindId" id="kindId" class="select" onChange="changeselect1(document.form1.kindId.options[document.form1.kindId.selectedIndex].value)">
+                                <option value="0">选择类别</option>
+                                {if $findData}
+                                {foreach $findData as $vo}
+                                <option value="{$vo.id}">{$vo.kindname}</option>
+                                {/foreach}
+                                {/if}
+
+                            </select>
+                                &nbsp;
+                                <select size="1" class="select" name="ClassId" id="ClassId" ><!--onChange="changeselect2(document.form1.ClassId.options[document.form1.ClassId.selectedIndex].value)"-->
+                                    <option selected value="">请选择</option>
+                                </select>
+                                &nbsp;
+                                <select size="1" class="select" name="smallclassid" id="smallclassid">
+                                    <option selected value="">请选择</option>
+                                </select>
+                                &nbsp;<span id="sanjileicontent"></span>&nbsp;<span id="sijileicontent"></span>
+                                {if $type_id != 1}
+                                <span id="xinghaoz" style="display:none;">&nbsp;型号：
+                                <input type="text" class="tjbd" id="xinghao" style="width:100px" maxlength="20" />
+                                </span>
+                                {else /}
+                                &nbsp;型号：
+                                <input type="text" class="tjbd" id="xinghao" style="width:100px" maxlength="20" />
+                                {/if}
+
+                <span id="rongjiz" style="display:none">&nbsp;
+                <input type="text" class="tjbd" id="rongji" style="width:100px;" maxlength="20" value="容积" title="容积" onfocus="if(this.value=='容积'){this.value=''};"  onblur="if(this.value==''){this.value='容积'}"/>
+                &nbsp;<span id="rjdw"></span></span></td>
+                            <td width="35%"><div id="kindIdTip" style="width:280px"></div></td>
+                        </tr>
+                    </table></td>
+                </tr>
+                <tr id="show_cpucontent" style="display:none;">
+                    <td height="41" align="right" id="cpuming"></td>
+                    <td><table width="100%" border="0" cellspacing="0">
+                        <tr>
+                            <td width="47%" id="cpucontent"></td>
+                            <td width="53%"><div id="CPUpinpaiTip" style="width:280px"></div></td>
+                        </tr>
+                    </table></td>
+                </tr>
+                <tbody id="nypx" style="display:none;">
+                <tr>
+                    <td height="41" align="right">内存：</td>
+                    <td><table width="100%" border="0" cellspacing="0">
+                        <tr>
+                            <td width="47%">
+                                <select name="neicun" id="neicun">
+                                    <option value="0">-请选择-</option>
+                                    <option value="1">小于1G</option>
+                                    <option value="2">1G</option>
+                                    <option value="3">2G</option>
+                                    <option value="4">3G</option>
+                                    <option value="5">4G</option>
+                                    <option value="6">6G</option>
+                                    <option value="7">8G</option>
+                                    <option value="8">12G以上</option>
+                                </select>
+                                &nbsp;&nbsp;硬盘：
+                                <select name="yingpan" id="yingpan">
+                                    <option value="0">-请选择-</option>
+                                    <option value="1">小于60G</option>
+                                    <option value="2">60G</option>
+                                    <option value="3">80G</option>
+                                    <option value="4">120G</option>
+                                    <option value="5">160G</option>
+                                    <option value="6">250G</option>
+                                    <option value="7">320G</option>
+                                    <option value="8">500G</option>
+                                    <option value="9">1TB</option>
+                                    <option value="10">1TB以上</option>
+                                </select>
+                            </td>
+                            <td width="53%"><div id="neicunTip" style="width:280px"></div></td>
+                        </tr>
+                    </table></td>
+                </tr>
+                <tr>
+                    <td height="41" align="right">屏幕尺寸：</td>
+                    <td><table width="100%" border="0" cellspacing="0">
+                        <tr>
+                            <td width="47%">
+                                <select name="pingmuchicun" id="pingmuchicun">
+                                    <option value="0">-请选择-</option>
+                                    <option value="1">17英寸及以下</option>
+                                    <option value="2">18英寸</option>
+                                    <option value="3">19英寸</option>
+                                    <option value="4">20英寸</option>
+                                    <option value="5">21英寸</option>
+                                    <option value="6">22英寸</option>
+                                    <option value="7">23英寸</option>
+                                    <option value="8">24英寸</option>
+                                    <option value="9">25英寸</option>
+                                    <option value="10">27英寸及以上</option>
+                                </select>
+                                &nbsp;&nbsp;显卡：
+                                <select name="xianka" id="xianka">
+                                    <option value="0">-请选择-</option>
+                                    <option value="1">集成显卡</option>
+                                    <option value="2">独立显卡</option>
+                                    <option value="3">双显卡</option>
+                                </select>
+                            </td>
+                            <td width="53%"><div id="pingmuchicunTip" style="width:280px"></div></td>
+                        </tr>
+                    </table></td>
+                </tr>
+                </tbody>
+                <tr id="xnh" style="display:none">
+                    <td height="41" align="right">转让号码：</td>
+                    <td><table width="100%" border="0" cellspacing="0">
+                        <tr>
+                            <td width="47%"><input type="text" class="tjbd" id="xuninum" style="width:120px" maxlength="20" />
+                                &nbsp;
+                                <input type="checkbox" name="isqinglvnum" id="isqinglvnum" value="1"/>
+                                情侣号&nbsp;
+                                <input type="text" class="tjbd" id="qinglvnum" style="width:120px; display:none;" maxlength="20" /></td>
+                            <td width="53%"><div id="xuninumTip" style="width:280px"></div></td>
+                        </tr>
+                    </table></td>
+                </tr>
+                {if $type_id != 2}
+                <tr>
+                    <td height="41" align="right"><font color="#FF0000">*</font> 新旧程度：</td>
+                    <td><table width="100%" border="0" cellspacing="0">
+                        <tr>
+                            <td width="10%" height="35"><select id="chengse" name="chengse">
+                                <option value="0">请选择成色</option>
+                                <option value="1">全新</option>
+                                <option value="2">95成新</option>
+                                <option value="3">9成新</option>
+                                <option value="4">8成新</option>
+                                <option value="5">7成新</option>
+                                <option value="6">6成新</option>
+                                <option value="7">5成新</option>
+                                <option value="8">5成新以下</option>
+                            </select></td>
+                            <td width="90%"><div id="chengseTip" style="width:280px"></div></td>
+                        </tr>
+                    </table></td>
+                </tr>
+                {/if}
+
+                <tr {if ($type_id <> 1) } id="goumaishijianz" style="display:none;" {/if}>
+                <td height="41" align="right">购买时间：</td>
+                <td><table width="100%" border="0" cellspacing="0">
+                    <tr>
+                        <td width="23%"><input type="text" class="tjbd" id="buyYear" name="buyYear" style="width:150px" maxlength="20" /></td>
+                        <td width="77%"><div id="buyYearTip" style="width:280px"></div></td>
+                    </tr>
+                </table></td>
+                </tr>
+
+                <tr id="rongjis" style="display:none">
+                    <td height="41" align="right">快门次数：</td>
+                    <td><table width="100%" border="0" cellspacing="0">
+                        <tr>
+                            <td width="23%"><select id="rongjiF" name="rongjiF">
+                                <option value="0">-请选择-</option>
+                                <option value="1">1万次以内</option>
+                                <option value="2">1-3万次</option>
+                                <option value="3">3-5万次</option>
+                                <option value="4">5万次以上</option>
+                            </select></td>
+                            <td width="77%"><div id="rongjiFTip" style="width:280px"></div></td>
+                        </tr>
+                    </table></td>
+                </tr>
+                {if $type_id == 1}
+                <tr id="show_fjfp1">
+                    <td height="41" align="right">配件/发票：</td>
+                    <td><table width="100%" border="0" cellspacing="0">
+                        <tr>
+                            <td width="48%"><label>
+                                <input name="fapiao" type="checkbox" id="fapiao1" value="正品发票">
+                                正品发票 </label>
+                                <label>
+                                    <input name="fapiao" type="checkbox" id="fapiao2" value="保修期内">
+                                    保修期内 </label>
+                                <label>
+                                    <input name="fapiao" type="checkbox" id="fapiao3" value="原装配件齐全">
+                                    原装配件齐全 </label></td>
+                            <td width="52%"><div id="fapiaoTip" style="width:280px"></div></td>
+                        </tr>
+                    </table></td>
+                </tr>
+                {/if}
+                <tr>
+                    <td height="41" align="right">价　　格：</td>
+                    <td><table width="100%" border="0" cellspacing="0">
+                        <tr>
+                            <td width="23%"><input type="text" class="tjbd" id="price" style="width:150px" maxlength="10" />
+                                元</td>
+                            <td width="77%"><div id="priceTip" style="width:280px"></div></td>
+                        </tr>
+                    </table></td>
+                </tr>
+                <tr>
+                    <td height="41" align="right">所在地址：</td>
+                    <td><table width="100%" border="0" cellspacing="0">
+                        <tr>
+                            <td width="52%">
+                                <select name="areaid" id="areaid">
+                                    <option value="0">-请选择-</option>
+                                    {if $zone_data}
+                                    {foreach $zone_data as $vo}
+                                    <option value="{$vo.id}">{$vo.zonename}</option>
+                                    {/foreach}
+                                    {/if}
+
+                                </select>
+                                &nbsp;
+
+                                <input type="text" class="tjbd" id="HtmlArea" style="width:300px" maxlength="30" /></td>
+                            <td width="48%"><div id="HtmlAreaTip" style="width:280px"></div></td>
+                        </tr>
+                    </table></td>
+                </tr>
+                <tr>
+                    <td width="120" height="41" align="right"><font color="#FF0000">*</font> 标　　题：</td>
+                    <td><table width="100%" border="0" cellspacing="0">
+                        <tr>
+                            <td width="25%"><input type="text" class="tjbd" id="TitleName" style="width:400px" maxlength="25" /></td>
+                            <td width="75%"><div id="TitleNameTip" style="width:280px"></div></td>
+                        </tr>
+                    </table></td>
+                </tr>
+                <tr>
+                    <td height="220" align="right" valign="top"><br>
+                        <font color="#FF0000">*</font> 详细描述：</td>
+                    <td><table width="100%" border="0" cellspacing="0">
+                        <tr>
+                            <td width="25%"><textarea  id="HtmlIde" style="width:500px; height:200px; font-size:12px;" class="tjbd1"></textarea></td>
+                            <td width="75%"><div id="HtmlIdeTip" style="width:280px"></div></td>
+                        </tr>
+                    </table></td>
+                </tr>
+                <tr>
+                    <td height="41" align="right">可否用物品交换：</td>
+                    <td><table width="100%" border="0" cellspacing="0">
+                        <tr>
+                            <td width="11%"><label>
+                                <input type="radio" value="0" name="IsExchange" id="IsExchange2" checked="checked" onClick="ShowExchange(0)"/>
+                                否</label>
+                                <label>
+                                    <input type="radio" value="1" name="IsExchange" id="IsExchange1" onClick="ShowExchange(1)" />
+                                    是</label></td>
+                            <td width="89%"><div id="IsExchangeTip" style="width:280px"></div></td>
+                        </tr>
+                    </table></td>
+                </tr>
+            </table>
+            <table width="100%" border="0" cellspacing="0" cellpadding="0"  id="HtmlExchangeId" style="display:none">
+                <tr>
+                    <td width="120" height="100" align="right" valign="top"><br>
+                        交换说明：</td>
+                    <td><textarea id="HtmlExchange" style="width:400px; height:80px; font-size:12px;" class="tjbd1" ></textarea></td>
+                    <td><div id="HtmlExchangeTip" style="width:280px"></div></td>
+                </tr>
+            </table>
+            {if $strTempLink == 0}
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td width="120" height="41" align="right">联 系 人：</td>
+                    <td width="160"><input type="text" class="tjbd" id="linkman" style="width:150px" maxlength="10" /></td>
+                    <td width="690"><div id="linkmanTip" style="width:280px"></div></td>
+                </tr>
+                <tr>
+                    <td  width="120" height="45" align="right"><font color="#FF0000">*</font> 联系电话：</td>
+                    <td><input type="text" class="tjbd" id="tel" style="width:150px" maxlength="15" /></td>
+                    <td><div id="telTip" style="width:280px"></div></td>
+                </tr>
+                <tr id="bdTel" style="display:none">
+                    <td  width="120" height="45" align="right"><font color="#FF0000">*</font> 短信验证码：</td>
+                    <td width="160"><input type="text" class="tjbd" id="telbd" style="width:65px" maxlength="6" />
+                        <a href="javascript:void(0);" onclick="GetTelMsg();" id="telmsg" class="blue">点击获取</a></td>
+                    <td width="690"><div id="telbdTip" style="width:280px"></div></td>
+                </tr>
+                <tr style="display:none">
+                    <td width="120" height="41" align="right">电子邮箱：</td>
+                    <td><input type="text"  class="tjbd" id="email" style="width:150px" maxlength="30"/></td>
+                    <td><div id="emailTip" style="width:280px"></div></td>
+                </tr>
+                <tr>
+                    <td width="120" height="41" align="right">QQ 号码：</td>
+                    <td><input type="text"  class="tjbd" id="qq" style="width:150px" maxlength="11" /></td>
+                    <td><div id="qqTip" style="width:280px"></div></td>
+                </tr>
+            </table>
+            {/if}
+        </div>
+        <div class="clear"></div>
+        <div class="sctp">
+            <table width="830" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td width="120"></td>
+                    <td width="750"><input type="hidden" name="upNum" id="upNum" value="8" />
+                        <input type="hidden" name="upLoadList" id="upLoadList"  />
+                        <div class="plan"><a href="javascript:;" class="upload-swf"> <span id="UpLoadBtn"></span></a> <a href="javascript:;" class="upload-mb" id="upload_mb" onclick="showDg();"></a>
+                            <p id="upStrInfoImagesDiv" style="clear:left"></p>
+                        </div>
+                        <div id="Imagesli" style=" width:750px; float:left"> </div>
+                        <div id="upLoading"></div></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="clear"></div>
+        {if $is_login == 0}
+        {include file="common/login" /}
+        {/if}
+        <div class="clear"></div>
+
+        {include file="common/recom_adv" /}
+
+        <div class="ljfb">
+
+            <input type="submit" name="button" id="button" value="立即发布" class="fbbu" />
+
+            <span id="msgbox"></span></div>
+        <div class="clear"></div>
+    </form>
+    <script type="text/javascript">
+        $(function(){
+            if ($('.locking').length > 0) {
+                $('.locking').click(function() {
+                    alert($('.showtip p').text());
+                });
+            }
+            firstRecoFun();
+        });
+        function firstRecoFun(){
+            var recState="0";//状态 0默认，1正在编辑，2提交成功
+            var mainCls="0";//大类	1招聘，2简历，3房屋出售，4出租，5求购，6求租，7二手，8上门，9车辆，10生活，11商业，12教育，13交友
+
+            recState=$.cookie('recState');
+            mainCls=$.cookie('mainCls');
+
+            if(recState=="1" && mainCls=="7"){
+                var recBoxhtml="<iframe id='zheIframe' src='javascript:false' style='z-index:1;position: absolute; filter: alpha(opacity=0);opacity:0;" +
+                        "-moz-opacity:0; visibility:inherit;top: 0px;left: 0px;'></iframe>" +
+                        "<div id='zheDiv' style='z-index: 2; position: absolute; filter: alpha(opacity=50);opacity:.5;" +
+                        "-moz-opacity:0.5;BACKGROUND-COLOR: #000; zoom: 1; top: 0px;left: 0px;'></div>" +
+                        "<div class='showRecBox'>" + "<span>您上次没有正常提交信息，是否恢复未提交信息？</span>" +
+                        "<div><a href='javascript:;' onclick='return RecoFun();'>是</a>&nbsp;&nbsp;<a href='javascript:;' onclick='closeRecBox(1);return false;'>否</a>" +
+                        "</div></div>"
+                var w=$(document.body).width();
+                var h=$(document.body).height();
+                if($('.showRecBox').length==0){
+                    $(document.body).append(recBoxhtml)
+                }
+                var mw=$('.showRecBox').width();
+
+                $('#zheIframe').css('width', w+"px");
+                $('#zheIframe').css('height', h+"px");
+                $('#zheDiv').css('width', w+"px");
+                $('#zheDiv').css('height', h+"px");
+
+                $('#zheIframe').show();
+                $('#zheDiv').show();
+
+                $('.showRecBox').css('left',(w-mw)/2 + 'px');
+                $('.showRecBox').show();
+            }
+        }
+        function closeRecBox(sw){
+            $('.showRecBox').remove();
+            $('#zheDiv').remove();
+            $('#zheIframe').remove();
+            if(sw==1){
+                $.cookie('recState',"0");
+
+                clearRecFun();
+            }
+        }
+        function saveAllRec(){
+            $.cookie('Rec_kindId',$("#kindId").val());
+            $.cookie('Rec_ClassId',$("#ClassId").val());
+
+            $.cookie('Rec_hclassx',$("input:radio[name='hclassx']:checked").val());
+            $.cookie('Rec_IsSource',$("input:radio[name='IsSource']:checked").val());
+            $.cookie('Rec_TitleName',$("#TitleName").val());
+            $.cookie('Rec_chengse',$("#chengse").val());
+
+            $.cookie('Rec_price',$("#price").val());
+            $.cookie('Rec_HtmlArea',$("#HtmlArea").val());
+            $.cookie('Rec_HtmlIde',$("#HtmlIde").val());
+            $.cookie('Rec_IsExchange',$("input:radio[name='IsExchange']:checked").val());
+            $.cookie('Rec_HtmlExchange',$("#HtmlExchange").val());
+
+            $.cookie('Rec_linkman',$("#linkman").val());
+            $.cookie('Rec_TelIde',$("#tel").val());
+            $.cookie('Rec_email',$("#email").val());
+            $.cookie('Rec_qq',$("#qq").val());
+
+            //以下是2014.7.15日新加内容
+            $.cookie('Rec_areaid',$("#areaid").val());
+            $.cookie('Rec_xinghao',$("#xinghao").val());
+            $.cookie('Rec_buyYear',$("#buyYear").val());
+            var Rec_fapiao="";
+            $('input[name=fapiao]:checked').each(function(){
+                Rec_fapiao+=$(this).val()+","
+            });
+            $.cookie('Rec_fapiao',Rec_fapiao);
+
+            $.cookie('Rec_xuninum',$("#xuninum").val());
+            $.cookie('Rec_qinglvnum',$("#qinglvnum").val());
+            $.cookie('Rec_CPUpinpai',$("#CPUpinpai").val());
+            $.cookie('Rec_CPUheshu',$("#CPUheshu").val());
+            $.cookie('Rec_neicun',$("#neicun").val());
+            $.cookie('Rec_yingpan',$("#yingpan").val());
+            $.cookie('Rec_pingmuchicun',$("#pingmuchicun").val());
+            $.cookie('Rec_xianka',$("#xianka").val());
+            $.cookie('Rec_smallclassid',$("#smallclassid").val());
+            $.cookie('Rec_smallclassidF',$("#smallclassidF").val());
+            $.cookie('Rec_FourthId',$("#FourthId").val());
+            $.cookie('Rec_rongji',$("#rongji").val());
+            $.cookie('Rec_rongjiF',$("#rongjiF").val());
+
+
+
+
+        }
+        function clearRecFun(){
+            $.cookie('Rec_kindId',null);
+            $.cookie('Rec_ClassId',null);
+            $.cookie('Rec_hclassx',null);
+            $.cookie('Rec_IsSource',null);
+            $.cookie('Rec_TitleName',null);
+            $.cookie('Rec_chengse',null);
+
+            $.cookie('Rec_price',null);
+            $.cookie('Rec_HtmlArea',null);
+            $.cookie('Rec_HtmlIde',null);
+            $.cookie('Rec_IsExchange',null);
+            $.cookie('Rec_HtmlExchange',null);
+
+            $.cookie('Rec_linkman',null);
+            $.cookie('Rec_TelIde',null);
+            $.cookie('Rec_email',null);
+            $.cookie('Rec_qq',null);
+
+            //以下是2014.7.15日新加内容
+            $.cookie('Rec_areaid',null);
+            $.cookie('Rec_xinghao',null);
+            $.cookie('Rec_buyYear',null);
+            $.cookie('Rec_fapiao',null);
+            $.cookie('Rec_xuninum',null);
+            $.cookie('Rec_qinglvnum',null);
+            $.cookie('Rec_CPUpinpai',null);
+            $.cookie('Rec_CPUheshu',null);
+            $.cookie('Rec_neicun',null);
+            $.cookie('Rec_yingpan',null);
+            $.cookie('Rec_pingmuchicun',null);
+            $.cookie('Rec_xianka',null);
+            $.cookie('Rec_smallclassid',null);
+            $.cookie('Rec_smallclassidF',null);
+            $.cookie('Rec_FourthId',null);
+            $.cookie('Rec_rongji',null);
+            $.cookie('Rec_rongjiF',null);
+
+        }
+        function RecoFun(){
+            closeRecBox();
+            var Rec_kindId=$.cookie('Rec_kindId');
+            var Rec_ClassId=$.cookie('Rec_ClassId');
+            var Rec_hclassx=$.cookie('Rec_hclassx');
+            var Rec_IsSource=$.cookie('Rec_IsSource');
+            var Rec_TitleName=$.cookie('Rec_TitleName');
+            var Rec_chengse=$.cookie('Rec_chengse');
+
+            var Rec_price=$.cookie('Rec_price');
+            var Rec_HtmlArea=$.cookie('Rec_HtmlArea');
+            var Rec_HtmlIde=$.cookie('Rec_HtmlIde');
+            var Rec_IsExchange=$.cookie('Rec_IsExchange');
+            var Rec_HtmlExchange=$.cookie('Rec_HtmlExchange');
+
+            var Rec_linkman=$.cookie('Rec_linkman');
+            var Rec_TelIde=$.cookie('Rec_TelIde');
+            var Rec_email=$.cookie('Rec_email');
+            var Rec_qq=$.cookie('Rec_qq');
+
+            //以下是2014.7.15日新加内容
+            var Rec_areaid=$.cookie('Rec_areaid');
+            var Rec_xinghao=$.cookie('Rec_xinghao');
+            var Rec_buyYear=$.cookie('Rec_buyYear');
+            var Rec_fapiao=$.cookie('Rec_fapiao');
+            var Rec_xuninum=$.cookie('Rec_xuninum');
+            var Rec_qinglvnum=$.cookie('Rec_qinglvnum');
+            var Rec_CPUpinpai=$.cookie('Rec_CPUpinpai');
+            var Rec_CPUheshu=$.cookie('Rec_CPUheshu');
+            var Rec_neicun=$.cookie('Rec_neicun');
+            var Rec_yingpan=$.cookie('Rec_yingpan');
+            var Rec_pingmuchicun=$.cookie('Rec_pingmuchicun');
+            var Rec_xianka=$.cookie('Rec_xianka');
+            var Rec_smallclassid=$.cookie('Rec_smallclassid');
+            var Rec_smallclassidF=$.cookie('Rec_smallclassidF');
+            var Rec_FourthId=$.cookie('Rec_FourthId');
+            var Rec_rongji=$.cookie('Rec_rongji');
+            var Rec_rongjiF=$.cookie('Rec_rongjiF');
+
+            //if(Rec_kindId!=null && Rec_kindId!=0){$('#kindId option[value=' + Rec_kindId + ']').attr('selected','selected');}
+            if(Rec_ClassId!=null && Rec_ClassId!=0){$('#ClassId option[value=' + Rec_ClassId + ']').attr('selected','selected');}
+
+            if(Rec_hclassx<=2 && Rec_hclassx>=1){$("input:radio[name='hclassx'][value='" + Rec_hclassx + "']").attr('checked','checked');}
+            if(Rec_IsSource<=2 && Rec_IsSource>=1){$("input:radio[name='IsSource'][value='" + Rec_IsSource + "']").attr('checked','checked');}
+
+            if(Rec_TitleName!=null && Rec_TitleName!=""){$("#TitleName").val(Rec_TitleName);}
+            if(Rec_chengse!=null && Rec_chengse!=0){$('#chengse option[value=' + Rec_chengse + ']').attr('selected','selected');}
+            if(Rec_price!=null && Rec_price!=""){$("#price").val(Rec_price);}
+            if(Rec_HtmlArea!=null && Rec_HtmlArea!=""){$("#HtmlArea").val(Rec_HtmlArea);}
+            if(Rec_HtmlIde!=null && Rec_HtmlIde!=""){$("#HtmlIde").val(Rec_HtmlIde);}
+
+            if(Rec_IsExchange!=null && Rec_IsExchange!=0){$("input:radio[name='IsExchange'][value='" + Rec_IsExchange + "']").attr('checked','checked');
+                ShowExchange(1);
+            }
+            if(Rec_HtmlExchange!=null && Rec_HtmlExchange!=""){$('#HtmlExchange').val(Rec_HtmlExchange);}
+
+            if(Rec_linkman!=null && Rec_linkman!=""){$('#linkman').val(Rec_linkman);}
+            if(Rec_TelIde!=null && Rec_TelIde!=""){$('#tel').val(Rec_TelIde);}
+            if(Rec_email!=null && Rec_email!=""){$('#email').val(Rec_email);}
+            if(Rec_qq!=null && Rec_qq!=""){$('#qq').val(Rec_qq);}
+
+            //以下是2014.7.15日新加内容
+            if(Rec_areaid!=null && Rec_areaid!=""){$('#areaid').val(Rec_areaid);}
+            if(Rec_xinghao!=null && Rec_xinghao!=""){$('#xinghao').val(Rec_xinghao);}
+            if(Rec_buyYear!=null && Rec_buyYear!=""){$('#buyYear').val(Rec_buyYear);}
+
+            if(Rec_fapiao!=null && Rec_fapiao!=""){
+                var arr_fapiao=Rec_fapiao.split(",");
+                for(var i=0;i<arr_fapiao.length;i++){
+                    $('input[name=fapiao]').each(function(){
+                        if($(this).val()==arr_fapiao[i]){
+                            $(this).attr('checked', 'checked');
+                        }
+                    });
+                }
+            }
+
+            if(Rec_xuninum!=null && Rec_xuninum!=""){$('#xuninum').val(Rec_xuninum);}
+            if(Rec_qinglvnum!=null && Rec_qinglvnum!=""){
+                $('#qinglvnum').show();
+                $('#qinglvnum').val(Rec_qinglvnum);
+                $('#isqinglvnum').attr('checked', 'checked');}
+
+            if(Rec_CPUpinpai!=null && Rec_CPUpinpai!=0){$('#CPUpinpai option[value=' + Rec_CPUpinpai + ']').attr('selected','selected');}
+            if(Rec_CPUheshu!=null && Rec_CPUheshu!=0){$('#CPUheshu option[value=' + Rec_CPUheshu + ']').attr('selected','selected');}
+            if(Rec_neicun!=null && Rec_neicun!=0){$('#neicun option[value=' + Rec_neicun + ']').attr('selected','selected');}
+            if(Rec_yingpan!=null && Rec_yingpan!=0){$('#yingpan option[value=' + Rec_yingpan + ']').attr('selected','selected');}
+            if(Rec_pingmuchicun!=null && Rec_pingmuchicun!=0){$('#pingmuchicun option[value=' + Rec_pingmuchicun + ']').attr('selected','selected');}
+            if(Rec_xianka!=null && Rec_xianka!=0){$('#xianka option[value=' + Rec_xianka + ']').attr('selected','selected');}
+
+
+            if(Rec_smallclassid!=null && Rec_smallclassid!=0){$('#smallclassid option[value=' + Rec_smallclassid + ']').attr('selected','selected');}
+            if(Rec_smallclassidF!=null && Rec_smallclassidF!=0){$('#smallclassidF option[value=' + Rec_smallclassidF + ']').attr('selected','selected');}
+            if(Rec_FourthId!=null && Rec_FourthId!=0){$('#FourthId option[value=' + Rec_FourthId + ']').attr('selected','selected');}
+            if(Rec_rongji!=null && Rec_rongji!=""){$('#rongji').val(Rec_rongji);}
+            if(Rec_rongjiF!=null && Rec_rongjiF!=0){$('#rongjiF option[value=' + Rec_rongjiF + ']').attr('selected','selected');}
+
+
+            return false;
+        }
+    </script>
+    <div id="bdtelid" result="0" style="display:none;"></div>
+    <script type="text/javascript">
+        var isUserFabu = 0;
+        var isUserName = "{:session('username')}";
+        // 验证号码
+        $('#tel').bind('change keyup blur', function() {
+            if (isUserFabu == 1 || isUserName != '') {
+                CheckTel();
+            }
+        });
+        $('#telbd').bind('change keyup blur', function() {
+            var btTelId = parseInt($('#bdtelid').attr('result'));
+            if (btTelId == 1) {
+                $('#bdTel').remove();
+            }
+        });
+
+        function CheckTel() {
+            var Tel = $('#tel').val();
+            if (Tel != '') {
+                if (/^(([0\\+]\\d{2,3}-)?(0\\d{2,3})-)?(\\d{7,8})(-(\\d{3,}))?$|(^(1[3|4|5|6|7|8|9])[0-9]{9}$)/.test(Tel)) {
+                    $.ajax({
+                        type: 'GET',
+                        beforeSend: function() {},
+                        url: '/post/ajax/ajax.asp',
+                        data: {
+                            action: 'fabutel',
+                            tel: Tel,
+                            channel: 2,
+                            n: Math.random()
+                        },
+                        dataType: 'json',
+                        error: '',
+                        success: function(data) {
+                            if (data.err != 1) {
+                                $('#bdTel').css('display', '');
+                                //
+                                $("#telbd").formValidator({
+                                    validatorGroup: "7",
+                                    onShow: "",
+                                    onFocus: "请输入短信验证码",
+                                    onCorrect: "填写正确",
+                                    defaultValue: ""
+                                }).regexValidator({
+                                    regExp: "num",
+                                    dataType: "enum",
+                                    onError: "短信验证码为6位数"
+                                }).inputValidator({
+                                    min: 6,
+                                    max: 6,
+                                    onError: "请填写你收到的6位数字的验证码"
+                                }).ajaxValidator({
+                                    dataType: "json",
+                                    async: true,
+                                    url: '/post/ajax/ajax.asp',
+                                    data: {
+                                        action: 'chktel',
+                                        tel: Tel,
+                                        telcode: function() {
+                                            return $("#telbd").val()
+                                        },
+                                        n: Math.random()
+                                    },
+                                    success: function(data) {
+                                        if (data.err == 1) {
+                                            $('#bdtelid').attr('result', 1);
+                                            /*$('#bdTel').remove();*/
+                                            return true;
+                                        } else {
+                                            return '校队短信验证码错误';
+                                        }
+                                    },
+                                    buttons: $("#button"),
+                                    error: function(jqXHR, textStatus, errorThrown) {
+                                        alert("服务器没有返回数据，可能服务器忙，请重试" + errorThrown);
+                                    },
+                                    onError: "该验证码不正确",
+                                    onWait: "正在校队验证码的真实性，请稍候..."
+                                }).defaultPassed();
+                            } else {
+                                $('#bdTel').css('display', 'none');
+                                $('#telbd').val('');
+                            }
+                        }
+                    })
+                } else {
+                    $('#bdTel').css('display', 'none');
+                    $('#telbd').val('');
+                }
+            }
+        }
+
+        function GetTelMsg() {
+            if ($('#tel').val() == '') {
+                alert('联系电话不能为空');
+                $('#tel').focus();
+                return false;
+            }
+            if (/^(([0\\+]\\d{2,3}-)?(0\\d{2,3})-)?(\\d{7,8})(-(\\d{3,}))?$|(^(1[3|4|5|6|7|8|9])[0-9]{9}$)/.test($('#tel').val())) {
+                $.ajax({
+                    type: 'GET',
+                    beforeSend: function() {},
+                    url: '/post/ajax/ajax.asp',
+                    data: {
+                        action: 'sendtel',
+                        tel: $('#tel').val(),
+                        n: Math.random()
+                    },
+                    dataType: 'json',
+                    error: '',
+                    success: function(data) {
+                        if (data.err == 0) {
+                            alert('短信已经发送至：' + $('#tel').val() + ',请查收');
+                            timer();
+                        } else {
+                            alert('今日发送短信次数过多，请改日再试！');
+                        }
+                    }
+                })
+            }
+        }
+
+        //倒计时
+        var ele = document.getElementById('telmsg');
+
+        function timer() {
+            ele.onclick = null;
+            var now = new Date().getTime();
+            window.timeout = window.setTimeout(function() {
+                var ofs = parseInt((new Date().getTime() - now) / 1000);
+                if (ofs >= 120) {
+                    window.clearTimeout(window.timeout);
+                    ele.innerHTML = "点击获取";
+                    ele.onclick = GetTelMsg
+                } else {
+                    ele.innerHTML = (120 - ofs + "") + "可重发";
+                    window.setTimeout(arguments.callee, 300)
+                }
+            }, 300)
+        }
+    </script>
+
+    <script type="text/javascript">
+        /*        $.getScript("http://r.imgccoo.cn/post/images/js/swfupload.js", function(){
+         $.getScript("http://r.imgccoo.cn/post/images/js/fabu_upimg.js", function(){
+         $('#upStrInfoImagesDiv').html('按住 "ctrl" 键可一次选择多张图片，最多可以上传' + parseInt($('#upNum').val()) + '张图片，每张不超过' + _upSize + '。');
+         init("http://up9.ccoo.cn/upload.ashx?siteid=1507&uid=58077994&mode=s&filesrc=post&print=2&size=2&frmpage=" + document.location.href, 8, 'UpLoadBtn', 'ImagesDiv', 'Imagesli', 'Images', 'ImagesInfo', 'upNum', 'upLoadList', 'upLoading');
+         });
+         });*/
+        $.ajax({
+            dataType:'script',
+            scriptCharset:'gb2312',
+            url:'http://r.imgccoo.cn/post/images/js/swfupload.js',
+            success:function(){
+                $.ajax({
+                    dataType:'script',
+                    scriptCharset:'gb2312',
+                    url:'http://r.imgccoo.cn/post/images/js/fabu_upimg.js',
+                    success:function(){
+                        $('#upStrInfoImagesDiv').html('按住 "ctrl" 键可一次选择多张图片，最多可以上传' + parseInt($('#upNum').val()) + '张图片，每张不超过' + _upSize + '。');
+                        init("http://up9.ccoo.cn/upload.ashx?siteid={:session('site_id')}&uid={:session('uid')}&mode=s&filesrc=post&print=2&size=2&frmpage=" + document.location.href, 8, 'UpLoadBtn', 'ImagesDiv', 'Imagesli', 'Images_input', 'ImagesInfo', 'upNum', 'upLoadList', 'upLoading');
+                    }
+                })
+            }
+        });
+    </script>
+    <div id="imgModule" style="display:none;">
+        <div id="ImagesDiv{{N}}" style="float:left;width:82px;font-size:12px;padding:0 5px 0 0;line-height:18px;" class="mobileli">
+            <input name="Images_input" type="hidden" value="{{image}}">
+            <img src="{{simage}}" width="80" height="60" border="0"><br>
+            <center>
+                <a href="javascript:void(0);" onClick="deldiv('ImagesDiv{{N}}','{{image}}');return false;">删 除</a>
+            </center>
+        </div>
+    </div>
+    <script>
+        var dgWin, uptime;
+        function showDg() {
+            uptime = (new Date()).Format("yyyy/M/dHms");
+            if ($('#Imagesli img').length == 8) {
+                $.dialog.alert($('#upStrInfoImagesDiv').html());
+            } else {
+                dgWin = ShowWin('手机传图', '/post/fabu/upload_mobile.asp?pictime=' + uptime, 780, 320);
+            }
+        }
+        //手机上传图片，网页显示AJAX
+        var autotime=null;
+        $("#upload_mb").click(function() {
+            clearInterval(autotime);
+            autotime = setInterval(function() {
+                orderback(uptime);
+            }, 5000);
+        });
+
+        var module='';
+        var imgLength=0;
+        $.ajaxSetup({
+            cache: false
+        });
+
+        function orderback(pictime) {
+            $.ajax({
+                type: "post",
+                url: "/post/fabu/kind.asp?action=ajaxpics&picids=" + pictime,
+                error: function() {
+                    alert("系统错误，请与管理员联系！");
+                },
+                success: function(data) {
+                    if (data != "" && data != 1001) {
+                        if ($('#Imagesli img').length == 8) {
+                            clearInterval(autotime);
+                            dgWin.close();
+                        } else {
+                            var images = data.split(',');
+                            for (var x in images) {
+                                var plen = parseInt($('#Imagesli img').length);
+                                var l = $('#Imagesli').length;
+                                if (plen == 8) {
+                                    UpdateUpPicText();
+                                    clearInterval(autotime);
+                                    dgWin.close();
+                                } else {
+                                    var temp = '';
+                                    temp = $('#imgModule').html();
+                                    temp = temp.replace(/{{N}}/g, x + l);
+                                    temp = temp.replace(/{{image}}/g, images[x]);
+                                    temp = temp.replace(/{{simage}}/g, images[x]);
+                                    $('#Imagesli').append(temp);
+                                }
+                            }
+                            UpdateUpPicText();
+                            clearInterval(autotime);
+                            dgWin.close();
+                        }
+                    }
+                }
+            });
+        }
+        function UpdateUpPicText() {
+            var imgNum = $('#Imagesli .mobileli').length;
+            var htmlText = '';
+            htmlText = '您已经上传了 <font style="font-weight:bold;color:red;">' + imgNum + '</font> 张图片，';
+            htmlText += '还可以再上传 <font style="font-weight:bold;color:red;">' + (8 - imgNum) + '</font> 张';
+            htmlText += '， 每张不超过5 MB。';
+            $('#upStrInfoImagesDiv').html(htmlText);
+            $('#upNum').val(8 - $('#Imagesli').children().length);
+            UpImages();
+        }
+        // 对Date的扩展，将 Date 转化为指定格式的String
+        // 月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符，
+        // 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字)
+        // 例子：
+        // (new Date()).Format("yyyy-MM-dd hh:mm:ss.S") ==> 2006-07-02 08:09:04.423
+        // (new Date()).Format("yyyy-M-d h:m:s.S")      ==> 2006-7-2 8:9:4.18
+        Date.prototype.Format = function (fmt) { //author: meizz
+            var o = {
+                "M+": this.getMonth() + 1, //月份
+                "d+": this.getDate(), //日
+                "H+": this.getHours(), //小时
+                "m+": this.getMinutes(), //分
+                "s+": this.getSeconds(), //秒
+                "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+                "S": this.getMilliseconds() //毫秒
+            };
+            if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+            for (var k in o)
+                if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+            return fmt;
+        }
+    </script>
+
+
+</div>
+<div class="jg"></div>
+{/block}
+
+{block name="zhushou"}
+{include file="public:zhushou"}
+{/block}
+
+{block name="under_js"}
+
+{/block}
+

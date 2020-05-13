@@ -1,0 +1,129 @@
+{extend name="public/base" /}
+{block name="title"}
+    <title>职场资讯_{:cookie('site')}人才网-{:cookie('sitename')}</title>
+{/block}
+{block name="keywords"}
+<meta name="description" content="职场资讯栏目为你提供{:cookie('site')}职场资讯信息，以及简历帮助，面试技巧等信息，为你的求职招聘 之路提供帮助。">
+{/block}
+{block name='css'}
+    <script type="text/javascript" src="http://r.imgccoo.cn/post/images/js/FusionCharts.js"></script>
+    <link rel="stylesheet" type="text/css" href="http://r.imgccoo.cn/post/images/zp-za.css" />
+    <link rel="stylesheet" type="text/css" href="http://r.imgccoo.cn/post/images/news.css" />
+    <script>
+        function submitForm(id){
+            var form=document.getElementById("myform");
+            switch(id){
+                case 0:
+                    form.action="/post/zhaopin/";
+                    break;
+                case 1:
+                    form.action="/post/qiuzhi/";
+                    break;
+                default:
+                    form.action="/post/zhaopin/";
+            }
+        }
+    </script>
+{/block}
+{block name="crumbs"}
+<div class="fenleiq">您当前的位置：<a href="/">{:cookie('sitename')}首页</a> &gt;&gt; <a href="/post/">分类信息首页</a> &gt;&gt; <a href="/post/job/">招聘求职首页</a> &gt;&gt; {$kindname}</div>
+{/block}
+{block name="content"}
+<div class="infor_salelist">
+    <div class="daohang">
+        <div class="daohanghead">
+            <ul>
+                <li><a href="/post/job/">招聘首页</a></li>
+                <li><a href="/post/zhaopin/">全职招聘</a></li>
+                <li><a href="/post/jianzhi/">兼职招聘</a></li>
+                <li><a href="/post/qiuzhi/">求职简历</a></li>
+                <li class="dhhover"><a href="/post/zhaopin/zhichangzixun/">职场资讯</a></li>
+                <li><a href="/post/zhaopin/gongjuxiang/">HR工具箱</a></li>
+                <li><a href="/post/zhaopin/bbs/">职场俱乐部</a></li>
+                <li><a href="/postvip/JobVip/jobindex">招聘推广中心</a></li>
+                {if condition="$zph_num gt 0"}
+                <li class="hotzph"><a href="/post/zhaopinhui/" target="_blank">招聘会</a><div class="imgzph"></div></li>
+                {/if}
+            </ul>
+        </div>
+        <div class="daohangcone">
+            <div class="searchmar">
+                <form action="/post/zhaopin/" method="get" name="myform" id="myform" onSubmit="return ChkTKey();">
+                    <input type="text" name="key" class="searchmarinpt" id="sskey" value="请输入关键词"  maxlength="20" onFocus="NullTJs(1);" onBlur="NullTJs(2);" />
+                    <input type="submit" value="搜职位" class="soso" onClick="submitForm(0)" />
+                    <input type="submit" value="搜简历" class="soso" onClick="submitForm(1)" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="gjxcon padbor">
+        <div class="news_left">
+            <h2 class="newsh2">
+                <a {if condition="$kind eq 1"}class="newscur"{/if} href="/post/zhaopin/zhichangzixun/">职场资讯</a>
+                <a {if condition="$kind eq 2"}class="newscur"{/if} href="/post/zhaopin/jianlibangzhu/">简历帮助</a>
+                <a {if condition="$kind eq 3"}class="newscur"{/if} href="/post/zhaopin/mianshijiqiao/">面试技巧</a>
+            </h2>
+
+            {if condition="$count eq 0"}
+                <p>暂无相关信息！</p>
+            {/if}
+            {if condition="$count gt 0"}
+                <ul class="nlist">
+                    {foreach $list as $v}
+                    <li>
+                        <h3 class="nl1"><a href="{$url_var}{$v.id}x.html" target="_blank">{$v.title}</a></h3>
+                        <p class="nl2">
+                            {$v.memo}
+                            <a href="{$url_var}{$v.id}x.html" target="_blank">详细>></a>
+                        </p>
+                        <p class="nl3">{:date_to_time($v.uptime)} 发布</p>
+                    </li>
+                    {/foreach}
+                </ul>
+                {if condition="$totalpage gt 0"}
+                <div class="lpage">
+                    <div id="page_x">
+                        {$pager | raw}
+                    </div>
+                </div>
+                {/if}
+            {/if}
+        </div>
+
+        <div class="news_right">
+            <h2 class="newsh3"><b>{$tuijian1_name}</b><span><a href="{$tuijian1_url}" target="_blank">更多>></a></span></h2>
+            <ul class="newsul">
+                {foreach $tuijian1 as $val}
+                    <li><a href="{$tuijian1_url}{$val.id}x.html" target="_blank" title="{$val.title}">{$val.title}</a></li>
+                {/foreach}
+            </ul>
+            <h2 class="newsh3"><b>{$tuijian2_name}</b><span><a href="{$tuijian2_url}" target="_blank">更多>></a></span></h2>
+            <ul class="newsul">
+                {foreach $tuijian1 as $val}
+                <li><a href="{$tuijian2_url}{$val.id}x.html" target="_blank" title="{$val.title}">{$val.title}</a></li>
+                {/foreach}
+            </ul>
+
+            <div class="newsgg"><div AdId="1980" class="advtip">{$advRight|raw}</div></div>
+
+        </div>
+        <div class="clear"></div>
+    </div>
+    <script type="text/javascript">
+        $(".nlist li").hover(
+            function(){
+                $(this).addClass("nlistbg")
+            },function(){
+                $(this).removeClass("nlistbg")
+            }
+        )
+    </script>
+{/block}
+{block name="zhushou"}
+{include file="public:zhushou"}
+{/block}
+{block name='under_js'}
+
+{/block}
+

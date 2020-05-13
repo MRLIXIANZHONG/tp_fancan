@@ -1,0 +1,32 @@
+<div class="daohanghead">
+    <ul>
+        <li {if condition="$active eq 1 or !$active"} class="dhhover"{/if}>
+            <a href="/post/job/">招聘首页</a>
+        </li>
+        <li {if condition="$active eq 2"} class="dhhover"{/if}>
+            <a href="/post/zhaopin/">全职招聘</a>
+        </li>
+        <li {if condition="$active eq 3"} class="dhhover"{/if}>
+            <a href="/post/jianzhi/">兼职招聘</a>
+        </li>
+        <li {if condition="$active eq 4"} class="dhhover"{/if}>
+            <a href="/post/qiuzhi/">求职简历</a>
+        </li>
+        <li {if condition="$active eq 5"} class="dhhover"{/if}>
+            <a href="/post/zhaopin/zhichangzixun/">职场资讯</a>
+        </li>
+        <li {if condition="$active eq 6"} class="dhhover"{/if}>
+            <a href="/post/zhaopin/gongjuxiang/">HR工具箱</a>
+        </li>
+        <li {if condition="$active eq 7"} class="dhhover"{/if}>
+            <a href="/post/zhaopin/bbs/">职场俱乐部</a>
+        </li>
+        <li {if condition="$active eq 8"} class="dhhover"{/if}>
+            <a href="/postvip/JobVip/jobindex">招聘推广中心</a>
+        </li>
+        {if condition="$zph_num gt 0"}
+        <li class="hotzph"><a href="/post/zhaopinhui/" target="_blank">招聘会</a><div class="imgzph"></div></li>
+        {/if}
+    </ul>
+</div>
+

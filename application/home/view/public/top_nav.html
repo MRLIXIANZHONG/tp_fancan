@@ -1,0 +1,35 @@
+<!--导航-->
+<div id="navbg" class="newred-nav">
+    <div class="w">
+        <ul class="newred-nav-ul">
+            <li id="curt"><a href="/post/">分类首页</a></li>
+            <li><a href="/post/job/">招聘求职</a></li>
+            <li><a href="/post/fangwu/" target="_blank">房产交易</a></li>
+            <li><a href="/post/ershou/">二手交易</a></li>
+            <li><a href="/post/cheliang/">车辆买卖</a></li>
+            <li><a href="/post/shenghuo/">生活服务</a></li>
+            <li><a href="/xqjy/">相亲交友</a></li>
+            <li><a href="/post/pet/">宠物世界</a></li>
+            <li><a href="/bianmin/">交通出行</a></li>
+            <li id="fenleiNav">
+                <a href="javascript:;">分类推广中心<i class="row"></i></a>
+                <ol style="display:none;">
+                    <!--解决ie8下层级被flash视频遮挡-->
+                    <iframe id="iframebar" src="about:blank" frameBorder=0  marginHeight=0 marginWidth=0 style="position:absolute;visibility:inherit; top:0px;left:0px;height:100%;width:100%;background:#fff;z-index:-1;"></iframe>
+                    <li><a href="/postvip/jobvip/jobindex">招聘推广</a></li>
+                    <li><a href="/postvip/livevip/liveindex">生活服务推广</a></li>
+                    <li><a href="/postvip/houseagent/housevipindex">房产推广</a></li>
+                </ol>
+            </li>
+        </ul>
+        <div class="c"></div>
+    </div>
+</div>
+<!--头部结束-->
+<script type="text/javascript">
+    $('#fenleiNav').hover(function() {
+        $('#fenleiNav ol').css('display', 'block');
+    }, function() {
+        $('#fenleiNav ol').css('display', 'none');
+    });
+</script>

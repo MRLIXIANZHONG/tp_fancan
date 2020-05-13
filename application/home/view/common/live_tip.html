@@ -1,0 +1,7 @@
+<div class="showtip">
+    {if ($able_sumNum > 0) && ($able_todayNum > 0) }
+    <p>{:session('nickname')} 您好，您的帐户可以发布<span>{$able_sumNum}</span>条{$tipName}信息，每日最高可发布<span>{$todayNum}</span>条，今日还可发布<span>{$able_todayNum}</span>条</p>
+    {else /}
+    <p>{:session('nickname')} 您好，<span>您的账号发布权限已用完，可付费发布信息</span></p>
+    {/if}
+</div>

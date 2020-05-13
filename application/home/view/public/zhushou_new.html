@@ -1,0 +1,352 @@
+{if $footerData.compjf == 1}
+<!--PostFile Start-->
+<script type="text/javascript" src="http://r.imgccoo.cn/post/images/js/cookie.js"></script>
+
+<!-- 工具栏start -->
+<div class="toolbar">
+    <div id="ewmobi" style="display:none">Loading……</div>
+    <ul class="toolUl">
+        <li class="toolLi" id="gotop1">
+            <div class="toolBox">
+                <i class="xicon-tools xicon-shangjiantou"></i>
+                <span>返回<br>顶部</span>
+            </div>
+        </li>
+        <li class="toolLi">
+            <div class="toolBox">
+                <i class="xicon-tools xicon-zhushou"></i>
+                <span>分类<br>助手</span>
+            </div>
+            <div class="toolMenu">
+                <ul class="toolMenus">
+                    <li class="toolMenu-item"><a target="_blank" href="/post/leibie.html">查看所有类别</a></li>
+                    <li class="toolMenu-item"><a target="_blank" href="/post/fabu/">免费发布信息</a></li>
+                    {if $is_login == 1}
+                    <li class="toolMenu-item"><a target="_blank" href="/post/users/">修改我的信息</a></li>
+                    {else /}
+                    <li class="toolMenu-item"><a href="/login/?backurl=/post/users/">修改我的信息</a></li>
+                    {/if}
+                    <li class="toolMenu-item"><a target="_blank" href="/post/search/mydel.asp">删除我的信息</a></li>
+                    {if ($service_qq ?? '')}
+                    <li class="toolMenu-item">
+                        <i class="xicon-qq xicon"></i>
+                        <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin={$service_qq}&site=qq&menu=yes">QQ在线</a>
+                    </li>
+                    {/if}
+                    {if ($service_comptel ?? '')}
+                    <li class="toolMenu-item">
+                        <a target="_blank" href="javascript:;"><i class="xicon-tel3 xicon"></i>{$service_comptel}</a>
+                    </li>
+                    {/if}
+                </ul>
+            </div>
+        </li>
+        <li class="toolLi" id="ewm_wapcode" style="">
+            <div class="toolBox">
+                <i class="xicon-tools xicon-shouji"></i>
+                <span>手机<br>访问</span>
+            </div>
+            <div class="toolMenu">
+                <div class="toolMenus">
+                    <p class="toolTit">查看手机版</p>
+                    <div class="imgbox" id="mobile_version">
+
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="toolLi">
+            <div class="toolBox">
+                <i class="xicon-tools xicon-app"></i>
+                <span>下载<br>APP</span>
+            </div>
+            <div class="toolMenu">
+                <div class="toolMenus">
+                    <p class="toolTit">下载APP</p>
+                    <div class="imgbox">
+                        {if $site_id eq 2045}
+                        <img src="http://c.imgccoo.cn/wap/images/appdown_2045.png" alt="下载APP">
+                        {else /}
+                        <img src="http://m.ewm.eccoo.cn/qrimg.ashx?scale=150&amp;codeStr=http://img.pccoo.cn/wap/downapp.html" alt="下载APP">
+                        {/if}
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="toolLi" id="ewm_publiccode" style="">
+            <div class="toolBox">
+                <i class="xicon-tools xicon-erweima"></i>
+                <span>关注<br>微信</span>
+            </div>
+            <div class="toolMenu">
+                <div class="toolMenus">
+                    <p class="toolTit" title="关注微信 获得城市每日最新资讯！">关注微信</p>
+                    <div class="imgbox" id="follow">
+
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>
+<!-- 工具栏end -->
+<script type="text/javascript">
+    {if $class1}
+    {if $class1 == 1}
+        var flid=5;
+    {elseif $class1 == 3 || $class1 == 32 /}
+        var flid=6;
+    {else /}
+        var flid=4;
+    {/if}
+    {/if}
+
+        $('#ewmobi').load('/common/siteajax/?id=' + flid + '&rnd=' + Math.random() * 1000, function(Data) {
+            if (Data != '' && ewmdata.isOpen == 1) {
+                var mobile_version = '';
+                var follow = '';
+                if (ewmdata.mobiUrl1 != "") {
+                    mobile_version = '<img src="' + ewmdata.mobiUrl1 + '" />';
+                }
+                if (ewmdata.mobiUrl2 != "") {
+                    follow = '<img src="' + ewmdata.mobiUrl2 + '" />';
+                }
+                if (mobile_version != '') {
+                    $("#mobile_version").html(mobile_version);
+                }else{
+                    $("#ewm_wapcode").hide();
+                }
+                if (follow != '') {
+                    $("#follow").html(follow);
+                }else{
+                    $("#ewm_publiccode").hide();
+                }
+            }
+        });
+
+
+    $(function() {
+        var st = 20;
+        $('#bangshoutop').mouseenter(function() {
+            $('#bangshoutop > .helpcon').stop(false, true).slideDown(st);
+        }).mouseleave(function() {
+            $('#bangshoutop > .helpcon').stop(false, true).slideUp(st);
+        });
+        $('.mobibox').mouseenter(function() {
+            $('#ewmobi').stop(false, true).slideDown(st);
+        }).mouseleave(function() {
+            $('#ewmobi').stop(false, true).slideUp(st);
+        });
+    });
+
+    $('#gotop1').click(function () {
+        $(document).scrollTop(0);
+    });
+    $(function() {
+        loadGoTop();
+        $('#gotop').click(function() {
+            $(document).scrollTop(0);
+        })
+    });
+    $(window).scroll(function(e) {
+        loadGoTop();
+    })
+    $(function() {
+        var duilian = $("div.helptop");
+        var window_w = $(window).width();
+        if (window_w > 100) {
+            duilian.show();
+        }
+        $(window).scroll(function() {
+            var scrollTop = $(window).scrollTop();
+            duilian.stop().animate({
+                top: scrollTop + 30
+            });
+        });
+    });
+    // online
+    function RefreshOnline() {
+        $.get("/post/ajax_post.asp", {
+            action: "online"
+        });
+    }
+    $(function() {
+        RefreshOnline();
+    });
+    window.setInterval(function() {
+        RefreshOnline();
+    }, (1000 * 60 * 5));
+    //
+</script>
+<!--PostFile End-->
+{/if}
+
+{if $footerData.compjf == 0}
+<script type="text/javascript" src="http://r.imgccoo.cn/post/images/js/cookie.js"></script>
+<div class="toolbar">
+    <div id="ewmobi" style="display:none">Loading……</div>
+    <ul class="toolUl">
+        <li class="toolLi" id="gotop1">
+            <div class="toolBox">
+                <i class="xicon-tools xicon-shangjiantou"></i>
+                <span>返回<br>顶部</span>
+            </div>
+        </li>
+        <li class="toolLi">
+            <div class="toolBox">
+                <i class="xicon-tools xicon-zhushou"></i>
+                <span>分类<br>助手</span>
+            </div>
+            <div class="toolMenu">
+                <ul class="toolMenus">
+                    <li class="toolMenu-item"><a target="_blank" href="/post/leibie.html">查看所有类别</a></li>
+                    <li class="toolMenu-item"><a target="_blank" href="/post/fabu/">免费发布信息</a></li>
+                    {if $is_login == 1}
+                    <li class="toolMenu-item"><a target="_blank" href="/post/users/">修改我的信息</a></li>
+                    {else /}
+                    <li class="toolMenu-item"><a href="/login/?backurl=/post/users/">修改我的信息</a></li>
+                    {/if}
+                    <li class="toolMenu-item"><a target="_blank" href="/post/search/mydel.asp">删除我的信息</a></li>
+                    {if ($service_qq ?? '')}
+                    <li class="toolMenu-item">
+                        <i class="xicon-qq xicon"></i>
+                        <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin={$service_qq}&site=qq&menu=yes">QQ在线</a>
+                    </li>
+                    {/if}
+                    {if ($service_comptel ?? '')}
+                    <li class="toolMenu-item">
+                        <a target="_blank" href="javascript:;"><i class="xicon-tel3 xicon"></i>{$service_comptel}</a>
+                    </li>
+                    {/if}
+                </ul>
+            </div>
+        </li>
+        <li class="toolLi" id="ewm_wapcode" style="">
+            <div class="toolBox">
+                <i class="xicon-tools xicon-shouji"></i>
+                <span>手机<br>访问</span>
+            </div>
+            <div class="toolMenu">
+                <div class="toolMenus">
+                    <p class="toolTit">查看手机版</p>
+                    <div class="imgbox">
+                        <img src="http://m.ewm.eccoo.cn/qrimg.ashx?scale=100&codeStr={:str_replace('http://www.', 'http://m.', $footerData.siteUrl)}" alt="链接二维码">
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="toolLi">
+            <div class="toolBox">
+                <i class="xicon-tools xicon-app"></i>
+                <span>下载<br>APP</span>
+            </div>
+            <div class="toolMenu">
+                <div class="toolMenus">
+                    <p class="toolTit">下载APP</p>
+                    <div class="imgbox">
+                        <img src="http://m.ewm.eccoo.cn/qrimg.ashx?scale=150&codeStr=http://img.pccoo.cn/wap/downapp.html" alt="下载APP">
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="toolLi" id="ewm_publiccode" style="">
+            <div class="toolBox">
+                <i class="xicon-tools xicon-erweima"></i>
+                <span>关注<br>微信</span>
+            </div>
+            <div class="toolMenu">
+                <div class="toolMenus">
+                    <p class="toolTit" title="关注微信 获得城市每日最新资讯！">关注微信</p>
+                    <div class="imgbox">
+                        <img src="http://p5.pccoo.cn/news/20190403/2019040319281675632266.jpg" alt="微信二维码">
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>
+
+<script type="text/javascript">
+
+    $(function() {
+        var st = 20;
+        $('#bangshoutop').mouseenter(function() {
+            $('#bangshoutop > .helpcon').stop(false, true).slideDown(st);
+        }).mouseleave(function() {
+            $('#bangshoutop > .helpcon').stop(false, true).slideUp(st);
+        });
+        $('.mobibox').mouseenter(function() {
+            $('#ewmobi').stop(false, true).slideDown(st);
+        }).mouseleave(function() {
+            $('#ewmobi').stop(false, true).slideUp(st);
+        });
+    });
+
+    function loadGoTop() {
+        var h = $(window).height();
+        var t = $(document).scrollTop();
+        if (t > 30) {
+            $('#gotop').show();
+        } else {
+            $('#gotop').hide();
+        }
+    }
+    $('#gotop1').click(function () {
+        $(document).scrollTop(0);
+    });
+    $(function() {
+        loadGoTop();
+        $('#gotop').click(function() {
+            $(document).scrollTop(0);
+        })
+    });
+    $(window).scroll(function(e) {
+        loadGoTop();
+    })
+    $(function() {
+        var duilian = $("div.helptop");
+        var window_w = $(window).width();
+        if (window_w > 100) {
+            duilian.show();
+        }
+        $(window).scroll(function() {
+            var scrollTop = $(window).scrollTop();
+            duilian.stop().animate({
+                top: scrollTop + 30
+            });
+        });
+    });
+    // online
+    function RefreshOnline() {
+       /* $.get("/post/ajax_post.asp", {
+            action: "online"
+        });*/
+    }
+    $(function() {
+        RefreshOnline();
+    });
+    window.setInterval(function() {
+        RefreshOnline();
+    }, (1000 * 60 * 5));
+    //
+</script>
+<script type="text/javascript">
+    var cpro_id = "u2123851";
+</script>
+<script src=" http://su.bdimg.com/static/dspui/js/uf.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(function() {
+        var duilian = $("div.helptop");
+        var window_w = $(window).width();
+        if (window_w > 100) {
+            duilian.show();
+        }
+        $(window).scroll(function() {
+            var scrollTop = $(window).scrollTop();
+            duilian.stop().animate({
+                top: scrollTop + 30
+            });
+        });
+    });
+</script>
+{/if}

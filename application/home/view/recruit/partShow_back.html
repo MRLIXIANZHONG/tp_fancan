@@ -1,0 +1,1223 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0047)http://www.bc.ccoo.cn/post/jianzhi/193653x.html -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="applicable-device" content="pc">
+    <meta name="mobile-agent" content="format=html5;url=http://m.bc.ccoo.cn/post/jianzhi/jzshow.aspx?id=193653">
+    <link rel="alternate" media="only screen and (max-width: 640px)" href="http://m.bc.ccoo.cn/post/jianzhi/jzshow.aspx?id=193653">
+    <title>{$vo.title}_{$siteName}</title>
+    <meta name="keywords" content="{$vo.title},{$areaName}{$vo.kindname}{$areaName}人才,{$areaName}招聘" />
+    <meta name="description" content="{$vo.title}，{$vo.info | mb_substr=0,200,'utf-8'}">
+
+    <link href="http://r.imgccoo.cn/post/images/header.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="http://r.imgccoo.cn/post/js/jquery.js"></script>
+
+    <link href="http://c.imgccoo.cn/post/images/fenleishow_v2.css" rel="stylesheet" type="text/css">
+    <link href="http://r.imgccoo.cn/post/images/jquery.ad-gallery1.css" rel="stylesheet" type="text/css">
+
+    <!--<script type="text/javascript" src="http://r.imgccoo.cn/post/images/postcommon.js"></script>-->
+    <script type="text/javascript" src="http://r.imgccoo.cn/post/js/dialog/lhgdialog.js?skin=discuz" charset="utf-8"></script>
+    <script type="text/javascript" src="http://r.imgccoo.cn/post/js/dialog/fun.js"></script>
+    <script type="text/javascript">
+        if (/Android|webOS|iPhone|iPod|BlackBerry|Windows CE|Windows Phone/i.test(navigator.userAgent)) {
+            if (window.location.href.indexOf("?pc") < 0) {
+                window.location.href = "http://m.bc.ccoo.cn/post/jianzhi/jzshow.aspx?id=193653";
+            }
+        }
+        $(function() {
+            var galleries = $('.ad-gallery').adGallery();
+            $('#switch-effect').change(function() {
+                galleries[0].settings.effect = $(this).val();
+                return false
+            })
+        });
+
+        function getPage(strHtml, sValue, page) {
+            var strHtmlTitle = '<p style="text-align:center; font-size:12px; color:#000;margin:2px;vertical-align:middle;">';
+            strHtmlTitle += '<img src="http://r.imgccoo.cn/post/images/loading.gif" style="vertical-align:middle;margin-right:1px;" border="0" />加载中……</p>';
+            $("#" + strHtml).html(strHtmlTitle);
+            $.post("{:url('Home/Recruit/partOthers');}", {
+                        strHtml: strHtml,
+                        id: sValue,
+                        p: page
+                    },
+                    function (data) {
+                        if (data != "") {
+                            $("#" + strHtml).html(data);
+                        }
+                    });
+        }
+
+        $(function() {
+           /* var tel=$('.gettel').attr('id');
+            $.ajax({
+                type: "POST",
+                url: "http://www.bc.ccoo.cn/post/public/post_tel.asp",
+                data: 'tel=' + tel + '&num=' + Math.random()*10000,
+                success: function(data) {
+                    $(".gettel").html(data);
+                }, error: function(error) {
+                    $(".gettel").html("无");
+                }
+            });*/
+            // 收藏
+            /*GetCollectionIs(14, 193653);*/
+        });
+    </script>
+    <!--<script src="http://bdimg.share.baidu.com/static/api/js/share.js"></script>
+    <link rel="stylesheet" href="http://bdimg.share.baidu.com/static/api/css/share_style0_16.css">
+    <link rel="stylesheet" href="http://bdimg.share.baidu.com/static/api/css/share_popup.css">
+    <link rel="stylesheet" href="http://bdimg.share.baidu.com/static/api/css/select_share.css">-->
+    <!--<link rel="stylesheet" href="./第三二一医院__ 食堂_白城之窗_files/imgshare.css">-->
+</head>
+
+<body>
+<div class="" style="left: 0px; top: 0px; visibility: hidden; position: absolute;">
+    <table class="ui_border ui_state_lock">
+        <tbody>
+        <tr>
+            <td class="ui_lt"></td>
+            <td class="ui_t"></td>
+            <td class="ui_rt"></td>
+        </tr>
+        <tr>
+            <td class="ui_l"></td>
+            <td class="ui_c">
+                <div class="ui_inner">
+                    <table class="ui_dialog">
+                        <tbody>
+                        <tr>
+                            <td colspan="2">
+                                <div class="ui_title_bar">
+                                    <div class="ui_title" unselectable="on" style="cursor: move;"></div>
+                                    <div class="ui_title_buttons">
+                                        <a class="ui_min" href="javascript:void(0);" title="最小化" style="display: none;"><b class="ui_min_b"></b></a>
+                                        <a class="ui_max" href="javascript:void(0);" title="最大化" style="display: none;"><b class="ui_max_b"></b></a>
+                                        <a class="ui_res" href="javascript:void(0);" title="还原"><b class="ui_res_b"></b><b class="ui_res_t"></b></a>
+                                        <a class="ui_close" href="javascript:void(0);" title="关闭(esc键)" style="display: inline-block;">×</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="ui_icon" style="display: none;"></td>
+                            <td class="ui_main" style="width: 430px; height: 180px;"><div class="ui_content" style="padding: 10px;"></div></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><div class="ui_buttons" style="display: none;"></div></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </td>
+            <td class="ui_r"></td>
+        </tr>
+        <tr>
+            <td class="ui_lb"></td>
+            <td class="ui_b"></td>
+            <td class="ui_rb" style="cursor: auto;"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<link href="http://r.imgccoo.cn/post/js/msgbox/msgbox.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="http://r.imgccoo.cn/post/js/msgbox/msgbox.js"></script>
+
+<!--顶部导航-->
+
+<!--<div id="top">
+    <div class="w">
+        <div class="top_left">
+            <div>
+                <a href="http://www.bc.ccoo.cn/" class="nav_ct_01">门户首页&gt;&gt;</a>
+            </div>
+            <div class="top_nav_line">&nbsp;</div>
+            <div class="topnav">
+                <a href="http://www.bc.ccoo.cn/forum/">论坛</a>
+                <div>
+                    <ul>
+                        <li>
+                            <img src="./第三二一医院__ 食堂_白城之窗_files/ico1.gif" data-bd-imgshare-binded="1">
+                            <a href="http://www.bc.ccoo.cn/tieba/">城市贴吧</a>
+                        </li>
+                        <li>
+                            <img src="./第三二一医院__ 食堂_白城之窗_files/ico2.gif" data-bd-imgshare-binded="1">
+                            <a href="http://www.bc.ccoo.cn/forum/today-1-1.html">今日关注</a>
+                        </li>
+                        <li>
+                            <img src="./第三二一医院__ 食堂_白城之窗_files/ico9.gif" data-bd-imgshare-binded="1">
+                            <a href="http://www.bc.ccoo.cn/tieba/index-2-1-1.html">精华热帖</a>
+                        </li>
+                        <li>
+                            <img src="./第三二一医院__ 食堂_白城之窗_files/ico32.gif" data-bd-imgshare-binded="1">
+                            <a href="http://www.bc.ccoo.cn/tieba/sitemap.html">版块导航</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="top_nav_line"><span>|</span></div>
+            <div class="topnav">
+                <a href="http://www.bc.ccoo.cn/post/">分类</a>
+                <div>
+                    <ul>
+                        <li>
+                            <img src="./第三二一医院__ 食堂_白城之窗_files/ico10.gif" data-bd-imgshare-binded="1">
+                            <a href="http://www.bc.ccoo.cn/post/job/">招聘求职</a>
+                        </li>
+                        <li>
+                            <img src="./第三二一医院__ 食堂_白城之窗_files/ico11.gif" data-bd-imgshare-binded="1">
+                            <a href="http://www.bc.ccoo.cn/post/fangwu/">房产频道</a>
+                        </li>
+                        <li>
+                            <img src="./第三二一医院__ 食堂_白城之窗_files/ico12.gif" data-bd-imgshare-binded="1">
+                            <a href="http://www.bc.ccoo.cn/post/ershou/">二手交易</a>
+                        </li>
+                        <li>
+                            <img src="./第三二一医院__ 食堂_白城之窗_files/ico17.gif" data-bd-imgshare-binded="1">
+                            <a href="http://www.bc.ccoo.cn/xqjy/">相亲交友</a>
+                        </li>
+                        <li>
+                            <img src="./第三二一医院__ 食堂_白城之窗_files/ico13.gif" data-bd-imgshare-binded="1">
+                            <a href="http://www.bc.ccoo.cn/post/cheliang/">车辆买卖</a>
+                        </li>
+                        <li>
+                            <img src="./第三二一医院__ 食堂_白城之窗_files/ico14.gif" data-bd-imgshare-binded="1">
+                            <a href="http://www.bc.ccoo.cn/post/shenghuo/">生活服务</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="top_nav_line"><span>|</span></div>
+            <div class="topnav">
+                <a href="http://www.bc.ccoo.cn/store/shop/">逛街</a>
+                <div>
+                    <ul>
+                        <li>
+                            <img src="./第三二一医院__ 食堂_白城之窗_files/ico22.gif" data-bd-imgshare-binded="1">
+                            <a href="http://www.bc.ccoo.cn/meishi/">美食</a>
+                        </li>
+                        <li>
+                            <img src="./第三二一医院__ 食堂_白城之窗_files/ico20.gif" data-bd-imgshare-binded="1">
+                            <a href="http://www.bc.ccoo.cn/home/">家居</a>
+                        </li>
+                        <li>
+                            <img src="./第三二一医院__ 食堂_白城之窗_files/ico21.gif" data-bd-imgshare-binded="1">
+                            <a href="http://www.bc.ccoo.cn/auto/">汽车</a>
+                        </li>
+                        <li>
+                            <img src="./第三二一医院__ 食堂_白城之窗_files/ico23.gif" data-bd-imgshare-binded="1">
+                            <a href="http://www.bc.ccoo.cn/wed/">婚嫁</a>
+                        </li>
+                        <li>
+                            <img src="./第三二一医院__ 食堂_白城之窗_files/ico49.gif" data-bd-imgshare-binded="1">
+                            <a href="http://www.bc.ccoo.cn/baby/">亲子</a>
+                        </li>
+                        <li>
+                            <img src="./第三二一医院__ 食堂_白城之窗_files/ico25.gif" data-bd-imgshare-binded="1">
+                            <a href="http://www.bc.ccoo.cn/hotel/">酒店</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="top_nav_line"><span>|</span></div>
+            <div class="topnav">
+                <a href="http://www.bc.ccoo.cn/store/">便宜</a>
+                <div>
+                    <ul>
+                        <li>
+                            <img src="./第三二一医院__ 食堂_白城之窗_files/ico27.gif" data-bd-imgshare-binded="1">
+                            <a href="http://www.bc.ccoo.cn/cuxiao/">最新促销</a>
+                        </li>
+                        <li>
+                            <img src="./第三二一医院__ 食堂_白城之窗_files/ico28.gif" data-bd-imgshare-binded="1">
+                            <a href="http://www.bc.ccoo.cn/youhui/">优惠券</a>
+                        </li>
+                        <li>
+                            <img src="./第三二一医院__ 食堂_白城之窗_files/ico27.gif" data-bd-imgshare-binded="1">
+                            <a href="http://www.bc.ccoo.cn/wsh/">抢购砍价</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="top_nav_line"><span>|</span></div>
+            <div class="topnav">
+                <a href="http://www.bc.ccoo.cn/yp/">其他</a>
+                <div>
+                    <ul>
+                        <li>
+                            <img src="./第三二一医院__ 食堂_白城之窗_files/ico33.gif" data-bd-imgshare-binded="1">
+                            <a href="http://www.bc.ccoo.cn/yp/all/">黄页大全</a>
+                        </li>
+                        <li>
+                            <img src="./第三二一医院__ 食堂_白城之窗_files/ico34.gif" data-bd-imgshare-binded="1">
+                            <a href="http://www.bc.ccoo.cn/phonebook/">电话查询</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="top_nav_line"><span>|</span></div>
+            <div class="top_midd"><a class="m" href="http://www.bc.ccoo.cn/wap/">下载APP</a></div> </div>
+
+        <div id="top_right" class="fr">
+            <div class="login fl ">
+                <div class="loginqq">
+                    <a href="https://graph.qq.com/oauth2.0/authorize?which=ConfirmPage&amp;client_id=204708&amp;response_type=token&amp;scope=all&amp;redirect_uri=http%3A%2F%2Fqqlogin.ccoo.cn%2F%3Fsource%3D0%26siteid%3D1068%26path%3Dhttp%3A%2F%2Fwww%2Ebc%2Eccoo%2Ecn%2Fpost%2Fjianzhi%2F193653x%2Ehtml" rel="nofollow">
+                        <img src="./第三二一医院__ 食堂_白城之窗_files/qqlogin.gif" data-bd-imgshare-binded="1">
+                    </a>
+                    <a href="http://wxlogin.ccoo.cn/?siteid=1068&amp;callback=http%3A%2F%2Fwww%2Ebc%2Eccoo%2Ecn%2Fpost%2Fjianzhi%2F193653x%2Ehtml" rel="nofollow">
+                        <img src="./第三二一医院__ 食堂_白城之窗_files/wechat_login2.png" data-bd-imgshare-binded="1">
+                    </a>
+                </div>
+                <p class="fr">
+                    <a href="http://www.bc.ccoo.cn/login/?backurl=http%3A%2F%2Fwww%2Ebc%2Eccoo%2Ecn%2Fpost%2Fjianzhi%2F193653x%2Ehtml" rel="nofollow">登录</a>
+                    <span>|</span>
+                    <a href="http://www.bc.ccoo.cn/reg/?backurl=http%3A%2F%2Fwww%2Ebc%2Eccoo%2Ecn%2Fpost%2Fjianzhi%2F193653x%2Ehtml" rel="nofollow">注册</a></p>
+            </div>
+            <div class="help fr"><a href="http://www.bc.ccoo.cn/post/help.html" target="_blank" rel="nofollow">使用帮助</a></div>
+        </div>
+        <div class="c"></div>
+    </div>
+</div>-->
+<script type="text/javascript">
+    $(function() {
+        $(".topnav").hover(function() {
+            $(this).addClass("curr");
+            $(this).children("div").show();
+        }, function() {
+            $(this).removeClass("curr");
+            $(this).children("div").hide();
+        });
+        $(".topnav li").hover(function() {
+            $(this).addClass("tcurr");
+        }, function() {
+            $(this).removeClass("tcurr");
+        });
+    })
+</script>
+<!--logo-->
+<script type="text/javascript">
+    var siteid = {$siteId};
+    function setBlink(id) {
+        document.getElementById(id).className = "setBlinkColor" + getNumber(0, 1);
+    }
+
+    function getNumber(startNum, endNum) {
+        var randomNumber;
+        randomNumber = Math.round(Math.random() * (endNum - startNum)) + startNum;
+        return randomNumber;
+    }
+
+    function indexValue(sid, i) {
+        $('#' + sid).val(i);
+    }
+
+    function indexSo(strId, strText) {
+        if ($('#' + strId).val() == "" || $('#' + strId).val() == strText) {
+            $('#' + strId).val("");
+            $('#' + strId).focus();
+            alert(strText);
+            return false
+        }
+    }
+
+    function sTopFocus(i, strId, strText) {
+        if (i == 1) {
+            if ($('#' + strId).val() == strText) {
+                $('#' + strId).val("");
+            }
+        } else {
+            if ($('#' + strId).val() == "") {
+                $('#' + strId).val(strText);
+            }
+        }
+    }
+    $(function(){
+        $("#x_sou ul li").click(function(){ var text = $(this).html();$("#x_sou p").html(text);$("#x_sou ul").hide();});
+        $("#x_sou").hover(function(){$("#x_sou ul").show();},function (){$("#x_sou ul").hide();});
+
+    })
+    $(function() {
+        $(".topnav").hover(function() {
+            $(this).addClass("curr");
+            $(this).children("div").show();
+        }, function() {
+            $(this).removeClass("curr");
+            $(this).children("div").hide();
+        });
+        $(".topnav li").hover(function() {
+            $(this).addClass("tcurr");
+        }, function() {
+            $(this).removeClass("tcurr");
+        });
+    });
+    function GetCollection(stype, dataid) {
+        $.ajax({
+            type: 'GET',
+            beforeSend: function() {
+                ZENG.msgbox.show('数据处理中...', 6, 1000000);
+            },
+            url: 'http://www.bc.ccoo.cn/post/ajax/post_shoucang.asp',
+            data: {
+                action: 'insert',
+                stype: stype,
+                id: dataid,
+                n: Math.random()
+            },
+            dataType: 'json',
+            success: function(json) {
+                ZENG.msgbox._hide();
+                switch (json.code) {
+                    case 0:
+                        ZENG.msgbox.show('已经收藏过!', 1, 2000);
+                        break;
+                    case 1:
+                        ZENG.msgbox.show('收藏成功!', 4, 2000);
+                        setTimeout(function() {
+                            window.location.reload();
+                        }, 2000);
+                        break;
+                    case 2:
+                        ZENG.msgbox.show('请登录后进行收藏!', 5, 3000);
+                        setTimeout(function() {
+                            ShowWin('会员登录', 'http://www.bc.ccoo.cn/post/users/login.asp?iscloseurl=1', 350, 230);
+                        }, 3000);
+                        break;
+                    default:
+                        ZENG.msgbox.show(json.msg, 5, 3000);
+                }
+            }
+        });
+    }
+    /*function GetCollectionIs(stype, dataid) {
+        $.ajax({
+            type: 'GET',
+            url: 'http://www.bc.ccoo.cn/post/ajax/post_shoucang.asp',
+            data: {
+                action: 'read',
+                stype: stype,
+                id: dataid,
+                n: Math.random()
+            },
+            dataType: 'json',
+            success: function(json) {
+                if (json.code == 0) {
+                    $('#scbox').html('收藏');
+                }
+            }
+        });
+    }*/
+</script>
+
+<!--<div id="cz" class="w newred-search">
+    <div id="logo" class="fl"> <a href="http://www.bc.ccoo.cn/"><img src="./第三二一医院__ 食堂_白城之窗_files/1068.gif" alt="白城之窗" data-bd-imgshare-binded="1">
+        <span><b>·</b> 人才网</span></a> </div>
+    <form name="form33" action="http://www.bc.ccoo.cn/post/chaxun.html" method="post" onsubmit="return indexSo(&#39;topKeyInput&#39;,&#39;请输入关键字&#39;);">
+        <div id="search" class="fl">
+            &lt;!&ndash; <div class="s_left fl"></div> &ndash;&gt;
+            <div class="sea-box">
+                <div class="s_leib fl" id="x_sou">
+                    <input type="hidden" name="class1" id="indexTopClass" value="1">
+                    <p>招聘求职</p>
+                    <i class="row"></i>
+                    <ul>
+                        <li><a href="javascript:void(0);" onclick="indexValue(&#39;indexTopClass&#39;,0);return false;">全部信息</a></li>
+                        <li><a href="javascript:void(0);" onclick="indexValue(&#39;indexTopClass&#39;,1);return false;">招聘求职</a></li>
+                        <li><a href="javascript:void(0);" onclick="indexValue(&#39;indexTopClass&#39;,3);return false;">房屋出售</a></li>
+                        <li><a href="javascript:void(0);" onclick="indexValue(&#39;indexTopClass&#39;,32);return false;">房屋出租</a></li>
+                        <li><a href="javascript:void(0);" onclick="indexValue(&#39;indexTopClass&#39;,2);return false;">二手信息</a></li>
+                        <li><a href="javascript:void(0);" onclick="indexValue(&#39;indexTopClass&#39;,5);return false;">车辆买卖</a></li>
+                        <li><a href="javascript:void(0);" onclick="indexValue(&#39;indexTopClass&#39;,6);return false;">生活服务</a></li>
+                        <li><a href="javascript:void(0);" onclick="indexValue(&#39;indexTopClass&#39;,642);return false;">同城交友</a></li>
+                        <li><a href="javascript:void(0);" onclick="indexValue(&#39;indexTopClass&#39;,8);return false;">宠物世界</a></li>
+                    </ul>
+                </div>
+                <div class="s_text fl">
+                    <input name="keys" type="text" id="topKeyInput" onfocus="sTopFocus(1,&#39;topKeyInput&#39;,&#39;请输入关键字&#39;);" onblur="sTopFocus(2,&#39;topKeyInput&#39;,&#39;请输入关键字&#39;);" value="请输入关键字" maxlength="30" class="dss">
+                </div>
+                <div class="s_sous fl">
+                    <input type="submit" value="">
+                </div>
+            </div>
+            &lt;!&ndash;<div class="s_right fl"></div>&ndash;&gt;
+            <div class="btn_1 fr"><a href="http://www.bc.ccoo.cn/post/fabu/">发布信息</a></div>
+        </div>
+    </form>
+    <div class="c"></div>
+</div>-->
+<!--导航-->
+<!--<div id="navbg" class="newred-nav">
+    <div class="w">
+        <ul class="newred-nav-ul">
+            <li><a href="http://www.bc.ccoo.cn/post/">分类首页</a></li>
+            <li id="curt"><a href="http://www.bc.ccoo.cn/post/job/">招聘求职</a></li>
+            <li><a href="http://www.bc.ccoo.cn/post/fangwu/" target="_blank">房产交易</a></li>
+            <li><a href="http://www.bc.ccoo.cn/post/ershou/">二手交易</a></li>
+            <li><a href="http://www.bc.ccoo.cn/post/cheliang/">车辆买卖</a></li>
+            <li><a href="http://www.bc.ccoo.cn/post/shenghuo/">生活服务</a></li>
+            <li><a href="http://www.bc.ccoo.cn/xqjy/">相亲交友</a></li>
+            <li><a href="http://www.bc.ccoo.cn/post/pet/">宠物世界</a></li>
+            <li><a href="http://www.bc.ccoo.cn/bianmin/">交通出行</a></li>
+            <li id="fenleiNav">
+                <a href="javascript:;">分类推广中心<i class="row"></i></a>
+                <ol style="display:none;">
+                    &lt;!&ndash;解决ie8下层级被flash视频遮挡&ndash;&gt;
+                    <iframe id="iframebar" src="./第三二一医院__ 食堂_白城之窗_files/saved_resource.html" frameborder="0" marginheight="0" marginwidth="0" style="position:absolute;visibility:inherit; top:0px;left:0px;height:100%;width:100%;background:#fff;z-index:-1;"></iframe>
+                    <li><a href="http://www.bc.ccoo.cn/postvip/jobvip/jobindex">招聘推广</a></li>
+                    <li><a href="http://www.bc.ccoo.cn/postvip/livevip/liveindex">生活服务推广</a></li>
+                    <li><a href="http://www.bc.ccoo.cn/postvip/houseagent/housevipindex">房产推广</a></li>
+                </ol>
+            </li>
+        </ul>
+        <div class="c"></div>
+    </div>
+</div>-->
+
+<!--头部结束-->
+<script type="text/javascript">
+    $('#fenleiNav').hover(function() {
+        $('#fenleiNav ol').css('display', 'block');
+    }, function() {
+        $('#fenleiNav ol').css('display', 'none');
+    });
+</script>
+<!--所在位置--->
+<div class="fenleiq">您当前的位置：<a href="http://www.bc.ccoo.cn/">白城首页</a> &gt;&gt; <a href="http://www.bc.ccoo.cn/post/">分类信息首页</a> &gt;&gt; <a href="http://www.bc.ccoo.cn/post/job/">招聘求职首页</a> &gt;&gt; <a href="http://www.bc.ccoo.cn/post/jianzhis/list-20278-0-1.html">餐厅/服务员</a> &gt;&gt; 招聘信息</div>
+<div class="d_main">
+    <h1>{$vo.title}</h1>
+    <div class="balefthead"> <span class="fltl">发布时间：{$vo.edittime|date='Y-m-d'} 信息关注度：{$showHit}</span> <span class="fltr">
+    <ul>
+
+        <li class="sc" title="收藏信息" id="scbox"><a href="javascript:void(0);" onclick="GetCollection(14,193653);return false;">收藏</a></li>
+        <li class="jb" title="举报信息">
+            <a href="javascript:void(0);" onclick="ShowWin('举报信息','http://www.bc.ccoo.cn/post/Post_report.asp?action=postReport&amp;id=193653&amp;cls=14&amp;IndexWinUrl=http://www.bc.ccoo.cn/post/jianzhi/193653x.html',550,300);return false;" title="举报信息">举报
+            </a>
+        </li>
+        <li title="分享信息" class="bdsharebuttonbox bdshare_t bds_tools get-codes-bdshare fx bdshare-button-style0-16" data-bd-bind="1568944276638">
+            <a class="bds_more bds_morex" data-cmd="more" style="margin:0px; padding:0px;  color:#00c;">分享</a>
+        </li>
+        <li class="gl" title="管理我发布的信息">
+            <span>
+                <a href="javascript:void(0);">管理</a>
+            </span>
+            <p style="display: none;">
+                <a href="javascript:void(0);" onclick="ShowWin('修改我发布的信息','http://www.bc.ccoo.cn/post/ajax/post_user.asp?stype=14&amp;id=193653&amp;urllink=/post/users/job/jz_edit.asp',400,245);return false;">修改</a>
+                <a href="javascript:void(0);" onclick="ShowWinAuto('刷新信息','http://www.bc.ccoo.cn/post/ajax/post_up.asp?stype=14&amp;id=193653',850,'auto');return false;">刷新</a>
+
+                <a href="javascript:void(0);" onclick="ShowWin('删除信息','http://www.bc.ccoo.cn/post/del/index_u.asp?oAction=jianzhi&amp;isPage=12&amp;id=193653',430,180);return false;">删除</a>
+            </p>
+        </li>
+        <input type="hidden" name="username193653" id="username193653" value="wxid4x_U2gZU895">
+        <span id="WinUrl_job_jz_info_193653" style="display:none;">http://www.bc.ccoo.cn/post/jianzhi/193653x.html</span>
+        <li class="tj" title="在本站推荐我的信息">
+            <a href="javascript:void(0);" onclick="ShowWinAuto('信息推荐申请','http://www.bc.ccoo.cn/post/postjump/post_cmd.asp?tname=job_jz_info&amp;id=193653',850,520);return false;">推荐</a>
+            <i class="iTipTop">置顶推荐</i>（提高效果6-8倍）
+        </li>
+    </ul>
+    </span>
+        <div style="clear:both;"></div>
+    </div>
+
+    <div class="smleft">
+        <div class="xxshow">
+            <div class="zprshow">
+                <div class="neirong">
+                    <div class="mqconx">
+                        <div class="gongsimq">
+                            {if ($isVipMark) }
+                            <a href="http://www.bc.ccoo.cn/post/zhaopin/vip/index{$vo.m_id}.html" target="_blank" class="commz">{$vo.compname | mb_substr=0,50,'utf-8'}</a><span><img src="http://c.imgccoo.cn/post/img/tj-mq.png"></span><i>　(名企招聘为本站推荐信息,建议您优先选择。<a href="http://www.bc.ccoo.cn/post/job/mingqi_ys.html" target="_blank"> 什么是名企招聘？</a>)</i>
+                            {elseif ($vo.ismq) /}
+                            <a href="http://www.bc.ccoo.cn/post/zhaopin/minqi/index{$vo.m_id}.html" target="_blank" class="commz">{$vo.compname | mb_substr=0,50,'utf-8'}</a><span><img src="http://c.imgccoo.cn/post/img/tj-mq.png"></span><i>　(名企招聘为本站推荐信息,建议您优先选择。<a href="http://www.bc.ccoo.cn/post/job/mingqi_ys.html" target="_blank"> 什么是名企招聘？</a>)</i>
+                            {elseif ($vo.isrz) /}
+                            <a href="http://www.bc.ccoo.cn/post/job/rz/{$vo.isrz}/" target="_blank" class="commz">{$vo.compname | mb_substr=0,50,'utf-8'}</a><span><img src="http://c.imgccoo.cn/post/img/tj-rz.png"></span><i>　(企业已认证 <a href="http://www.bc.ccoo.cn/post/job/renzheng_ys.html" target="_blank">什么是认证企业？</a>)</i>
+                            {else /}
+                            {$vo.compname | mb_substr=0,50,'utf-8'}
+                            <i>　(企业未认证 <a href="http://www.bc.ccoo.cn/post/job/renzheng_ys.html" target="_blank">什么是认证企业？</a>)</i>
+                            {/if}
+
+
+                        </div>
+                        <p><span>公司规模：</span> {$vo.compsize} <span>公司性质：</span> {$vo.compkind} <span>公司行业：</span> {$vo.Comptrade} </p>
+                    </div>
+                    <div class="jianzhicon">
+                        <dl>
+                            <dt>招聘职位：</dt>
+                            <dd>{$vo.kindname}</dd>
+                        </dl>
+                        <dl>
+                            <dt>招聘人数：</dt>
+                            <dd>{if ($vo.number == 0) } 若干 {else /} {$vo.number}人 {/if}</dd>
+                        </dl>
+                        <dl>
+                            <dt>薪资水平：</dt>
+                            <dd>
+                                {if ($vo.salary > 0 ) }
+                                {$vo.salary}
+                                {$vo.salarytype}
+                                {else /} 面议 {/if}
+                                {$vo.paytype}
+                            </dd>
+                        </dl>
+                        <dl class="wee">
+                            <dt>公司地址：</dt>
+                            <dd>{$vo.Compaddr}</dd>
+                        </dl>
+                        <dl>
+                            <dt>联 系 人：</dt>
+                            <dd>{if ($vo.linkman) } {$vo.linkman} {else /} -- {/if}</dd>
+                        </dl>
+                        <dl>
+                            <dt>电子邮箱：</dt>
+                            <dd>{if ($vo.email) } {$vo.email} {else /} -- {/if}</dd>
+                        </dl>
+                        <dl class="wee">
+                            <dt>QQ 交谈：</dt>
+                            <dd>{if ($vo.qq) } {$vo.qq} {else /} -- {/if}</dd>
+                        </dl>
+                        <dl class="wee">
+                            <dt>联系电话：</dt>
+                            {if ($vo.IsExit) == 1 }
+                            <dd>已招满</dd>
+                            {else /}
+                            <dd>
+                                <i class="gettel" id="MTMwMDkwNjY1MDA">{$vo.tel}</i>
+                                <span>( <font id="LoadTel"> </font> )
+                                    <a href="javascript:;" onclick="ShowWin('该号码发布的招聘信息','http://www.bc.ccoo.cn/post/job/job_tel.asp?tel={$baTel}&id={$vo.id}&type=1',550,450);return false;">该号码发布招聘信息记录</a>
+                                </span>
+                            </dd>
+                            {/if}
+                        </dl>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="show_zhiwei">
+
+                    {if ($vo.IsExit) == 1 }
+                    <a href="javascript:void(0);" onClick="alert('该职位已招满！');return false;">
+                        <img src="http://r.imgccoo.cn/post/images/job_zhiwei.gif" width="201" height="53">
+                    </a>
+                    {else /}
+                    <a href="javascript:void(0);" onClick="ShowWin('投简历','http://www.bc.ccoo.cn/post/job/job_pass.asp?oAction=JianLiForm&Win=2&id={$vo.id}&IndexWinUrl={$IndexWinUrl}&type=1',400,300);return false;">
+                        <img src="http://r.imgccoo.cn/post/images/job_zhiwei.gif" width="201" height="53" data-bd-imgshare-binded="1">
+                    </a>
+
+                    {/if}
+                    {if ($vo.countJl > 0) }
+                    <span>
+                        已有<font>{$vo.countJl}</font>人申请该职位 {$vo.compname}点击
+                        <a href="javascript:void(0);" onclick="ShowWin('查看申请职位人才','http://www.bc.ccoo.cn/post/job/job_infouser.asp?id={$vo.id}&type=1',620,350);return false;">查看详情</a>
+                    </span>
+                    {/if}
+                </div>
+                <div class="ts-msg">提示：刷信誉、淘宝刷钻、YY网络兼职、在家工作、加微信联系的职位都是骗子！收取费用或押金都可能有欺诈嫌疑，请警惕！（本平台仅提供信息交流，不承担因使用网站提供的信息所引致的损害赔偿！）</div>
+            </div>
+        </div>
+        <div class="d_description">
+            <div class="zpzhiwei_nav">
+                <ul>
+                    <li class="xz_zw zw_xz"><a href="javascript:;">职位描述</a></li>
+                    <li class="xz_zw"><a href="javascript:;">公司介绍</a></li>
+                    <li class="xz_zw"><a href="javascript:;">公司其它职位</a></li>
+                    <li class="xz_zw"><a href="javascript:;"> 申请记录</a></li>
+                </ul>
+                <div class="xian_nav"></div>
+            </div>
+        </div>
+        <div class="zhiwei_content">
+            <div class="zwms">{$vo.info | raw}<br>
+                <p style="color:red">联系我时请说明是在<b>{$siteName}</b>看到的……</p></div>
+            <div class="gongsi-js">
+                <h3>公司介绍</h3>
+            </div>
+        </div>
+        <div class="zhiwei_content">
+            <div class="gongsi-js">
+                <div class="gsjs">
+                    <p>公司名称：
+                        {$vo.compname}
+                        <br>
+                        公司地址：
+                        {$vo.Compaddr}
+                        <br>
+                        公司行业：
+                        {$vo.Comptrade}
+                        <br>
+                        公司类型：
+                        {$vo.compkind}
+                        <br>
+                        公司规模：
+                        {$vo.compsize}
+                        <br>
+                    </p>
+                </div>
+            </div>
+
+            {if ($picList)}
+            <div class="gongsi-js" style="width:733px">
+                <div id="gallery" class="ad-gallery" style=" float:none; margin:0 auto;>">
+                    <div class="ad-image-wrapper"> </div>
+                    <div class="ad-controls"> </div>
+                    <div class="ad-nav">
+                        <div class="ad-thumbs">
+                            <ul class="ad-thumb-list">
+                                {$picList | raw}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {/if}
+
+            {if($oMap) }
+
+            <div class="ditu" style="margin-top:10px;"> <a name="dtweizhi"></a>
+
+                <style type="text/css">
+                    #baidumap {width:703px;height:290px;border:1px solid #999;font-size:14px;line-height:20px;}
+                    #baidumap .memo{font-size:12px;color:#666;}
+
+                </style>
+
+                <div id="baidumap"></div>
+
+                {if strstr($oMap,',')}
+
+                <script type="text/javascript">
+
+                    //百度地图API功能
+                    function loadJScript() {
+                        var script = document.createElement("script");
+                        script.type = "text/javascript";
+                        script.src = "//api.map.baidu.com/api?v=2.0&ak=ak=635d42b9b6b4440116879ac7a2bc0dc9&callback=init";
+                        document.body.appendChild(script);
+                    }
+                    function init() {
+                        var omap = '{$oMap}';
+                        var res = omap.split(",");
+                        var sContent = '{$vo.compname}';
+                        var map = new BMap.Map("baidumap");            // 创建Map实例
+                        var point = new BMap.Point(res[0],res[1]); // 创建点坐标
+                        map.centerAndZoom(point,17);
+
+                        var infoWindow = new BMap.InfoWindow(sContent);  // 创建信息窗口对象
+                        map.openInfoWindow(infoWindow,point); //开启信息窗口
+                        enableGeolocation: true;
+                        map.enableScrollWheelZoom();                 //启用滚轮放大缩小
+
+                        var marker = new BMap.Marker(point);  //
+                        map.addOverlay(marker);
+                        marker.setAnimation(BMAP_ANIMATION_BOUNCE);
+
+                    }
+                    window.onload = loadJScript;  //异步加载地图
+                </script>
+
+
+                {/if}
+            </div>
+
+            {/if}
+
+        </div>
+        <div class="zhiwei_content" style="display: none;">
+            {if ($vo.username && $vo.IsSite ==0)}
+            <div id="jianzhilist"></div>
+            <script type="text/javascript">
+                getPage('jianzhilist','{$vo.id}', 1);
+            </script>
+            {/if}
+        </div>
+        <div class="zhiwei_content" style="display: none;">
+            {if ($vo.countJl > 0) }
+            <div id="jljzlist"></div>
+            <script type="text/javascript">
+                getPage('jljzlist','{$vo.id}', 1);
+            </script>
+            {else /}
+             <p>暂无职位申请记录。</p>
+            {/if}
+
+        </div>
+        <script type="text/javascript">var siteNameID  = 1068;</script>
+        <link href="http://r.imgccoo.cn/ewx/AdvInfo/css/advinfoforfangchan.css" rel="stylesheet">
+        <script type="text/javascript" src="http://r.imgccoo.cn/ewx/AdvInfo/js/ccoocityweb.advinfoforzhaopin.js"></script>
+        <div id="lc_ad"></div>
+        <div class="d_ad">
+            <div class="d_adtop"> <span>赞助商广告</span> </div>
+
+            <div adid="1808" class="advtip">
+                <div class="d_adimg">
+                    <a href="http://www.bc.ccoo.cn/ad.asp?id=389631" target="_blank">
+                        <img border="0" align="top" src="http://p9.pccoo.cn/ad/20181210/2018121015281702176636_720_200.jpg" width="700" height="200" title="人才" data-bd-imgshare-binded="1">
+                    </a>
+                </div>
+            </div>
+
+        </div>
+        <!-- 留言开始 -->
+        <div class="zply" style="display:none">
+            <div class="zpyq">网友留言</div>
+            <div id="bookpage">
+                <div style="clear: both;"></div>
+            </div>
+        </div>
+       <!-- <script type="text/javascript">
+            function getBookPage(strHtml, sValue, page, strType) {
+                var strHtmlTitle = '<p style="text-align:center; font-size:12px; color:#000;margin:2px;vertical-align:middle;">';
+                strHtmlTitle += '<img src="http://r.imgccoo.cn/post/images/loading.gif" style="vertical-align:middle;margin-right:1px;" border="0" />加载中……</p>';
+                $("#" + strHtml).html(strHtmlTitle);
+                $.post('http://www.bc.ccoo.cn/post/ajax/booklist.asp', {
+                            strHtml: strHtml,
+                            id: sValue,
+                            strType: strType,
+                            page: page
+                        },
+                        function(data) {
+                            if (data != "") {
+                                $("#" + strHtml).html(data)
+                                if($('.zpyqcon').length>0){$(".zply").show()}
+                            }
+                        })
+            }
+            function addBook() {
+                var test = "既然路过就说些什么吧（理性上网 文明留言 200个字符以内）";
+                if ($('#HtmlContent').val() == "" || $('#HtmlContent').val() ==test) {
+                    alert("回复信息不能为空!");
+                    $('#HtmlContent').focus();
+                    return;
+                }
+                if ($('#HtmlContent').val().length > 200) {
+                    alert("回复信息过长，200字以内!");
+                    $('#HtmlContent').focus();
+                    return;
+                }
+                if ($('#PostCode').val() == "") {
+                    alert("验证码不能为空!");
+                    $('#PostCode').focus();
+                    return;
+                }
+                $.post('http://www.bc.ccoo.cn/post/ajax/addbook.asp', {
+                            stype: 'jianzhi',
+                            HtmlContent: escape($('#HtmlContent').val()),
+                            PostCode: escape($('#PostCode').val()),
+                            newsid: $('#newsid').val(),
+                            reid: 0
+                        },
+                        function(data) {
+                            if (data == 1 || data == '1') {
+                                alert('留言提交成功！')
+                                $("#formBook")[0].reset();
+                                getBookPage('bookpage',193653,1,'jianzhi');
+                            } else {
+                                alert(data);
+                            }
+                        })
+            }
+        </script>-->
+        <div class="fabu_1">
+            <form id="formBook" method="post" action="javascript:addBook();">
+                <div class="shuohua"></div>
+                <div class="liuy">
+                    <div class="liuleft"><img src="http://r.imgccoo.cn/post/images/liuyantp.gif" width="48" height="48" alt="匿名用户" data-bd-imgshare-binded="1"></div>              <textarea rows="5" cols="45" id="HtmlContent" name="HtmlContent" placeholder="既然路过就说些什么吧（理性上网 文明留言 200个字符以内）" readonly="readonly"></textarea>
+                </div>
+                <div class="fabuanliu">
+                    <div class="loginshow">请<a href="javascript:;" onclick="ShowWin('会员登录', 'http://www.bc.ccoo.cn/post/users/login.asp?IndexWinUrl=http://www.bc.ccoo.cn/post/jianzhi/193653x.html',350, 230);return false;">登录</a>后发表评论，该频道暂时关闭匿名留言功能</div>
+                    <input maxlength="4" size="6" id="PostCode" name="verifycode" class="yzcode">
+                    <img align="absmiddle" style="cursor:pointer;" onclick="this.src='http://www.bc.ccoo.cn/blog/verifycode.asp?'+Math.random();" alt="看不清楚?请点击刷新" src="http://www.bc.ccoo.cn/blog/verifycode.asp?t=XVqaVqX3uuN7ugmTksLN" data-bd-imgshare-binded="1">
+                    <input type="submit" class="postbtn" value=" ">
+                    <input type="hidden" value="193653" id="newsid">
+                </div>
+            </form>
+        </div>
+        <!--<script type="text/javascript">
+            $(function(){
+                $('#PostCode').focus(function() {
+                    if ($(this).next().attr('src') == 'http://r.imgccoo.cn/post/images/yammr.gif') {
+                        $(this).next().click();
+                    }
+                })
+            });
+            function postResubmit(reid) {
+                var test = '既然路过就说些什么吧（理性上网 文明留言 200个字符以内）';
+                reid = parseInt(reid);
+                if (reid > 0) {
+                    var HtmlContent = $('#HtmlContent' + reid);
+                    var PostCode = $('#PostCode' + reid);
+                    if (HtmlContent.val() == '' || HtmlContent.val() == test) {
+                        alert('回复信息不能为空!');
+                        HtmlContent.focus();
+                        return;
+                    }
+                    if (HtmlContent.val().length > 200) {
+                        alert('回复信息过长，200字以内!');
+                        HtmlContent.focus();
+                        return;
+                    }
+                    if (PostCode.val() == '') {
+                        alert('验证码不能为空!');
+                        PostCode.focus();
+                        return;
+                    }
+                    $.post('http://www.bc.ccoo.cn/post/ajax/addbook.asp', {
+                        stype: 'jianzhi',
+                        HtmlContent: escape(HtmlContent.val()),
+                        PostCode: escape(PostCode.val()),
+                        newsid: $('#newsid').val(),
+                        reid: reid
+                    }, function(data) {
+                        if (data == 1 || data == '1') {
+                            alert('留言提交成功！')
+                            getBookPage('bookpage', 193653 , 1, 'jianzhi');
+                        } else {
+                            alert(data);
+                        }
+                    });
+                }
+                return false;
+            }
+        </script>-->
+
+        <!-- 留言结束 -->
+    </div>
+    <div class="smright">
+        {if !$isVipMark and $vo.ismq }
+            <div class="company-info">
+
+                <a href="http://www.bc.ccoo.cn/post/zhaopin/minqi/index{$vo.m_id}.html" class="link-company" target="_blank"><img src="{$vo.TempLogo}" /></a>
+                <a href="http://www.bc.ccoo.cn/post/zhaopin/minqi/index{$vo.m_id}.html" class="cy-name ellipsis" target="_blank">{$vo.compname}</a>
+                <div class="Identification">
+                    <img class="mq-rz" src="http://c.imgccoo.cn/post/img/mq-show.jpg" alt="该公司为名企用户，可优先选择" title="该公司为名企用户，可优先选择">名企认证<img class="license" src="http://c.imgccoo.cn/post/images/jobmqzz.gif" alt="该公司已通过本站认证" title="该公司已通过本站认证">营业执照
+                </div>
+                <div class="join-v" onclick="window.location.href='http://www.bc.ccoo.cn/postvip/JobVip/AddJobVip'">立即加入名企</div>
+            </div>
+        {/if}
+        <div class="jingji"><b>该职位其他最新招聘</b></div>
+        <div class="zuixinzp">
+            <ul>
+                {if $others}
+                    {foreach $others as $k=>$val}
+                        <li>
+                            <p><a href="{:url('Home/Recruit/partShow','id='.$val.id);}">{$val.title}</a></p>
+                            {if $val.salary == 0}
+                                <b>面议</b>
+                            {else /}
+                            <b>{$val.salary}</b>{$val.salarytype}
+                            {/if}
+                            <span>-</span> {$val.workarea}
+                        </li>
+                    {/foreach}
+                {else /}
+                <p>暂无其他职位</p>
+                {/if}
+
+            </ul>
+        </div>
+
+        <div class="jingji"><b>常见的求职陷阱</b></div>
+        <div class="xianjing">
+            <ul>
+                <li>要求交纳"押金" 或者其他费用等</li>
+                <li>要求介绍他人亲戚朋友加盟</li>
+                <li>不签定任何的劳动合同</li>
+                <li>不将承诺写入合同</li>
+                <li>窃取求职者私人资料</li>
+                <li>不切实际的高薪</li>
+                <li>外地招聘请谨慎</li>
+                <li>招聘兼职文员打字员录</li>
+                <li>入等信息为虚假信息</li>
+                <li><a href="http://www.bc.ccoo.cn/post/help-8.html#" target="_blank" class="bangzu">查看招聘陷阱指南</a></li>
+            </ul>
+        </div>
+
+        <div adid="1980" class="advtip">
+            <div class="qtz">
+                <a href="http://www.bc.ccoo.cn/ad.asp?id=557337" target="_blank">
+                    <img border="0" align="top" src="http://p9.pccoo.cn/ad/20181210/2018121015304904196746_160_600.jpg" width="160" height="600" title="分类频道" data-bd-imgshare-binded="1">
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<div class="clear"></div>
+<!--<div class="tybottom">
+    <div id="xgnr">
+        <div class="xgbk">
+            <div class="xgwz"><a href="http://www.bc.ccoo.cn/" target="_blank">http://www.bc.ccoo.cn/</a></div>
+            <div class="xgxx">
+                <a href="http://www.bc.ccoo.cn/about.asp" target="_blank" rel="nofollow">关于本站</a> |
+                <a href="http://www.bc.ccoo.cn/link.asp" target="_blank">友情链接</a> |
+                <a href="http://www.bc.ccoo.cn/map.html" target="_blank">网站地图</a> |
+                <a href="http://www.bc.ccoo.cn/job.asp" target="_blank" rel="nofollow">招聘信息</a> |
+                <a href="http://www.bc.ccoo.cn/ad/" target="_blank" rel="nofollow">广告服务</a> |
+                <a href="http://www.bc.ccoo.cn/notic.asp" target="_blank" rel="nofollow">联系留言</a> |
+                <a href="http://www.bc.ccoo.cn/copyright.asp" target="_blank" rel="nofollow">版权/隐私</a> |
+                <a href="http://www.bc.ccoo.cn/tousu.asp" target="_blank">举报投诉 </a> |
+                <a href="http://www.china.ccoo.cn/" target="_blank">城市联盟</a>
+            </div>
+        </div>
+        <div class="xgyy"></div>
+    </div>
+    <div id="bq">
+        <div class="bqtoo">
+            <a href="http://www.12377.cn/" target="_blank" rel="nofollow">
+                <img src="./第三二一医院__ 食堂_白城之窗_files/bqico02.gif" width="100" height="40" border="0" data-bd-imgshare-binded="1">
+            </a>
+            <a href="http://www.bj.cyberpolice.cn/index.htm" target="_blank" rel="nofollow">
+                <img src="./第三二一医院__ 食堂_白城之窗_files/too07.gif" width="100" height="40" border="0" data-bd-imgshare-binded="1">
+            </a>
+            <a href="http://www.miibeian.gov.cn/" target="_blank" rel="nofollow">
+                <img src="./第三二一医院__ 食堂_白城之窗_files/too08.gif" width="100" height="40" border="0" data-bd-imgshare-binded="1">
+            </a>
+        </div>
+        <div class="bqwz012">电话：0436-5038811/15043608375
+            传真：""
+            邮箱：519159392#qq.com<br>
+            地址：白城市青年北大街弘兴佳园4号楼2单元楼下门市 邮编：137000 <br>
+            Copyright &#169; 2004-2019&nbsp;白城之窗网络服务部 版权所有&nbsp;&nbsp;技术支持：<a href="http://www.ccoo.cn/" target="_blank">城市联盟</a><br>
+            <a href="http://www.miitbeian.gov.cn/" target="_blank" rel="nofollow">""</a>&nbsp;
+            <a href="http://www.ccoo.cn/icp.html" target="_blank" rel="nofollow">电信与信息服务业务经营许可证090779号</a>&nbsp;
+            <a href="http://www.ccoo.cn/hr.html" target="_blank" rel="nofollow">人力资源服务许可证110114718441号</a>
+        </div>
+    </div>
+</div>-->
+
+<!--PostFile Start-->
+<script type="text/javascript" src="http://r.imgccoo.cn/post/images/js/cookie.js"></script>
+<div id="ewmobi" style="display:none">扫描访问手机版
+    <img src="http://pccoo.cn/wap/20120925/201292511184358.gif" data-bd-imgshare-binded="1">关注微信,每日获得白城最新资讯！
+    <img src="http://p1.pccoo.cn/news/20131204/201312041531154335.jpg" data-bd-imgshare-binded="1">
+</div>
+<div style="position:absolute; bottom:110px; right: 0px; z-index:5">
+    <div class="helptop" style="top: 30px;">
+        <div id="mobibox" title="手机二维码" style=""><a href="javascript:;" class="mobibox"></a> </div>
+        <div id="bangshoutop"><a href="javascript:;" title="分类帮助" class="helpx"></a>
+            <div class="helpcon">
+                <div class="con_bt">分类小帮手</div>
+                <ul>
+                    <li><a href="http://www.bc.ccoo.cn/post/leibie.html">查看所有类别</a></li>
+                    <li><a href="http://www.bc.ccoo.cn/post/fabu/">免费发布信息</a></li>
+                    <li><a href="http://www.bc.ccoo.cn/login/?backurl=/post/users/">修改我的信息</a></li>
+                    <li><a href="http://www.bc.ccoo.cn/post/search/mydel.asp">删除我的信息</a></li>
+                </ul>
+                <div class="con_bt">本站客服帮助</div>
+                <div class="link">
+                    <div style="float:left; width:100px;">
+
+                        <div class="kfdh3">18343671160</div>
+
+                        <div class="clear"></div>
+                    </div>
+                    <div style="float:left; width:80px;">
+
+                        <div class="kfdh4">
+                            <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&amp;uin=2020417817&amp;site=qq&amp;menu=yes">
+                                <img src="http://r.imgccoo.cn/post/images/pa.gif" width="74" height="22" data-bd-imgshare-binded="1">
+                            </a>
+                        </div>
+
+                        <div class="clear"></div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <div style="display: none;" id="gotop" title="返回顶部"><a href="javascript:scroll(0,0)"></a></div>
+    </div>
+</div>
+<!--<script type="text/javascript">
+
+    var flid=5;
+
+    $('#ewmobi').load('http://www.bc.ccoo.cn/wap/site_ajax.asp?id=' + flid + '&rnd=' + Math.random() * 1000, function(Data) {
+        if (Data != '' && ewmdata.isOpen == 1) {
+            var ewhtml = '';
+            if (ewmdata.mobiUrl1 != "") {
+                ewhtml = ewmdata.mobiTit1 + '<img src="' + ewmdata.mobiUrl1 + '" />';
+            }
+            if (ewmdata.mobiUrl2 != "") {
+                ewhtml = ewhtml + ewmdata.mobiTit2 + '<img src="' + ewmdata.mobiUrl2 + '" />';
+            }
+            if (ewhtml != '') {
+                $('#mobibox').show();
+                $("#ewmobi").html(ewhtml);
+            }
+        }
+    })
+
+    $(function() {
+        var st = 20;
+        $('#bangshoutop').mouseenter(function() {
+            $('#bangshoutop > .helpcon').stop(false, true).slideDown(st);
+        }).mouseleave(function() {
+            $('#bangshoutop > .helpcon').stop(false, true).slideUp(st);
+        });
+        $('.mobibox').mouseenter(function() {
+            $('#ewmobi').stop(false, true).slideDown(st);
+        }).mouseleave(function() {
+            $('#ewmobi').stop(false, true).slideUp(st);
+        });
+    });
+
+    function loadGoTop() {
+        var h = $(window).height();
+        var t = $(document).scrollTop();
+        if (t > 30) {
+            $('#gotop').show();
+        } else {
+            $('#gotop').hide();
+        }
+    }
+    $(function() {
+        loadGoTop();
+        $('#gotop').click(function() {
+            $(document).scrollTop(0);
+        })
+    });
+    $(window).scroll(function(e) {
+        loadGoTop();
+    })
+    $(function() {
+        var duilian = $("div.helptop");
+        var window_w = $(window).width();
+        if (window_w > 100) {
+            duilian.show();
+        }
+        $(window).scroll(function() {
+            var scrollTop = $(window).scrollTop();
+            duilian.stop().animate({
+                top: scrollTop + 30
+            });
+        });
+    });
+    // online
+    function RefreshOnline() {
+        $.get("http://www.bc.ccoo.cn/post/ajax_post.asp", {
+            action: "online"
+        });
+    }
+    $(function() {
+        RefreshOnline();
+    });
+    window.setInterval(function() {
+        RefreshOnline();
+    }, (1000 * 60 * 5));
+    //
+</script>-->
+<!--PostFile End-->
+
+<!-- published at 2019/9/20 9:51:19 Page load time: .0625 second -->
+
+<div style="display:none">
+    <!--<script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fba3e2a3158b5ce0af78a2e8067c48985' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script src="./第三二一医院__ 食堂_白城之窗_files/h.js.下载" type="text/javascript"></script>
+    <script src="./第三二一医院__ 食堂_白城之窗_files/stat.php" language="JavaScript"></script>
+    <script src="./第三二一医院__ 食堂_白城之窗_files/core.php" charset="utf-8" type="text/javascript"></script>-->
+   <!-- <a href="https://www.cnzz.com/stat/website.php?web_id=2084254" target="_blank" title="站长统计">
+        <img border="0" hspace="0" vspace="0" src="./第三二一医院__ 食堂_白城之窗_files/pic1.gif" data-bd-imgshare-binded="1">
+    </a>-->
+    <!--<div style="width:300px;margin:0 auto; padding:20px 0;">
+        <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=22080202000105" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;">
+            <img src="http://www.bc.ccoo.cn/post/jianzhi/193653x.html" style="float:left;" data-bd-imgshare-binded="1">
+            <p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:" 939393;"="">吉公网安备 22080202000105号</p>
+        </a>
+        <script src="./第三二一医院__ 食堂_白城之窗_files/stat(1).php" language="JavaScript"></script>
+        <script src="./第三二一医院__ 食堂_白城之窗_files/core(1).php" charset="utf-8" type="text/javascript"></script>
+        <a href="https://www.cnzz.com/stat/website.php?web_id=3834609" target="_blank" title="站长统计">
+            <img border="0" hspace="0" vspace="0" src="./第三二一医院__ 食堂_白城之窗_files/pic.gif" data-bd-imgshare-binded="1">
+        </a>
+    </div>-->
+
+    <!--<script src="./第三二一医院__ 食堂_白城之窗_files/mystat.asp.下载"></script>
+    <script src="./第三二一医院__ 食堂_白城之窗_files/advtip.js.下载" type="text/javascript"></script>
+    <script>
+        window._bd_share_config = {common : {bdMini : 1,bdMiniList:['qzone','tsina','bdysc','weixin','sqq','tqq','bdxc']},share : [{"bdSize" : 16}],image : [{viewType : 'list',viewPos : 'top',viewColor : 'black',viewSize : '16',viewList : ['qzone','tsina','bdysc','weixin','sqq','tqq','bdxc']}],selectShare : [{"bdselectMiniList" : ['qzone','tsina','bdysc','weixin','sqq','tqq','bdxc']}]}
+        with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+    </script>
+    -->
+    <script type="text/javascript" src="http://r.imgccoo.cn/post/images/jquery.ad-gallery.js"></script>
+    <script type="text/javascript">
+        var Tel = '{$vo.tel}';
+        $(function() {
+            $.getJSON('http://www.bc.ccoo.cn/post/ajax/tel_area.asp', {
+                        tel: Tel
+                    },
+                    function(data) {
+                        if (data.QueryResult != 0) {
+                            var Address = data.Address;
+                            $('#LoadTel').html(' 归属地：' + Address.replace('_', ' '));
+                        }
+                    });
+            $(".xz_zw").hover(function(){
+                var nindex=$(".xz_zw").index(this);
+                $(".xz_zw").eq(nindex).addClass("zw_xz").siblings().removeClass("zw_xz");
+                $(".zhiwei_content").css("display","none");
+                $(".zhiwei_content").eq(nindex).css("display","block");
+                if (nindex==0){
+                    $(".zhiwei_content").eq(1).css("display","block");
+                }
+//		$('.gongsi-js').eq(0).html("");
+            });
+
+            $(".gl").hover(function(){
+                $(this).addClass("guanli");
+            }, function() {
+                $(this).removeClass("guanli");
+            });
+            $(".gl").hover(function(){
+                        $(".gl p").show();
+                    },
+                    function(){
+                        $(".gl p").hide();
+                    });
+        })
+
+    </script>
+
+</div>
+<div id="bdSharePopup_selectshare1568944276640box" style="display: none;" share-type="selectshare" class="bdselect_share_box" data-bd-bind="1568944276640">
+    <div class="selectshare-mod-triangle">
+        <div class="triangle-border"></div>
+        <div class="triangle-inset"></div>
+    </div>
+    <div class="bdselect_share_head">
+        <span>分享到</span>
+        <a href="http://www.baidu.com/s?wd=undefined&amp;tn=SE_hldp08010_vurs2xrp" class="bdselect_share_dialog_search" target="_blank"><i class="bdselect_share_dialog_search_i"></i>
+            <span class="bdselect_share_dialog_search_span">百度一下</span>
+        </a>
+        <a class="bdselect_share_dialog_close"></a>
+    </div>
+    <div class="bdselect_share_content">
+        <ul class="bdselect_share_list bdshare-button-style0-16">
+            <div class="bdselect_share_partners">
+                <a href="http://www.bc.ccoo.cn/post/jianzhi/193653x.html#" class="bds_mshare" data-cmd="mshare"></a>
+                <a href="http://www.bc.ccoo.cn/post/jianzhi/193653x.html#" class="bds_qzone" data-cmd="qzone"></a>
+                <a href="http://www.bc.ccoo.cn/post/jianzhi/193653x.html#" class="bds_tsina" data-cmd="tsina"></a>
+                <a href="http://www.bc.ccoo.cn/post/jianzhi/193653x.html#" class="bds_bdysc" data-cmd="bdysc"></a>
+            </div>
+            <a href="http://www.bc.ccoo.cn/post/jianzhi/193653x.html#" class="bds_more" data-cmd="more"></a>
+        </ul>
+    </div>
+</div>
+<div id="bdimgshare_1568944276643" class="sr-bdimgshare sr-bdimgshare-list sr-bdimgshare-16 sr-bdimgshare-black" style="height: 36px; line-height: 26px; font-size: 12px; position: absolute; top: 934px; left: 1200.5px; width: 160px; display: none;" data-bd-bind="1568944276643">
+    <div class="bdimgshare-bg"></div>
+    <div class="bdimgshare-content bdsharebuttonbox bdshare-button-style0-16">
+        <label class="bdimgshare-lbl">图片分享</label>
+        <a href="http://www.bc.ccoo.cn/post/jianzhi/193653x.html#" onclick="return false;" class="bds_qzone" data-cmd="qzone" hidefocus=""></a>
+        <a href="http://www.bc.ccoo.cn/post/jianzhi/193653x.html#" onclick="return false;" class="bds_tsina" data-cmd="tsina" hidefocus=""></a>
+        <a href="http://www.bc.ccoo.cn/post/jianzhi/193653x.html#" onclick="return false;" class="bds_bdysc" data-cmd="bdysc" hidefocus=""></a>
+        <a href="http://www.bc.ccoo.cn/post/jianzhi/193653x.html#" onclick="return false;" class="bds_weixin" data-cmd="weixin" hidefocus=""></a>
+        <a href="http://www.bc.ccoo.cn/post/jianzhi/193653x.html#" onclick="return false;" class="bds_sqq" data-cmd="sqq" hidefocus=""></a>
+        <a href="http://www.bc.ccoo.cn/post/jianzhi/193653x.html#" onclick="return false;" class="bds_tqq" data-cmd="tqq" hidefocus=""></a>
+        <a href="http://www.bc.ccoo.cn/post/jianzhi/193653x.html#" onclick="return false;" class="bds_bdxc" data-cmd="bdxc" hidefocus=""></a>
+        <a href="http://www.bc.ccoo.cn/post/jianzhi/193653x.html#" onclick="return false;" class="bds_more" data-cmd="more" hidefocus=""></a>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<script language="javascript">
+    var brokerDialog = null;
+    brokerDialog = $.dialog({
+        title: "发布信息提示",
+        max: false,
+        min: false,
+        lock: true,
+        resize: false,
+        content: '<div class="prop-pay">\
+    <div class="ws-tit">\
+      <p>您账号发布权限已用完，可以选择以下方式发布信息</p>\
+    </div>\
+    <ul class="dia-agent clearfix">\
+      <li class="enter fl">\
+        <a href="/postvip/houseagent/agentindex">\
+          <p class="p1">开通经纪人</p>\
+          <p class="p2">单个经纪人独立入驻信息量发布量多、刷新置顶特权多、发布信息免审核</p>\
+        </a> \
+      </li>\
+      <li class="enter fl"> \
+        <a href="/postvip/zjvip/zjindex">\
+          <p class="p1 bg2">开通中介</p>\
+          <p class="p2">发布房源多、刷新、置顶特权多无需再审核，随发随显示！多个二级子账号同时发布！</p>\
+        </a> \
+      </li>\
+    </ul>\
+    <a href="javascript:;" onclick="quxiao();" class="msg-payone">\
+      <i class="icon-youjiant"></i>\
+        付费发布1条信息\
+      </a>\
+  </div>'
+    })
+
+    function quxiao() {
+        brokerDialog.close()
+    }
+
+</script>

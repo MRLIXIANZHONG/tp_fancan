@@ -1,0 +1,243 @@
+{if $footerData.compjf == 1}
+<!--PostFile Start-->
+<script type="text/javascript" src="http://r.imgccoo.cn/post/images/js/cookie.js"></script>
+<div id="ewmobi" style="display:none">Loading……</div>
+<div style="position:absolute; bottom:110px; right: 0px; z-index:5">
+    <div class="helptop">
+        <div id="mobibox" title="手机二维码" style="display:none"><a href="javascript:;" class="mobibox"></a> </div>
+        <div id="bangshoutop"><a href="javascript:;" title="分类帮助" class="helpx"></a>
+            <div class="helpcon">
+                <div class="con_bt">分类小帮手</div>
+                <ul>
+                    <li><a href="/post/leibie.html">查看所有类别</a></li>
+                    <li><a href="/post/fabu/">免费发布信息</a></li>
+                    <li><a href="/post/users/">修改我的信息</a></li>
+                    <li><a href="/post/search/mydel.asp">删除我的信息</a></li>
+                </ul>
+                <div class="con_bt">本站客服帮助</div>
+                <div class="link">
+                    <div  style="float:left; width:100px;">
+                        {if ($service_comptel ?? '')}
+                        <div class="kfdh3">{$service_comptel}</div>
+                        {/if}
+                        <div class="clear"></div>
+                    </div>
+                    <div  style="float:left; width:80px;">
+                        {if ($service_qq ?? '')}
+                        <div class="kfdh4"><a target="_blank" href="http://wpa.qq.com/msgrd?v=3&amp;uin={$service_qq}&amp;site=qq&amp;menu=yes"><img src="http://r.imgccoo.cn/post/images/pa.gif" width="74" height="22"></a></div>
+                        {/if}
+                        <div class="clear"></div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <div style="display:none" id="gotop" title="返回顶部"><a href="javascript:scroll(0,0)" ></a></div>
+    </div>
+</div>
+<script type="text/javascript">
+    if('{$class1 ?? "0"}'){
+        if('{$class1 ?? "0"}' == '1'){
+            var flid=5;
+        }else if('{$class1 ?? "0"}' == '3' || '{$class1 ?? "0"}' == '32'){
+            var flid=6;
+        }else{
+            var flid=4;
+        }
+    }
+
+    $('#ewmobi').load('/wap/site_ajax.asp?id=' + flid + '&rnd=' + Math.random() * 1000, function(Data) {
+        if (Data != '' && ewmdata.isOpen == 1) {
+            var ewhtml = '';
+            if (ewmdata.mobiUrl1 != "") {
+                ewhtml = ewmdata.mobiTit1 + '<img src="' + ewmdata.mobiUrl1 + '" />';
+            }
+            if (ewmdata.mobiUrl2 != "") {
+                ewhtml = ewhtml + ewmdata.mobiTit2 + '<img src="' + ewmdata.mobiUrl2 + '" />';
+            }
+            if (ewhtml != '') {
+                $('#mobibox').show();
+                $("#ewmobi").html(ewhtml);
+            }
+        }
+    });
+
+
+    $(function() {
+        var st = 20;
+        $('#bangshoutop').mouseenter(function() {
+            $('#bangshoutop > .helpcon').stop(false, true).slideDown(st);
+        }).mouseleave(function() {
+            $('#bangshoutop > .helpcon').stop(false, true).slideUp(st);
+        });
+        $('.mobibox').mouseenter(function() {
+            $('#ewmobi').stop(false, true).slideDown(st);
+        }).mouseleave(function() {
+            $('#ewmobi').stop(false, true).slideUp(st);
+        });
+    });
+
+    function loadGoTop() {
+        var h = $(window).height();
+        var t = $(document).scrollTop();
+        if (t > 30) {
+            $('#gotop').show();
+        } else {
+            $('#gotop').hide();
+        }
+    }
+    $(function() {
+        loadGoTop();
+        $('#gotop').click(function() {
+            $(document).scrollTop(0);
+        })
+    });
+    $(window).scroll(function(e) {
+        loadGoTop();
+    })
+    $(function() {
+        var duilian = $("div.helptop");
+        var window_w = $(window).width();
+        if (window_w > 100) {
+            duilian.show();
+        }
+        $(window).scroll(function() {
+            var scrollTop = $(window).scrollTop();
+            duilian.stop().animate({
+                top: scrollTop + 30
+            });
+        });
+    });
+    // online
+    function RefreshOnline() {
+        $.get("/post/ajax_post.asp", {
+            action: "online"
+        });
+    }
+    $(function() {
+        RefreshOnline();
+    });
+    window.setInterval(function() {
+        RefreshOnline();
+    }, (1000 * 60 * 5));
+    //
+</script>
+<!--PostFile End-->
+{/if}
+
+{if $footerData.compjf == 0}
+<script type="text/javascript" src="http://r.imgccoo.cn/post/images/js/cookie.js"></script>
+<div id="ewmobi" style="display: none;">扫描访问手机版<img src="http://m.ewm.eccoo.cn/qrimg.ashx?scale=100&codeStr={:str_replace('http://www.', 'http://m.', $footerData.siteUrl)}">关注客服微信，提供更多服务！<img src="http://p5.pccoo.cn/news/20190403/2019040319281675632266.jpg"></div>
+<div style="position:absolute; bottom:110px; right: 0px; z-index:5">
+    <div class="helptop">
+        <div id="mobibox"  class="kf" title="手机二维码" style=""><a href="javascript:;" class="mobibox"></a> </div>
+        <div id="bangshoutop"><a href="javascript:;" title="分类帮助" class="helpx"></a>
+            <div class="helpcon" style="display: none;">
+                <div class="con_bt">分类小帮手</div>
+                <ul>
+                    <li><a href="/post/leibie.html">查看所有类别</a></li>
+                    <li><a href="/post/fabu/">免费发布信息</a></li>
+                    <li><a href="/login/?backurl=/post/users/">修改我的信息</a></li>
+                    <li><a href="/post/search/mydel.asp">删除我的信息</a></li>
+                </ul>
+                <div class="con_bt">本站客服帮助</div>
+                <div class="link">
+                    <div  style="float:left; width:100px;">
+                        {if ($service_comptel ?? '')}
+                        <div class="kfdh3">{$service_comptel}</div>
+                        {/if}
+                        <div class="clear"></div>
+                    </div>
+                    <div style="float:left; width:80px;">
+
+                        <div class="clear"></div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <div style="display:none" id="gotop" title="返回顶部"><a href="javascript:scroll(0,0)"></a></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $(function() {
+        var st = 20;
+        $('#bangshoutop').mouseenter(function() {
+            $('#bangshoutop > .helpcon').stop(false, true).slideDown(st);
+        }).mouseleave(function() {
+            $('#bangshoutop > .helpcon').stop(false, true).slideUp(st);
+        });
+        $('.mobibox').mouseenter(function() {
+            $('#ewmobi').stop(false, true).slideDown(st);
+        }).mouseleave(function() {
+            $('#ewmobi').stop(false, true).slideUp(st);
+        });
+    });
+
+    function loadGoTop() {
+        var h = $(window).height();
+        var t = $(document).scrollTop();
+        if (t > 30) {
+            $('#gotop').show();
+        } else {
+            $('#gotop').hide();
+        }
+    }
+    $(function() {
+        loadGoTop();
+        $('#gotop').click(function() {
+            $(document).scrollTop(0);
+        })
+    });
+    $(window).scroll(function(e) {
+        loadGoTop();
+    })
+    $(function() {
+        var duilian = $("div.helptop");
+        var window_w = $(window).width();
+        if (window_w > 100) {
+            duilian.show();
+        }
+        $(window).scroll(function() {
+            var scrollTop = $(window).scrollTop();
+            duilian.stop().animate({
+                top: scrollTop + 30
+            });
+        });
+    });
+    // online
+    function RefreshOnline() {
+        $.get("/post/ajax_post.asp", {
+            action: "online"
+        });
+    }
+    $(function() {
+        RefreshOnline();
+    });
+    window.setInterval(function() {
+        RefreshOnline();
+    }, (1000 * 60 * 5));
+    //
+</script>
+<script type="text/javascript">
+    var cpro_id = "u2123851";
+</script>
+<script src=" http://su.bdimg.com/static/dspui/js/uf.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(function() {
+        var duilian = $("div.helptop");
+        var window_w = $(window).width();
+        if (window_w > 100) {
+            duilian.show();
+        }
+        $(window).scroll(function() {
+            var scrollTop = $(window).scrollTop();
+            duilian.stop().animate({
+                top: scrollTop + 30
+            });
+        });
+    });
+</script>
+{/if}

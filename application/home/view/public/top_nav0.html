@@ -1,0 +1,26 @@
+<!--顶部导航-->
+<div id="top">
+    <div class="w">
+        <div class="top_left">
+            <div><a href="/" class="nav_ct_01">门户首页>></a></div>
+            <div class="top_nav_line">&nbsp;</div>{foreach $top_info1 as $val}<div class="topnav"><a href="{$val.surl}">{$val.sname}</a><div><ul>{foreach $top_info2 as $v}{if $val.id==$v.fid}<li><img src="{$v.spic}"><a href="{$v.surl}">{$v.sname}</a></li>{/if}{/foreach}</ul></div></div><div class="top_nav_line"><span>|</span></div>{/foreach}<div class="top_midd"><a class="m" href="/wap/">下载APP</a>
+        </div></div>
+        <div id="top_right" class="fr">
+            <div class="login fl ">{if condition="$is_login eq 1"}<p class="fr"><a href="/my/" target="_blank"> <font color="red">{$nickname}</font></a>{if condition="$noreadmsg gt 0"}<a href="/my/mes.asp" target="_blank"><font style="font-size:12px;" id="IdShow" class="setBlinkColor1">您有短消息未读</font></a>{else /} 欢迎来到分类信息频道！ {/if} [<a href="/post/logout.asp">退出</a>]  | <a href="/post/users/" target="_blank"><font color="red">管理我的信息</font></a></p>{else /}<div class="loginqq"><a href="https://graph.qq.com/oauth2.0/authorize?which=ConfirmPage&client_id=204708&response_type=token&scope=all&redirect_uri=http%3A%2F%2Fqqlogin.ccoo.cn%2F%3Fsource%3D0%26siteid%3D{$site_id}%26path%3D{$pc_url}" rel="nofollow"><img src="http://r.imgccoo.cn/post/images/qqlogin.gif"></a><a href="http://wxlogin.ccoo.cn/?siteid={$site_id}&callback={$pc_url}" rel="nofollow"><img src="http://passport.ccoo.cn/img/wechat_login2.png"></a></div><p class="fr"><a href="/login/?backurl={$pc_url}" rel="nofollow">登录</a><span>|</span><a href="/reg/?backurl={$pc_url}" rel="nofollow">注册</a></p>{/if}</div>
+            <div class="help fr"><a href="/post/help.html" target="_blank" rel="nofollow">使用帮助</a></div>
+        </div>
+        <div class="c"></div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function(){
+        $("#x_sou ul li").click(function(){ var text = $(this).html();$("#x_sou p").html(text);$("#x_sou ul").hide();});
+        $("#x_sou").hover(function(){$("#x_sou ul").show();},function (){$("#x_sou ul").hide();});
+        if ({$is_login}==1&&{$noreadmsg}>0){
+            setInterval(function(){setBlink('IdShow');}, 300);
+        }
+        function setBlink(id) {
+            document.getElementById(id).className = "setBlinkColor" + getNumber(0, 1);
+        }
+    })
+</script>

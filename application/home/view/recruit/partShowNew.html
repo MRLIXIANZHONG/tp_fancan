@@ -1,0 +1,1029 @@
+{extend name="public/basew" /}
+{block name="meta"}
+<title>{$vo.title | raw}_{$siteName}</title>
+<meta name="keywords" content="{$vo.title | raw},{$areaName}{$vo.kindName}{$areaName}人才,{$areaName}招聘" />
+<meta name="description" content="{$vo.title | raw}，{$vo.info | strip_tags | mb_substr=0,200,'utf-8'}">
+{/block}
+{block name='css'}
+<link rel="alternate" media="only screen and (max-width: 640px)" href="{$codeWinUrl}/post/jianzhi/jzshow.aspx?id={$vo.id}" />
+<link rel="stylesheet" type="text/css" href="http://r.imgccoo.cn/post/images/fenleishow_w.css">
+<script type="text/javascript" src="http://res.pccoo.cn/post/js/jquery.js"></script>
+<link rel="stylesheet" type="text/css" href="http://r.imgccoo.cn/website/fenlei/css/fenlei_zp.css">
+<link rel="stylesheet" href="http://img.pccoo.cn/wap/webapp/css/swiper.v2.css">
+<link href="http://c.imgccoo.cn/website/js/lhgdialog/skins/weixin.css" rel="stylesheet" id="lhgdialoglink">
+<style>
+    .png_center{
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        align-content: center;
+    }
+</style>
+{/block}
+{block name='search'}
+<div class="fc-cont fc-logobox clearfix">
+    <h1 class="logo-info fl">
+        <a href="/"><img src="http://c.imgccoo.cn/logo/{$site_id}.gif" alt="logo"></a>
+        · {:get_menu($class1)}
+    </h1>
+    <div class="logo-navbox fr clearfix">
+        <a href="/postvip/jobvip/addjobvip" class="logo-nav" rel="nofollow" target="_blank"><i class="xicon xicon-huangguan"></i>名企会员入驻</a>
+        <a href="/postvip/jobvip/addjobapprove" class="logo-nav" target="_blank"><i class="xicon xicon-zhuanshi"></i>认证会员入驻</a>
+        <a href="/post/fabu/" class="link-fb" target="_blank">发布信息</a>
+    </div>
+</div>
+{/block}
+{block name='menu'}
+
+{/block}
+{block name="crumbs"}
+{/block}
+{block name="content"}
+<script type="text/javascript">
+    if (/Android|webOS|iPhone|iPod|BlackBerry|Windows CE|Windows Phone/i.test(navigator.userAgent)) {
+        if (window.location.href.indexOf("?pc") < 0) {
+            window.location.href = "{$codeWinUrl}/post/jianzhi/jzshow.aspx?id={$vo.id}";
+        }
+    }
+</script>
+<div class="fc-wrap">
+    <!-- 位置提示start -->
+    <div class="fc-cont positionBox">当前位置：<a href="/">{$siteName}</a> &gt; <a href="/post/">分类信息首页</a> &gt; <a href="/post/job/">招聘信息首页</a> &gt; <a href="/post/jianzhi/">兼职列表</a> &gt; 招聘信息</div>
+    <!-- 列表start -->
+    <!-- 标题区start -->
+    <div class="fc-cont zMainBox">
+        {if ($vo.IsExit) == 1 }
+        <div class="renzheng1"></div>
+        {/if}
+        <div class="zMain-titBox">
+            <h2 class="tit">{$vo.title | raw}</h2>
+            {if $vo.istj == 1}
+            <i class="tab">荐</i>
+            {/if}
+        </div>
+        <div class="infobox clearfix">
+            <div class="tabs1 fl"><span class="tab">发布时间：{$vo.edittime|date='Y-m-d'}</span>
+                <span class="tab">信息关注度：{if $vo.HitType == 1}{$showHit | raw}{else /}<em>{$showHit}</em> 人次{/if}</span>
+            </div>
+            <div class="tabs2 fr">
+                {if $is_login == 1}
+                {if ($session_username == $vo.username ) }
+                <div class="fr no-select manageTab">
+                    <i class="xicon-set xicon"></i>管理
+                    <p class="manageBox" style="display:none">
+                        {$ldata.strEditUrl | raw}
+                        {if ($vo.username && !$vo.isVipMark) }
+                        <a class="item" href="javascript:void(0);" onclick="ShowWinAuto('刷新信息','/post/ajax/post_up.asp?stype=14&id={$vo.id}',850,'auto');return false;">刷新</a>
+                        {/if}
+                        <a class="item" href="javascript:void(0);" onclick="ShowWin('删除信息','{$ldata.strDelUrl}',430,180);return false;">删除</a>
+                    </p>
+                    <input type="hidden" name="username{$vo.id}" id="username{$vo.id}" value="{$vo.username}">
+                    <span id="WinUrl_job_jz_info_{$vo.id}" style="display:none;">/post/jianzhi/{$vo.id}x.html</span>
+                </div>
+                {/if}
+                {/if}
+                <span class="infoItem no-select fr" id="reportBtn" onclick="ShowWin('举报信息','/post/Post_report.asp?action=postReport&id={$vo.id}&cls=14&IndexWinUrl=/post/jianzhi/{$vo.id}x.html',550,300);return false;" title="举报信息">
+                    <i class="xicon-jubao xicon"></i>举报
+                </span>
+                <span class="infoItem fr no-select bdsharebuttonbox"><a href="javascript:;" class="bds_more" data-cmd="more"><i class="xicon-fenxiang xicon"></i>分享</a></span>
+                <span class="infoItem no-select fr" id="scBtn1" onclick="GetCollection(14,'{$vo.id}');return false;">
+                    {if $vo.isCollect}
+                    <i class="xicon-shouchang2 xicon"></i>收藏
+                    {else /}
+                    <i class="xicon-shouchang1 xicon"></i>收藏
+                    {/if}
+                </span>
+                {if $is_login == 1}
+                {if ($session_username == $vo.username ) }
+                <span class="infoItem no-select fr" id="tjBtn" onclick="ShowWinAuto('信息推荐申请','/post/postjump/post_cmd.asp?tname=job_jz_info&id={$vo.id}',850,520);return false;">
+                    <i class="xicon-tuijian xicon"></i>推荐
+                </span>
+                {/if}
+                {/if}
+                <script>
+                    window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "http://r.imgccoo.cn/post/images/lpbg.png", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];
+                </script>
+            </div>
+        </div>
+    </div>
+    <!-- 标题区end -->
+    <!-- 主内容区start -->
+    <div class="fc-cont zInfoWrap clearfix">
+        <!-- 左侧区start -->
+        <div class="zInfoCon fl">
+            <!-- 基础信息start -->
+            <div class="zInfoBox" id="baseInfo">
+                <p class="price">
+                    {if ($vo.salary > 0 ) }
+                    {$vo.salary}<em>{$vo.salarytype}</em>
+                    {else /} 面议 {/if}
+                </p>
+                {if $vo.paytype}
+                <p class="listBox">
+                    <span class="list-tab">{$vo.paytype}</span>
+                </p>
+                {/if}
+                <ul class="infoBox clearfix">
+                    {if $vo.kindName}
+                    <li class="item clearfix fl">
+                        <span class="name fl">招聘职位</span>
+                        <span class="info fl">{$vo.kindName}</span>
+                    </li>
+                    {/if}
+                    <li class="item clearfix fl">
+                        <span class="name fl">招聘人数</span>
+                        <span class="info fl">{if ($vo.number == 0) } 若干 {else /} {$vo.number}人 {/if}</span>
+                    </li>
+                    {if $vo.linkman }
+                    <li class="item clearfix fl">
+                        <span class="name fl">联  系  人</span>
+                        <span class="info fl">{$vo.linkman}</span>
+                    </li>
+                    {/if}
+                    {if $vo.email }
+                    <li class="item clearfix fl">
+                        <span class="name fl">电子邮箱</span>
+                        <span class="info fl">{$vo.email}</span>
+                    </li>
+                    {/if}
+                    {if $vo.qq }
+                    <li class="item clearfix fl">
+                        <span class="name fl">Q Q 交谈</span>
+                        <span class="info fl">{$vo.qq}</span>
+                    </li>
+                    {/if}
+                    {if $vo.compaddr}
+                    <li class="item1 clearfix fl">
+                        <span class="name fl">公司地址</span>
+                        <span class="info fl">{if $vo.zoneName}[{$vo.zoneName}]{/if}{$vo.compaddr}</span>
+                    </li>
+                    {/if}
+                </ul>
+                <div class="controlBox clearfix">
+                    {if $is_login == 1}
+                    {if $vo.isApply }
+                    <input type="button" value="申请职位" class="btn fl" id="joinBtn1" onclick="joinJob(this,'{$vo.id}')">
+                    {else /}
+                    <input type="button" value="已申请" class="btn fl end" >
+                    {/if}
+                    {else /}
+                    <input type="button" value="申请职位" class="btn fl"  onclick="ShowWin('会员登录', '/post/users/login.asp?IndexWinUrl={$IndexWinUrl}&iscloseurl=1',350, 230);return false;">
+                    {/if}
+                    {if ($vo.IsExit) != 1 }
+                    <div class="item1 png_center" id="telResult">
+                        <img src="{$vo.tel_png}" alt="" id="tel_png">
+                        <span class="info1"></span>
+                        {if $is_login == 1}
+                            {if $vo.tel_status ==1}
+                            <i class="btn1" id="showTel">查看完整电话</i>
+                            <input type="hidden" value="{$vo.job_id}" id="job_id">
+                            {/if}
+                        {else /}
+                        <i class="btn1" onclick="ShowWin('会员登录', '/post/users/login.asp?IndexWinUrl={$IndexWinUrl}&iscloseurl=1',350, 230);return false;" >查看完整电话</i>
+                        {/if}
+                    </div>
+                    {/if}
+
+                </div>
+                <div class="tipInfo">
+                    <i class="xicon xicon-zhuyi"></i>淘宝刷单、在家工作、加微信联系的职位可能是骗子！收取费用或押金都可能有欺诈嫌疑，一经发现，<a href="javascript:;" onclick="ShowWin('举报信息','/post/Post_report.asp?action=postReport&id={$vo.id}&cls=14&IndexWinUrl=/post/jianzhi/{$vo.id}x.html',550,300);return false;" class="link">立即举报！</a>（本平台仅提供信息交流，不承担因使用网站提供的信息所引致的损害赔偿！）
+                </div>
+                {if ($vo.countJl > 0) }
+                <ul class="joinInfo clearfix">
+                    <li class="item fl">
+                        <i class="xicon xicon-shenqing"></i>
+                        <div class="info">
+                            <span class="name">申请人数</span>
+                            <p class="dInfo"><span class="c1">{$vo.countJl}<em>人</em></span><a class="link" href="javascript:void(0);" onclick="ShowWin('查看申请职位人才','/post/job/job_infouser.asp?id={$vo.id}&type=1',620,350);return false;">{if ($session_username == $vo.username )}立即查看{/if}</a></p>
+                        </div>
+                    </li>
+                    <li class="item fl">
+                        <i class="xicon xicon-xiaolv"></i>
+                        <div class="info">
+                            <span class="name">简历处理率</span>
+                            <p class="dInfo"><span class="c1">{$vo.resume}<em>%</em></span></p>
+                        </div>
+                    </li>
+                    <li class="item1 fl">
+                        <div class="imgBox">
+                            <img class="img" src="{$vo.weixinpic}" alt="">
+                        </div>
+                        <div class="info">
+                            <span class="name">微信扫一扫</span>
+                            <p class="dInfo">及时了解投递状态</p>
+                        </div>
+                    </li>
+                </ul>
+                {/if}
+            </div>
+            <!-- 基础信息end -->
+            <!-- 职位描述start -->
+            {if $vo.info}
+            <div class="zCon" id="describe">
+                <div class="zTitBox1">职位描述</div>
+                <div class="fc-editBox">{$vo.info | raw} 联系我时请说明是在{$siteName}看到的……  </div>
+            </div>
+            {/if}
+            <!-- 职位描述end -->
+            <!-- 公司介绍start -->
+            {if $vo.compinfo || $picList }
+            <div class="zCon" id="comInfo">
+                {if $vo.compinfo}
+                <div class="zTitBox1">公司介绍</div>
+                <div class="fc-editBox">{$vo.compinfo}</div>
+                {/if}
+                {if $picList }
+                <div class="container clearfix service-swiperbox">
+                    <a class="arrow arrow-left" href="#"><i class="xicon-zuojiantou xicon"></i></a>
+                    <a class="arrow arrow-right" href="#"><i class="xicon-youjiantou xicon"></i></a>
+                    <div class="swiper-container">
+                        <div class="swiper-wrapper">
+                            {foreach $picList as $pk=>$pvo}
+                            <div class="swiper-slide">
+                                <div class="imgbox">
+                                    <img src="{$pvo.img}" data-src="{$pvo.long}" alt="{$vo.compname}" />
+                                </div>
+                            </div>
+                            {/foreach}
+                        </div>
+                    </div>
+                </div>
+                {/if}
+            </div>
+            {/if}
+            <!-- 公司介绍end -->
+            <!-- 地理位置start -->
+            {if($vo.oMap) }
+            <div class="zCon" id="addr">
+                <div class="zTitBox1">地理位置</div>
+                <div class="mapBox">
+                    <div id="map" class="map"></div>
+                </div>
+            </div>
+            {/if}
+            <!-- 地理位置end -->
+            <!-- 公司其他职位start -->
+            {if $OtherList && $vo.isVipMark == 0}
+            <div class="zCon" id="job1">
+                <div class="zTitBox1 clearfix">公司其他职位
+                    {if $num.OtherListIsNext > 0}
+                    <div class="z-changeBox fr">
+                        <input type="button" value="<" class="z-change" id="chang-pre">
+                        <input type="button" value=">" class="z-change" id="chang-next">
+                    </div>
+                    {/if}
+                </div>
+                <ul class="jobListBox clearfix" id="jobBox">
+                    {foreach $OtherList as $otk=>$otv}
+                    <li class="item fl">
+                        <a href="/post/zhaopin/{$otv.id}x.html" class="link">
+                            <div class="titBox clearfix">
+                                <span class="price fr">{$otv.salary}元</span>
+                                <p class="tit">{$otv.title | raw}</p>
+                            </div>
+                            <div class="infoBox clearfix">
+                                <span class="date fr">{$otv.edittime|date='m-d'}</span>
+                                <p class="info">{$otv.compname}</p>
+                            </div>
+                        </a>
+                    </li>
+                    {/foreach}
+                </ul>
+            </div>
+            {/if}
+            <!-- 公司其他职位end -->
+            <!-- 相似职位start -->
+            {if $SimilarList}
+            <div class="zCon" id="job2">
+                <div class="zTitBox1 clearfix">相似职位
+                    {if $num.SimilarListIsNext > 0}
+                    <a href="/post/jianzhis/list-{$vo.kind}-0-1.html" target="_blank" class="showMore fr">更多&gt;&gt;</a>
+                    {/if}
+                </div>
+                <ul class="jobListBox clearfix">
+                    {foreach $SimilarList as $kh=>$vh}
+                    <li class="item fl">
+                        <a href="/post/jianzhi/{$vh.id}x.html" class="link">
+                            <div class="titBox clearfix">
+                                <span class="price fr">{$vh.salary}元</span>
+                                <p class="tit">{$vh.title | raw}</p>
+                            </div>
+                            <div class="infoBox clearfix">
+                                <span class="date fr">{$vh.edittime|date='m-d'}</span>
+                                <p class="info">{$vh.compname}</p>
+                            </div>
+                        </a>
+                    </li>
+                    {/foreach}
+                </ul>
+            </div>
+            {/if}
+            <!-- 相似职位end -->
+            <!-- 房源描述start -->
+            {if ($advRes) }
+            <div class="eAdbox-zanzhu">
+                <p class="tit">赞助商广告</p>
+                <div class="con">
+                    <section class="ccooliad">
+                        {$advRes | raw}
+                    </section>
+
+                </div>
+            </div>
+            {/if}
+            <!-- 房源描述end -->
+        </div>
+        <!-- 左侧区end -->
+        <!-- 右侧区start -->
+        <div class="zSideBox fr">
+            <!-- 公司信息start -->
+            {include file="common:company_info"}
+            <!-- 公司信息end -->
+            <!-- 简历提示start -->
+            <div class="conBox zRightImgBox">
+                <!-- 完善简历 -->
+                {if $vo.jlid && $is_login == 1}
+                <a href="/post/users/job/jl_edit.asp?userjlid={$vo.jlid}" class="link" target="_blank">
+                    <img src="http://img.pccoo.cn/website/fenlei/images/make_jl2.jpg" class="img">
+                </a>
+                {else /}
+                <!-- 创建简历 -->
+                <a href="/post/fabu/?ch=qz" class="link" target="_blank">
+                    <img src="http://img.pccoo.cn/website/fenlei/images/make_jl1.jpg" class="img">
+                </a>
+                {/if}
+            </div>
+            <!-- 简历提示end -->
+            <!-- 防骗指南start -->
+            <div class="conBox zRightImgBox">
+                <a href="/post/help-8.html" class="link" target="_blank">
+                    <img src="http://img.pccoo.cn/website/fenlei/images/zp_fangpian.jpg" class="img">
+                </a>
+            </div>
+            <!-- 防骗指南end -->
+            <!-- 推荐职位start -->
+            {if $HotList}
+            <div class="conBox ztjBox">
+                <p class="tit">热门职位推荐</p>
+                <ul class="items">
+                    {foreach $HotList as $khot => $vhot}
+                    <li class="item">
+                        <a class="link" href="/post/jianzhi/{$vhot.id}x.html" target="_blank">
+                            <div class="titBox clearfix">
+                                <span class="price fr">
+                                    {if $vhot.salary > 0}
+                                        {$vhot.salary}{$vhot.salarytype}
+                                    {else /}
+                                        面议
+                                    {/if}
+                                </span>
+                                <p class="name">{$vhot.title | raw}</p>
+                            </div>
+                            <div class="infoBox clearfix">
+                                <span class="date fr">{$vhot.edittime|date='m-d'}</span>
+                                {if $vhot.workarea ?? ''}
+                                <p class="info"><span class="list-zpTab">{$vhot.workarea ?? ''}</span></p>
+                                {/if}
+                            </div>
+                        </a>
+                    </li>
+                    {/foreach}
+                </ul>
+                {if $num.HotListIsNext > 0}
+                <div class="btnBox">
+                    <a href="/post/jianzhi/" class="btn" target="_blank">查看更多</a>
+                </div>
+                {/if}
+            </div>
+            {/if}
+            <!-- 推荐职位end -->
+            <!-- 招聘助手start -->
+            <div class="conBox zZsBox">
+                <p class="tit">招聘企业好助手</p>
+                <div class="zRightImgBox">
+                    <a href="javascript:;" class="link">
+                        <img src="http://img.pccoo.cn/website/fenlei/images/zp_zs_sk.jpg" class="img" style="height:80px">
+                        <div class="maBox"><img class="img" src="http://m.ewm.ccoo.cn/qrimg.ashx?scale=200&codeStr={$codeWinUrl}/post/jianzhi/jzshow.aspx?id={$vo.id}" alt=""></div>
+                    </a>
+                </div>
+                <div class="zRightImgBox">
+                    <a href="/postvip/jobvip/jobindex" class="link" target="_blank">
+                        <img src="http://img.pccoo.cn/website/fenlei/images/zp_zs_tg.jpg" class="img" style="height:80px">
+                    </a>
+                </div>
+                <div class="zRightImgBox">
+                    {if $is_login == 1}
+                    <a href="/postvip/jobvip/yuebuypay" class="link" target="_blank">
+                        {else /}
+                        <a  class="link" target="_blank" onclick="ShowWin('会员登录', '/post/users/login.asp?IndexWinUrl={$IndexWinUrl}&iscloseurl=1',350, 230);return false;">
+                            {/if}
+                            <img src="http://img.pccoo.cn/website/fenlei/images/zp_zs_tgj.jpg" class="img" style="height:80px">
+                        </a>
+                </div>
+            </div>
+            <!-- 招聘助手end -->
+        </div>
+        <!-- 右侧区end -->
+    </div>
+    <!-- 主内容区end -->
+    <div class="eMenuWrap">
+        <div class="clearfix eMenuBox fc-cont">
+            <div class="leftBox fl">
+                <div class="titBox clearfix">
+                    <span class="tit tab fl">{$vo.title | raw}</span>
+                    <span class="tab price fl">{if ($vo.salary > 0 ) }
+                    {$vo.salary}<em>{$vo.salarytype}</em>
+                    {else /} 面议 {/if}</span>
+                </div>
+                <div class="tabBox clearfix">
+                    <a href="javascript:;" class="tab fl on" data-type="h1" onclick="scollTo(h1)">基本信息</a>
+                    {if $vo.info}
+                    <a href="javascript:;" class="tab fl" data-type="h2" onclick="scollTo(h2)">职位描述</a>
+                    {/if}
+                    {if $vo.compinfo || $picList }
+                    <a href="javascript:;" class="tab fl" data-type="h3" onclick="scollTo(h3)">公司介绍</a>
+                    {/if}
+                    {if ($vo.oMap) }
+                    <a href="javascript:;" class="tab fl" data-type="h4" onclick="scollTo(h4)">地理位置</a>
+                    {/if}
+                    {if $num.OtherListIsNext > 0}
+                    <a href="javascript:;" class="tab fl" data-type="h5" onclick="scollTo(h5)">公司其他职位</a>
+                    {/if}
+                    {if $num.SimilarListIsNext > 0}
+                    <a href="javascript:;" class="tab fl" data-type="h6" onclick="scollTo(h6)">相似职位</a>
+                    {/if}
+                </div>
+            </div>
+            <div class="rightBox clearfix fr">
+                {if $is_login == 1}
+                {if $vo.isApply }
+                <span class="btn fl" id="joinBtn2" onclick="joinJob(this,'{$vo.id}')">申请职位</span>
+                {else /}
+                <span class="btn fl end" >已申请</span>
+                {/if}
+                {else /}
+                <span class="btn fl"  onclick="ShowWin('会员登录', '/post/users/login.asp?IndexWinUrl={$IndexWinUrl}&iscloseurl=1',350, 230);return false;">申请职位</span>
+                {/if}
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 原推荐提示结构start -->
+{if ($session_username == $vo.username ) && $is_login == 1}
+
+{if $recom_adv }
+<div class="topTip">
+    <div class="topTCon clearfix">
+        <span class="sLeft"></span>
+        <div class="sMid">
+            <p class="p1">马上把这条信息置顶，效果提升 <span class="f60">6~8 </span>倍 !</p>
+            <div class="d1 topBtn">
+                {if $recom_adv.arra_tjprice}
+                {volist name="recom_adv.arra_tjprice" id="vad" }
+
+                {if ($recom_adv.len > 1) }
+                {if ($i == 2) }
+                          <span class="active" day="{$vad.Num}" money="{:number_format($vad.price,2)}" num="{:number_format($vad.price/$vad.Num,2)}" ppid="{$vad.id}" >
+                          {else /}
+                          <span day="{$vad.Num}" money="{:number_format($vad.price,2)}" num="{:number_format($vad.price/$vad.Num,2)}" ppid="{$vad.id}" >
+                          {/if}
+                        {else /}
+                            {if ($i == 1) }
+                            <span class="active" day="{$vad.Num}" money="{:number_format($vad.price,2)}" num="{:number_format($vad.price/$vad.Num,2)}" ppid="{$vad.id}" >
+                            {/if}
+                        {/if}
+
+                            {$vad.Num}天
+                            {if ($i eq 2) OR ($i eq 3)}
+                                <i class="disIcon">优惠</i>
+                            {elseif ($i gt 3) /}
+                                <i class="disIcon">特惠</i>
+                            {/if}
+                            <i class="checkIcon"></i>
+                        </span>
+
+                    {/volist}
+                {/if}
+                <a href="javascript:void(0);" onclick="goPay()" class="nowTopBtn">马上置顶</a>
+                <input type="hidden" id="topVal" value="">
+                <input name="cid" id="cid" type="hidden" value="{$recom_adv.tjprice_cid}">
+                <input name="tName" id="tName" type="hidden" value="{$recom_adv.tname}">
+                <input name="outTitle" id="outTitle" type="hidden" value="{$vo.title | raw}">
+                <input name="oTel" id="oTel" type="hidden" value="{$vo.tel}">
+                <input name="numid" id="numid" type="hidden" value="{$recom_adv.de_id}">
+                <input name="ptype" id="ptype" type="hidden" value="{$recom_adv.ptype}">
+            </div>
+            <p class="p3 priSbt">已选择置顶推荐 <span class="f60" id="day">{$recom_adv.de_day}天</span>，需支付 <span class="f60 bold" id="money">￥{$recom_adv.de_money}</span> (平均每天 <span class="f60" id="num">￥{$recom_adv.de_num}</span>)</p>
+        </div>
+        <span class="sRight"></span>
+    </div>
+</div>
+<script type="text/javascript">
+    //置顶操作
+    $('.topBtn span').click(function () {
+        var day = $(this).attr('day');
+        var money = $(this).attr('money');
+        var num = $(this).attr('num');
+        var ppid = $(this).attr('ppid');
+        $('#day').text(day + '天');
+        $('#money').text('￥' + money);
+        $('#num').text('￥' + num);
+        $('.priSbt').show();
+        $('#numid').val(ppid)
+        $(this).addClass('active').siblings().removeClass('active')
+    })
+    //关闭
+    $('.topTip .sRight').click(function () {
+        $(this).parents('.topTip').animate({ opacity: '0' }, 1000, function () {
+            $('.iTipTop').animate({ opacity: '1' }, 1000, function () {
+                setTimeout(function () {
+                    $('.iTipTop').animate({ opacity: '0' }, 1000)
+                }, 3000)
+            })
+
+        })
+    })
+    //马上置顶
+    function goPay() {
+        var cid = $('#cid').val();
+        var tName = $('#tName').val();
+        var outTitle = $('#outTitle').val();
+        var oTel = $('#oTel').val();
+        var numid = $('#numid').val();
+        var ptype = $('#ptype').val();
+        if (numid > 0) {
+            ShowWinAuto('信息推荐申请','/post/buy_tj_step.asp?step=2&id={$vo.id}&cid='+cid+'&tName='+tName+'&outTitle='+outTitle+'&oTel='+oTel+'&numid='+numid+'&ptype='+ptype+'',850,480);
+        }
+        else {
+            alert('请选择置顶时间');
+        }
+        return false;
+    }
+</script>
+{/if}
+{/if}
+{/block}
+
+{include file="public:footer"}
+
+{block name="zhushou"}
+{include file="public:zhushou_new"}
+{/block}
+
+
+{block name="under_js"}
+
+<script src="http://r.imgccoo.cn/website/fenlei/js/fenlei_fc.js"></script>
+<script type="text/javascript" src="http://r.imgccoo.cn/post/js/dialog/lhgdialog.js?skin=discuz" charset="utf-8"></script>
+<script src="http://r.imgccoo.cn/wap/webapp/js/swiper.v2.js"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=1E7670740d40d583e602638e191f5f9a"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/getscript?v=2.0&ak=1E7670740d40d583e602638e191f5f9a&services=&t=20190622163250"></script>
+{if strstr($vo.oMap,',')}
+<script type="text/javascript">
+    var compPoint = '{$vo.oMap}';//坐标
+    var compAddress = '{if $vo.zoneName}[{$vo.zoneName}]{/if}{$vo.compaddr}';//地址
+    function openBaidu(point,title){
+        window.open('http://api.map.baidu.com/marker?location='+point.split(',')[1] +','+point.split(',')[0]+'&title=我的位置&content='+title+'&output=html')
+    }
+    $(function () {
+        var compPointArr = compPoint.split(',');
+        var map = new BMap.Map("map"); //创建地图实例
+        var point = new BMap.Point(compPointArr[0], compPointArr[1]) // 命名空间全在BMap对象里面
+        map.centerAndZoom(point, 12);
+        map.addControl(new BMap.NavigationControl({type: BMAP_NAVIGATION_CONTROL_LARGE}));
+        map.onclick=function(e){
+            openBaidu(compPoint,compAddress)
+        };
+        map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
+        // 定义自定义覆盖物的构造函数
+        function SquareOverlay(center, length, color, x, y) {
+            this._center = center;
+            this._length = length;
+            this._color = color;
+            this._backgroundSize = x + ' ' + y
+        }
+        // 继承API的BMap.Overlay
+        SquareOverlay.prototype = new BMap.Overlay();
+
+        // 实现初始化方法
+        SquareOverlay.prototype.initialize = function (map) {
+            // 保存map对象实例
+            this._map = map;
+            // 创建div元素，作为自定义覆盖物的容器
+            var div = document.createElement("div");
+            div.style.position = "absolute";
+            // 可以根据参数设置元素外观
+            div.style.width = this._length + "px";
+            div.style.height = this._length + "px";
+            div.style.background = this._color;
+            div.style.backgroundSize = this._backgroundSize;
+            // 将div添加到覆盖物容器中
+            map.getPanes().markerPane.appendChild(div);
+            // 保存div实例
+            this._div = div;
+            // 需要将div元素作为方法的返回值，当调用该覆盖物的show、
+            // hide方法，或者对覆盖物进行移除时，API都将操作此元素。
+            return div;
+        }
+        // 实现绘制方法
+        SquareOverlay.prototype.draw = function () {
+            // 根据地理坐标转换为像素坐标，并设置给容器
+            var position = this._map.pointToOverlayPixel(this._center);
+            this._div.style.left = position.x - this._length / 2 + "px";
+            this._div.style.top = position.y - this._length / 2 - 15 + "px";
+        }
+        // 实现显示方法
+        SquareOverlay.prototype.show = function () {
+            if (this._div) {
+                this._div.style.display = "";
+            }
+        }
+        // 实现隐藏方法
+        SquareOverlay.prototype.hide = function () {
+            if (this._div) {
+                this._div.style.display = "none";
+            }
+        }
+        // 添加自定义覆盖物
+        var mySquare = new SquareOverlay(map.getCenter(), 30, "url(http://img.pccoo.cn/images/map-icon.png) no-repeat center center", '25px', '29px');
+        mySquare.initialize;
+        map.addOverlay(mySquare);
+
+        var myLabel = new BMap.Label(compAddress, {  //为lable填写内容
+            offset: new BMap.Size(10, -50),          //label的偏移量，为了让label的中心显示在点上
+            position: point                           //label的位置
+        });
+        map.addOverlay(myLabel);
+
+    })
+</script>
+{/if}
+<script type="text/javascript">
+    var h1 = $('#baseInfo').length > 0 && $('#baseInfo').offset().top - 120 || 0,
+            h2 = $('#describe').length > 0 && $('#describe').offset().top - 120 || 0,
+            h3 = $('#comInfo').length > 0 && $('#comInfo').offset().top - 120 || 0,
+            h4 = $('#addr').length > 0 && $('#addr').offset().top - 120 || 0,
+            h5 = $('#job1').length > 0 && $('#job1').offset().top - 120 || 0,
+            h6 = $('#job2').length > 0 && $('#job2').offset().top - 120 || 0;
+    function scollTo(value) {
+        $(window).scrollTop(value)
+    }
+    //举报、推荐、申请、电话
+    var sqFlag=false,telFlag=false;
+    function joinJob(ele,id){
+        $('.xdialog-wrap').remove()
+        if($(ele).hasClass('end')) return;
+        if(sqFlag == true){
+            showTip({tit:'正在操作，请稍候',time:1000});
+            return;
+        }
+        showTip({type:1});
+        sqFlag = true;
+        $.ajax({
+            type:'POST',
+            url:"{:url('Home/Recruit/applicationPosition')}",
+            async: false,
+            data:{
+                id:id,
+                type:1
+            },
+            success:function(data){
+                removeTip();
+                if(data.code == 1000){
+                    showTip({tit:data.message,time:1000});
+                    $('#joinBtn1,#joinBtn2').addClass('end');
+                    $('#joinBtn1').val('已申请');
+                    $('#joinBtn2').text('已申请');
+                }else if(data.code == 1003){
+                    var r=confirm("您还没有简历，请先创建！");
+                    if (r==true)
+                    {
+                        window.open("/post/fabu/?ch=qz&url={$IndexWinUrl}");
+                    }
+                }else{
+                    showTip({tit:data.message,time:1000});
+                }
+            },
+            error:function(){
+                showTip({tit:'请求失败，请稍后重试！',time:1000});
+            },
+            complete:function(){
+                sqFlag = false;
+            }
+        })
+    }
+
+
+    /*function showTel(opt){
+        var Tel = unescape(opt);
+        if(telFlag == true){
+            showTip({tit:'正在操作，请稍候',time:1000});
+            return;
+        }
+        if($('#showTel').hasClass('on')) return;
+        telFlag = true;
+        $.getJSON('/post/ajax/tel_area.asp', {
+                    tel: Tel
+                },
+                function(data) {
+                    if (data.QueryResult != 0) {
+                        $('#showTel').remove();
+                        $('#telResult').find('.num').text(data.Mobile).end().find('.info1').text('('+data.Address+')');
+                    }else{
+                        $('#showTel').remove();
+                        $('#telResult').find('.num').text(data.Mobile).end().find('.info1').text();
+                    }
+                });
+    }*/
+
+
+    $(function () {
+        //管理
+        var _xlp_stime = null;
+        $('.manageTab').hover(function () {
+            $('.manageBox').show()
+        }, function () { _xlp_stime = setTimeout(function () { $('.manageBox').hide() }, 200) })
+        $('.manageBox').hover(function () {
+            clearTimeout(_xlp_stime)
+            $('.manageBox').show()
+        }, function () { $('.manageBox').hide() })
+        //公司图片
+        if ($('.service-swiperbox .swiper-slide').length > 2) {
+            var mySwiper = new Swiper('.service-swiperbox .swiper-container', {
+                centeredSlides: true,
+                slidesPerView: '3',
+                loop: true,
+                autoplay: 3000
+            })
+            $('.service-swiperbox .arrow-left').on('click', function (e) {
+                e.preventDefault()
+                mySwiper.swipePrev()
+            })
+            $('.service-swiperbox .arrow-right').on('click', function (e) {
+                e.preventDefault()
+                mySwiper.swipeNext()
+            })
+        } else {
+            $('.service-swiperbox .swiper-wrapper').css({ textAlign: 'center' });
+            $('.service-swiperbox .swiper-slide').css({ 'width': '340px', height: '375px', marginRight: '10px', float: 'unset',
+                display: 'inline-block' })
+            $('.service-swiperbox .swiper-slide .imgbox').css({width:'300px',height:'224px'})
+            $('.arrow').remove()
+        }
+        if ($('#photos li').length < 4) {
+            $('#photos ul').css({ 'text-align': 'center' })
+            $('#photos li').css({ 'display': 'inline-block', 'float': 'none' })
+        }
+        //头部菜单显示
+        $(window).scroll(function () {
+            var top = $(window).scrollTop();
+            //判断页面是否滚动到底部，加载数据
+            if (top < h1) {
+                if ($('.eMenuWrap').hasClass('on'))
+                    $('.eMenuWrap').removeClass('on')
+            }
+            if (top >= h1) {
+                if (!$('.eMenuWrap').hasClass('on'))
+                    $('.eMenuWrap').addClass('on');
+                $('.eMenuWrap .tabBox .tab.on').removeClass('on')
+                $('.eMenuWrap .tabBox .tab[data-type="h1"]').addClass('on')
+            }
+            if (top >= h2 && h2 > 0) {
+                $('.eMenuWrap .tabBox .tab.on').removeClass('on')
+                $('.eMenuWrap .tabBox .tab[data-type="h2"]').addClass('on')
+            }
+            if (top >= h3 && h3 > 0) {
+                $('.eMenuWrap .tabBox .tab.on').removeClass('on')
+                $('.eMenuWrap .tabBox .tab[data-type="h3"]').addClass('on')
+            }
+            if (top >= h4 && h4 > 0) {
+                $('.eMenuWrap .tabBox .tab.on').removeClass('on')
+                $('.eMenuWrap .tabBox .tab[data-type="h4"]').addClass('on')
+            }
+            if (top >= h5 && h5 > 0) {
+                $('.eMenuWrap .tabBox .tab.on').removeClass('on')
+                $('.eMenuWrap .tabBox .tab[data-type="h5"]').addClass('on')
+            }
+            if (top >= h6 && h6 > 0) {
+                $('.eMenuWrap .tabBox .tab.on').removeClass('on')
+                $('.eMenuWrap .tabBox .tab[data-type="h6"]').addClass('on')
+            }
+        });
+    });
+</script>
+
+<!--查看电话号码弹窗调整-->
+<script>
+    //显示手机号
+    function telShow(tel){
+        $.post("{:url('telimg')}",{tel:tel},function (data) {
+            if (data.code ==200){
+                $("#tel_png").attr('src',data.tel_png)
+                $("#showTel").css('display','none');
+            }
+        })
+    }
+
+    $("#showTel").click(function () {
+        var jobid=$("#job_id").val();
+        var url2="{:url('getPositionTel')}";
+        $.ajax({
+            url: url2,
+            type: 'POST',
+            dataType: 'json',
+            data: { id: jobid, otype:1 },
+            success: function (result) {
+
+                if (result.MessageList.code == 0)//错误提示
+                {
+                    alert(result.MessageList.message );
+                }
+                else if (result.MessageList.code == 3) {
+                    alert("请先登陆~");
+                    window.location.href = "/loginreurl=" + window.location.href;
+                }
+                else if (result.MessageList.code == 1) {
+                    //$(".dlogBoxF").show();
+                    var html2='<div class="xdialog-wrap"><div class="tipDia"><div class="infoBox">查看电话需创建简历，立即创建让好工作找上门</div><div class="btnBox">\
+                    <a href="javascript:;" class="btn" id="btn3">不了</a>\
+                    <a href="javascript:;" class="btn on"  id="btn4">去创建</a>\
+                </div></div></div>'
+                    $('body').append(html2)
+
+                    $("#btn3").click(function () {
+                        $('.xdialog-wrap').remove();
+                    })
+                    $("#btn4").click(function () {
+                        $('.xdialog-wrap').remove();
+                        //创建简历
+                        window.open("/post/fabu/?ch=qz&url={$IndexWinUrl}");
+                    })
+
+
+                }
+                else if (result.MessageList.code == 2) {
+                    telShow(result.ServerInfo);
+                }
+                else if (result.MessageList.code >7)
+                {
+
+                    if ((result.MessageList.code & 8) != 8) return;
+                    var msg = result.MessageList.message, btn1 = "", btn2, btn1click = function () {
+                        $('.xdialog-wrap').remove();
+                    }, btn2click = function () {
+                        $('.xdialog-wrap').remove();
+                    };
+                    if ((result.MessageList.code & 16) == 16)
+                    {
+                        if (btn1) btn2 = "不了";
+                        else btn1 = "不了";
+                    }
+                    if ((result.MessageList.code & 32) == 32) {
+                        var event = function () {
+                            telShow(result.ServerInfo);//直接显示电话
+                            //屏蔽弹窗
+                            $('.xdialog-wrap').remove();
+                        }
+                        if (btn1) {
+                            btn2 = "不了直接看";
+                            btn2click = event;
+                        }
+                        else {
+                            btn1 = "不了直接看";
+                            btn1click = event;
+                        }
+                    }
+                    if ((result.MessageList.code & 64) == 64) {
+                        var event = function () {
+                            joinJob($("#joinBtn1"),jobid);
+                            telShow(result.ServerInfo);
+                            //屏蔽弹窗
+                            $('.xdialog-wrap').remove();
+
+                        }
+                        if (btn1) {
+                            btn2 = "投递简历";
+                            btn2click = event;
+                        }
+                        else {
+                            btn1 = "投递简历";
+                            btn1click = event;
+                        }
+                    }
+                    if ((result.MessageList.code & 128) == 128) {
+                        //无简历
+                        var event = function () {
+                            $('.xdialog-wrap').remove();
+                            //创建简历
+                            window.open("/post/fabu/?ch=qz&url={$IndexWinUrl}");
+
+                        }
+                        if (btn1) {
+                            btn2 = "投递简历";
+                            btn2click = event;
+                        }
+                        else {
+                            btn1 = "投递简历";
+                            btn1click = event;
+                        }
+                    }
+
+                    if((result.MessageList.code & 256) == 256) {
+                        var event = function () {
+                            $('.xdialog-wrap').remove();
+                            //创建简历
+                            window.open("/post/fabu/?ch=qz&url={$IndexWinUrl}");
+                        }
+                        if (btn1) {
+                            btn2 = "去创建";
+                            btn2click = event;
+                        }
+                        else {
+                            btn1 = "去创建";
+                            btn1click = event;
+                        }
+                    }
+
+                    var html='<div class="xdialog-wrap"><div class="tipDia"><div class="infoBox">'+result.MessageList.message+'</div><div class="btnBox">\
+                    <a href="javascript:;" class="btn" id="btn1">'+btn1+'</a>\
+                    <a href="javascript:;" class="btn on"  id="btn2">'+btn2+'</a>\
+                </div></div></div>'
+                    $('body').append(html)
+
+                   /* $(document).on('click','#btn1',btn1click);
+                    $(document).on('click','#btn2',btn2click);*/
+
+                    $('#btn1').click(btn1click);
+                    $('#btn2').click(btn2click);
+
+
+                }
+            }
+        });
+    });
+
+
+</script>
+
+<!--公司其他职位分页开始-->
+{if $num.OtherListIsNext > 0}
+<script type="text/javascript">
+    $(function(){
+        var pageNum=1,flag=false,isnNext='{$num.OtherListIsNext}==1?"true":"false"';
+        function changeData(pageNum){
+            if(flag) return;
+            flag = true;
+            $.ajax({
+                url:"{:url('Home/Recruit/partOthersList');}",
+                type:'post',
+                data:{id:'{$vo.id}',page:pageNum},
+                success:function(res){
+                    var list_li=$(res);
+                    if(list_li.filter("#isNext").length>0)
+                    {
+                        isnNext=true;
+                        list_li.remove("#isNext");
+                    }else{
+                        isnNext=false;
+                    }
+                    $('#jobBox').empty().append(list_li);
+                },
+                complete:function(){
+                    flag=false;
+                }
+            })
+        }
+        $('#chang-pre').click(function(){
+            if(pageNum==1){
+                showTip({tit:'前面没有更多内容了'})
+                return;
+            }
+            pageNum--;
+            changeData(pageNum)
+        });
+        $('#chang-next').click(function(){
+            if(!isnNext){
+                showTip({tit:'后面没有更多内容了'})
+                return;
+            }
+            pageNum++;
+            changeData(pageNum)
+        })
+    })
+</script>
+{/if}
+<script type="text/javascript">
+    $('.service-swiperbox').click(function (e) {
+        if($(e.target).attr('src')){
+            var _imgs = [];
+            var _index = $(e.target).parents('.swiper-slide').index()
+            $('.service-swiperbox img').each(function () {
+                _imgs.push($(this).attr('data-src'))
+            })
+            showBig1(_imgs, _index)
+        }
+    });
+
+</script>
+<!--公司其他职位分页结束-->
+{/block}

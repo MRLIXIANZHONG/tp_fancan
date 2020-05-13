@@ -1,0 +1,292 @@
+{extend name="public/base_user" /}
+
+{block name="title"}
+
+{/block}
+
+{block name='css'}
+
+{/block}
+{block name="crumbs"}
+
+{/block}
+{block name="content"}
+<div class="fl-content clearfix">
+    {include file="personal:left"/}
+    <div class="left-content fl">
+        {include file="personal:user_info"/}
+        {include file="personal:search"/}
+        <div class="fl-list fl-fabu">
+            <ul>
+                {if $vo}
+                {foreach $vo as $key=>$val}
+                <li class="clearfix" data-id="1">
+                    <div class="fl content">
+                        <p class="p-tit clearfix">
+                            <a class="fl" href="{:get_personal_url($val.TheirType,$val.ID,1)}" target="_blank">{$val.Title}</a>
+                            <span class="fr s2  js-share" data-img="http://m.ewm.eccoo.cn/qrimg.ashx?scale=75&codeStr=http://www.xinchang.ccoo.cn/post/fangwu/qiuzu/417893x.html"><i></i>分享到朋友圈</span>
+                        </p>
+                        <p class="p2"><span>{$val.TypeName} </span>&nbsp;|&nbsp;<em>{$val.UpTime|date='Y/m/d'}</em><span> {$val.UpTime|date='H:i'}</span></p>
+                        <p class="p3">
+                            <span class="s1">浏览量：{$val.Hit}次</span>
+                            <span class="s2 fr">
+                                <em><a href="/post/users/fangwu/qz_edit.asp?id=417893">修改</a></em>
+                                <em><a href="u_del.asp?stype=5&amp;id=417893" onclick="return delId();">删除</a></em>
+                                <em onclick="ShowWinAuto('信息刷新申请','/post/users/u_reload.asp?stype=5&amp;tname=Home_QiuZu&amp;id=417893',850,'auto');return false;">刷新</em>
+					            <em class="" onclick="ShowWinAuto('信息推荐申请','/post/postjump/post_cmd.asp?tname=Home_QiuZu&amp;id=417893',850,400);return false;">置顶</em>
+                            </span>
+                        </p>
+                        <p class="ts-change ts-change2 clearfix">
+                            <span class="fr">消息在列表置顶显示，效果提升<b>5-8</b>倍<i onclick="removeZd($(this))">×</i></span>
+                        </p>
+                        <p>
+
+                        </p>
+                    </div>
+                </li>
+                {/foreach}
+                {/if}
+            </ul>
+            <div class="clearfix fl-chooseall">
+                <div class="fl div1">
+                </div>
+                <div class="fr">
+                    <div id="page_x"><span>1</span><a href="u_index.asp?cateid=0&amp;page=2">2</a><a href="u_index.asp?cateid=0&amp;page=3">3</a><a href="u_index.asp?cateid=0&amp;page=4">4</a><a href="u_index.asp?cateid=0&amp;page=5">5</a><a href="u_index.asp?cateid=0&amp;page=2">下一页</a><a href="u_index.asp?cateid=0&amp;page=5">最后页</a></div>  </div>
+            </div>
+        </div>
+
+        <div class="fl-xxsm">
+            <p class="p1">说明：</p>
+            <p>1.刷新：将信息的发布时间更新为当日发布，相当于新发布一条信息，信息会排在前列。</p>
+            <p>2.置顶：被置顶的信息将显示在分类信息对应频道的推荐专区，并会在各频道列表页置顶显示，置顶信息的浏览量会提高5-8倍。</p>
+        </div>
+        <script language="javascript">
+            //移除鼠标删除元素
+            function removeBk(timer) {
+                clearTimeout(timer)
+                timer = setTimeout(function () {
+                    $(".fl-tsll").remove()
+                }, 100)
+            }
+
+            $(".fl-list li").on("mouseenter", ".p-tit .s1,.s3,.p3 .ts", function () {
+                var html1 =
+                        '<em class="fl-tsll fl-tsll2">\
+                                  <i>本信息审核中，如需快速审核通过，请联系本站客服</i>\
+                                  <i>联系电话：0557-484545转111</i>\
+                                </em>'
+
+                var html2 =
+                        '<em class="fl-tsll">\
+                                  <i>1.刷新信息，将信息发布时间刷新为最新信息，在信息列表前列显示</i>\
+                                  <i>2.置顶信息，将信息在列表推荐区域显示，效果提升5-8倍</i>\
+                                  <i>3.将信息分享朋友圈，拉朋友来帮你转发提高曝光量</i>\
+                                </em>'
+                var html3 =
+                        '<em class="fl-tsll fl-tsll2">\
+                                  <i>本信息因发布权限已用完，需购买发布权限</i>\
+                                  <i>点击支付显示按钮，支付成功后信息会立即显示</i>\
+                                </em>'
+
+                var timer = null;
+                $(".fl-tsll").remove()
+
+                if($(this).hasClass("s4")){
+                    $(this).append(html3);
+                    $(this).mouseleave(function () {
+                        removeBk(timer);
+                    })	;
+                }else if($(this).hasClass("s1")) {
+                    $(this).append(html1);
+                    $(this).mouseleave(function () {
+                        removeBk(timer);
+                    });
+                }else {
+                    $(this).append(html2)
+                    $(this).mouseleave(function () {
+                        removeBk(timer)
+                    })
+                }
+            })
+
+            //移除 置顶--修改提示
+            function removeZd($this) {
+                $this.parents("p").slideUp();
+                document.cookie ="tjflag=1;expires=86400000";
+            }
+            function removeSx($this,id) {
+                $this.parents("p").slideUp();
+                document.cookie ="sxflag_"+id+"=1;expires=86400000";
+            }
+
+            var dialogS = null;
+            function deleteOne($this) {
+                var id = $this.parents("li").attr("data-id")
+                dialogS = $.dialog({
+                    title: "删除提示",
+                    max: false,
+                    min: false,
+                    lock: true,
+                    resize: false,
+                    content: "<div class='fl-delete'>\
+			<p class='p1'>您确认删除此信息吗？</p>\
+			<p class='p2'><span class='on' onclick='quxiao()'>取消</span><span onclick='queding(" +
+                    id + ")' class='on'>确认</span></p>\
+		 </div>"
+                })
+            }
+
+            function quxiao() {
+                dialogS.close()
+            }
+
+            function queding(DataId) {
+                $.ajax({
+                    type: 'GET',
+                    url: '/post/users/u_ajax.asp',
+                    data: {
+                        cmdid: 51,
+                        sid: DataId
+                    },
+                    dataType: 'html',
+                    error: function(data) {
+                        alert('系统错误!');
+                    },
+                    success: function(data) {
+                        if (data =="1") {
+                            window.location.reload();
+                        }else{
+                            alert(data);
+                            quxiao();
+                        }
+                    }
+                })
+            }
+            function zhidingEd(tmpstr) {
+
+                dialogS = $.dialog({
+                    title: "置顶提醒",
+                    max: false,
+                    min: false,
+                    lock: true,
+                    resize: false,
+                    content: "<div class='fl-delete'>\
+				<p class='p1'>此信息在置顶服务中，置顶<br>到期时间："+tmpstr+"</p>\
+				<p class='p2'><span class='on' onclick='quxiao()'>确认</span></p>\
+			 </div>"
+                })
+            }
+
+            //点击全选
+            $("#chooseall").click(function () {
+                console.log($(this).attr("checked"))
+                if ($(this).attr("checked")) {
+                    $(".fl-list .check-box").attr("checked", "true")
+                } else {
+                    $(".fl-list .check-box").removeAttr("checked")
+                }
+            })
+            //点击选择某一条
+            $(".fl-list").on("click", ".check-box", function () {
+                var bSys = true;
+                if (!$(this).attr("checked")) {
+                    $("#chooseall").removeAttr("checked")
+                    return
+                }
+                $(".fl-list .check-box").each(function () {
+                    if (!$(this).attr("checked")) {
+                        bSys = false;
+                        return
+                    }
+                })
+                if (bSys) {
+                    $("#chooseall").attr("checked", "true")
+                }
+            })
+            //点击删除
+
+            $("#deleteAll").click(function () {
+                dialogS = $.dialog({
+                    title: "删除提示",
+                    max: false,
+                    min: false,
+                    lock: true,
+                    resize: false,
+                    content: "<div class='fl-delete'>\
+                      <p class='p1'>您确认删除所选信息吗？</p>\
+                      <p class='p2'><span class='on' onclick='quxiao()'>取消</span><span onclick='deleteListALL()' class='on'>确认</span></p>\
+                  </div>"
+                })
+            })
+
+            function formSubmit($this){
+                $("#formcx").submit()
+            }
+
+
+            function deleteListALL(ele){
+                var deleteId = '';
+                ele=$('.fl-list')
+                ele.find("input[type=checkbox]").each(function(){
+                    if ($(this).attr("checked")) {
+                        deleteId += $(this).val() + ","
+                    }
+                })
+                $.ajax({
+                    type: 'GET',
+                    url: '/post/users/u_ajax.asp',
+                    data: {
+                        cmdid: 52,
+                        ctype: 0,
+                        ids: deleteId
+                    },
+                    dataType: 'html',
+                    error: function(data) {
+                        alert('系统错误!');
+                    },
+                    success: function(data) {
+                        if (data =="1") {
+                            window.location.reload();
+                        }else{
+                            alert(data);
+                            quxiao();
+                        }
+                    }
+                })
+
+            }
+
+
+            //悬浮分享朋友圈
+            $(".js-share").each(function(){
+                $(this).mouseenter(function(){
+                    $(".flw-wx-js").remove()
+                    var imgLink= $(this).attr("data-img")
+                    var html='<em class="flw-wx-js"><img src="'+imgLink+'" alt="二维码"><b>微信扫描二维码，分享到朋友圈 呼朋唤友帮你转 交易更简单</b></em>'
+                    $(this).addClass("on").append(html)
+                }).mouseleave(function(){
+                    $(this).removeClass("on")
+                    $(".flw-wx-js").remove()
+                })
+            })
+            var dialogDefault = null;
+
+            function ShowWinAuto(Title, Url, Width, Height, Fun) {
+                dialogDefault = ShowWin(Title, Url, Width, Height);
+            }
+        </script>
+
+
+    </div>
+
+</div>
+{/block}
+
+{block name="zhushou"}
+{include file="public:zhushou"}
+{/block}
+
+{block name="under_js"}
+
+{/block}
+

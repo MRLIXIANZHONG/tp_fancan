@@ -1,0 +1,1246 @@
+{extend name="public/base" /}
+
+{block name="title"}
+<title>分类信息发布，免费发布信息-新昌在线</title>
+{/block}
+{block name="keywords"}
+
+{/block}
+{block name="description"}
+<meta name="description" content="新昌招聘信息、求职信息、房屋出租出售、二手房、二手信息、车辆买卖、商机、培训信息、交友信息，免费发布！">
+{/block}
+
+
+{block name='css'}
+<link rel="stylesheet" type="text/css" href="http://r.imgccoo.cn/post/images/biaodan.css">
+<link rel="stylesheet" type="text/css" href="http://r.imgccoo.cn/post/images/fabu1.css">
+<link rel="stylesheet" type="text/css" href="http://r.imgccoo.cn/post/images/fenlei_v2.css">
+<script type="text/javascript" src="http://r.imgccoo.cn/post/images/js/form/form.js" charset="gb2312"></script>
+<script type="text/javascript" src="http://r.imgccoo.cn/post/images/js/form/regex.js" charset="gb2312"></script>
+<script type="text/javascript" src="http://r.imgccoo.cn/post/images/js/cookie.js" charset="gb2312"></script>
+<script type="text/javascript" src="http://r.imgccoo.cn/post/images/js/xheditor-1.2.1.min.js" charset="utf-8"></script>
+<link href="http://r.imgccoo.cn/post/js/xcConfirm/xcConfirm.css" rel="stylesheet" type="text/css">
+
+<script type="text/javascript" src="http://r.imgccoo.cn/post/js/xcConfirm/xcConfirm.js" charset="gb2312"></script>
+<script type="text/javascript" src="http://r.imgccoo.cn/post/images/js/laydate/laydate.js" charset="gb2312"></script>
+<link type="text/css" rel="stylesheet" href="http://r.imgccoo.cn/post/images/js/laydate/need/laydate.css">
+<link type="text/css" rel="stylesheet" href="http://r.imgccoo.cn/post/images/js/laydate/skins/default/laydate.css" id="LayDateSkin">
+<script type="text/javascript" src="http://r.imgccoo.cn/post/js/dialog/fun.js" charset="gb2312"></script>
+<script>
+    if (/Android|webOS|iPhone|iPod|BlackBerry|Windows CE|Windows Phone/i.test(navigator.userAgent)) {
+        if (window.location.href.indexOf("?pc") < 0) {
+            window.location.href = "http://m.xinchang.ccoo.cn/post/fabu/";
+        }
+    }
+</script>
+
+{/block}
+
+{block name="crumbs"}
+
+{/block}
+
+{block name="content"}
+<div class="sylb">
+
+    {include file="common/house_crumb" /}
+
+    <script type="text/javascript">
+        var stype;
+        var isUserFabu = 0;
+        var isUserName = 'sid58077994';
+        //字符判断
+        function len(s) {
+            var l = 0;
+            var a = s.split("");
+            for (var i = 0; i < a.length; i++) {
+                if (a[i].charCodeAt(0) < 299) {
+                    l++;
+                } else {
+                    l += 2;
+                }
+            }
+            return l;
+        }
+        //去掉所有的html标记
+        function delHtmlTag(str) {
+            return str.replace(/<[^>]+>/g, "");
+        }
+
+        $(pageInit);
+
+        function pageInit() {
+            $('#oInfo').xheditor({
+                tools: 'Bold,Italic,Underline,FontColor,BackColor,Align',
+                skin: 'default',
+                layerShadow: 3,
+                cleanPaste: 3,
+                clickCancelDialog: false,
+                forcePtag: true,
+                loadCSS: '<style>body{font-size:14px;lineheight:28px}</style>',
+                focus: dofocus,
+                blur: delfocus
+            });
+            $('#SellingPoint').xheditor({
+                tools: 'Bold,Italic,Underline,FontColor,BackColor,Align',
+                skin: 'default',
+                layerShadow: 3,
+                cleanPaste: 3,
+                clickCancelDialog: false,
+                forcePtag: true,
+                loadCSS: '<style>body{font-size:14px;lineheight:28px}</style>',
+                focus: dofocus1,
+                blur: delfocus1
+            });
+            $('#SaleMentality').xheditor({
+                tools: 'Bold,Italic,Underline,FontColor,BackColor,Align',
+                skin: 'default',
+                layerShadow: 3,
+                cleanPaste: 3,
+                clickCancelDialog: false,
+                forcePtag: true,
+                loadCSS: '<style>body{font-size:14px;lineheight:28px}</style>',
+                focus: dofocus2,
+                blur: delfocus2
+            });
+            $('#ServiceInfo').xheditor({
+                tools: 'Bold,Italic,Underline,FontColor,BackColor,Align',
+                skin: 'default',
+                layerShadow: 3,
+                cleanPaste: 3,
+                clickCancelDialog: false,
+                forcePtag: true,
+                loadCSS: '<style>body{font-size:14px;lineheight:28px}</style>',
+                focus: dofocus3,
+                blur: delfocus3
+            });
+        }
+        function dofocus() {
+            $("#oInfoTip").html('<span class="onFocus"><span class="onFocus_top">5-2000字符，不能填写QQ电话号码等联系方式</br>如发现此信息中出现联系方式，信息将被删除</span><span class="onFocus_bot"></span></span>')
+            $("#oInfoTip").show()
+            $.cookie('Rec_oInfo', $("#oInfo").val());
+        }
+        function dofocus1() {
+
+            $("#SellingPointTip").html('<span class="onFocus"><span class="onFocus_top">选填，最多500字符，不能填写QQ电话号码等联系方式</br>如发现此信息中出现联系方式，信息将被删除</span><span class="onFocus_bot"></span></span>')
+            $("#SellingPointTip").show()
+            $.cookie('Rec_SellingPoint', $("#SellingPoint").val());
+        }
+        function dofocus2() {
+
+            $("#SaleMentalityTip").html('<span class="onFocus"><span class="onFocus_top">选填，最多500字符，不能填写QQ电话号码等联系方式</br>如发现此信息中出现联系方式，信息将被删除</span><span class="onFocus_bot"></span></span>')
+            $("#SaleMentalityTip").show()
+            $.cookie('Rec_SaleMentality', $("#SaleMentality").val());
+        }
+        function dofocus3() {
+
+            $("#ServiceInfoTip").html('<span class="onFocus"><span class="onFocus_top">选填，最多500字符，不能填写QQ电话号码等联系方式</br>如发现此信息中出现联系方式，信息将被删除</span><span class="onFocus_bot"></span></span>')
+            $("#ServiceInfoTip").show()
+            $.cookie('Rec_ServiceInfo', $("#ServiceInfo").val());
+        }
+        function delfocus() {
+            if (len(delHtmlTag($('#oInfo').val())) > 4000 || len(delHtmlTag($('#oInfo').val())) < 10) {
+                $("#oInfoTip").html('<span class="onError"><span class="onError_top">您输入的详细描述字数不符合要求，请按要求填写</span><span class="onError_bot"></span></span>')
+                $.cookie('Rec_oInfo', $("#oInfo").val());
+            } else {
+                $("#oInfoTip").html('<span class="onCorrect"></span>')
+                $.cookie('Rec_oInfo', $("#oInfo").val());
+            }
+
+        }
+        function delfocus1() {
+
+            if (len(delHtmlTag($('#SellingPoint').val())) > 500 ) {
+                $("#SellingPointTip").html('<span class="onError"><span class="onError_top">您输入的详细描述字数不符合要求，请按要求填写</span><span class="onError_bot"></span></span>')
+                $.cookie('Rec_SellingPoint', $("#SellingPoint").val());
+            } else {
+                $("#SellingPointTip").html('<span class="onCorrect"></span>')
+                $.cookie('Rec_SellingPoint', $("#SellingPoint").val());
+            }
+
+        }
+        function delfocus2() {
+
+            if (len(delHtmlTag($('#SaleMentality').val())) > 500) {
+                $("#SaleMentalityTip").html('<span class="onError"><span class="onError_top">您输入的详细描述字数不符合要求，请按要求填写</span><span class="onError_bot"></span></span>')
+                $.cookie('Rec_SaleMentality', $("#SaleMentality").val());
+            } else {
+                $("#SaleMentalityTip").html('<span class="onCorrect"></span>')
+                $.cookie('Rec_SaleMentality', $("#SaleMentality").val());
+            }
+
+        }
+        function delfocus3() {
+
+            if (len(delHtmlTag($('#ServiceInfo').val())) > 500) {
+                $("#ServiceInfoTip").html('<span class="onError"><span class="onError_top">您输入的详细描述字数不符合要求，请按要求填写</span><span class="onError_bot"></span></span>')
+                $.cookie('Rec_ServiceInfo', $("#ServiceInfo").val());
+            } else {
+                $("#ServiceInfoTip").html('<span class="onCorrect"></span>')
+                $.cookie('Rec_ServiceInfo', $("#ServiceInfo").val());
+            }
+
+        }
+        $(function(){
+            $("#oBrandx").click(function(){
+                //验证
+                $("#oBrandxNTip").html('<span class="onFocus"><span class="onFocus_top">请选择小区！</span><span class="onFocus_bot"></span></span>')
+                $("#oBrandxNTip").show()
+                if($("#pinPaiWin").is(":hidden ")){
+                    $("#pinPaiWin").css("display","block");
+                    $(".chexi").css("display","none")
+                }
+            });
+            /*$("window,*").click(function(e){
+             if($("#pinPaiWin")[0] != e.target && e.target!=$("#oBrandx")[0]){//当点击窗口的任何一部分的时候，只要不是元素本身和那个出现的按钮，则隐藏这个DIV;$(".xiaoqu")[0] != e.target 这是判断事件源本身不是xiaoqu本身;e.target，是指当前的事件源(鼠标点击的是那一个目标)
+             $("#pinPaiWin").css("display","none");
+             }
+             });*/
+            $(".zm_fenlei li").hover(function(){
+                var nindex=$(".zm_fenlei li").index(this)
+                $(".zm_fenlei li").eq(nindex).addClass("curr").siblings().removeClass("curr");
+                $(".fenleicon dl").css("display","none")
+                $(".fenleicon dl").eq(nindex).css("display","block")
+            })
+        })
+    </script>
+
+    {if $is_login == 1}
+        {include file="common/show_tip" /}
+    {/if}
+    {if $is_login == 1 && $IsPostFufei == 1 && $is_open == 0}
+        {include file="common/open_agent" /}
+    {/if}
+    <script type="text/javascript">
+
+        $(function(){
+            $.formValidator.initConfig({validatorGroup:"13",formID:"",theme:"ArrowSolidBox",onError:function(msg){
+                alert(msg);
+                $('#msgbox').html("");
+                $('#button').attr("disabled", false);
+            }
+                ,onSuccess:function(){subAjax();}
+            });
+
+            $('#form1').keydown(function(){
+                $.cookie('recState','1');
+                $.cookie('mainCls','14');
+            });
+            $('#form1').bind('paste', function(){
+                $.cookie('recState','1');
+                $.cookie('mainCls','14');
+            });
+            $("#Hclasss").blur(function(){
+                $.cookie('Rec_Hclasss',$("#Hclasss").val());
+            });
+            $("#oTitle").blur(function(){
+                $.cookie('Rec_oTitle',$("#oTitle").val());
+            });
+            $("#MoneyNum").blur(function(){
+                $.cookie('Rec_MoneyNum',$("#MoneyNum").val());
+            });
+            $("#MoneyNumzu").blur(function(){
+                $.cookie('Rec_MoneyNumzu',$("#MoneyNumzu").val());
+            });
+            $("#Mianji").blur(function(){
+                $.cookie('Rec_Mianji',$("#Mianji").val());
+            });
+            $("#zhuangxiu").blur(function(){
+                $.cookie('Rec_zhuangxiu',$("#zhuangxiu").val());
+            });
+            $("#hangye").blur(function(){
+                $.cookie('Rec_hangye',$("#hangye").val());
+            });
+            $("#shopname").blur(function(){
+                $.cookie('Rec_shopname',$("#shopname").val());
+            });
+            $("#iscmd").blur(function(){
+                $.cookie('Rec_iscmd',$("#iscmd").val());
+            });
+            $("#areaId").blur(function(){
+                $.cookie('Rec_areaId',$("#areaId").val());
+            });
+            $("#address").blur(function(){
+                $.cookie('Rec_address',$("#address").val());
+            });
+            //$("#oInfo").blur(function(){
+//		$.cookie('Rec_oInfo',$("#oInfo").val());
+//	});
+
+            $("#linkman").blur(function(){
+                $.cookie('Rec_linkman',$("#linkman").val());
+            });
+            $('#tel').blur(function(){
+                $.cookie('Rec_Tel',$('#tel').val());
+            });
+            $("#Email").blur(function(){
+                $.cookie('Rec_Email',$("#Email").val());
+            });
+            $("#qq").blur(function(){
+                $.cookie('Rec_qq',$("#qq").val());
+            });
+
+            $("#oTitle").formValidator({validatorGroup:"13",onShow:"",onFocus:"标题为5-25个字符",onCorrect:"填写正确",defaultValue:""}).inputValidator({min:10,max:50,empty:{leftEmpty:false,rightEmpty:false,emptyError:"标题两边不能有空符号"},onError:"标题长度应为5-25个字符请确认"});
+            $("#MoneyNum").formValidator({validatorGroup:"13",empty:true,onShow:"",onFocus:"请填写你的转让费,不填为面议",onCorrect:"填写正确"}).inputValidator({min:1,max:10000,type:"value",onerrormin:"你输入的值必须大于等于1",onError:"请正确填写你的价格数字"});
+            $("#MoneyNumzu").formValidator({validatorGroup:"13",empty:true,onShow:"",onFocus:"请填写你的商铺租金,不填为面议",onCorrect:"填写正确"}).inputValidator({min:1,max:10000000000,type:"value",onerrormin:"你输入的值必须大于等于1",onError:"请正确填写你的价格数字"});
+            $("#Mianji").formValidator({validatorGroup:"13",onShow:"",onFocus:"请填写您的面积",onCorrect:"填写正确"}).inputValidator({min:1,max:10000,type:"value",onerrormin:"你输入的值必须大于等于1",onError:"面积大小应为1-10000之间的数字"});
+            $("#zhuangxiu").formValidator({validatorGroup:"13",tipID:"zhuangxiuTip",empty:true,onShow:"",onFocus:"请选择装修程度",onCorrect:"选择正确",defaultValue:""}).inputValidator({min:1,onError: "请选择装修程度!"});
+            $("#hangye").formValidator({validatorGroup:"13",tipID:"zhuangxiuTip",empty:true,onShow:"",onFocus:"请选择所属行业",onCorrect:"选择正确",defaultValue:""}).inputValidator({min:1,onError: "请选择所属行业!"});
+            $("#Hclasss").formValidator({validatorGroup:"13",tipID:"zhuangxiuTip",empty:true,onShow:"",onFocus:"请选择商铺类型",onCorrect:"选择正确",defaultValue:""}).inputValidator({min:1,onError: "请选择商铺类型!"});
+
+            $("#shopname").formValidator({validatorGroup:"13",empty:true,onShow:"",onFocus:"填写您原商铺名称",onCorrect:"填写正确"}).inputValidator({min:4,max:50,empty:{leftEmpty:false,emptyError:"商铺名称名称两边不能有空符号"},onError:"商铺名称名称为2-25个字符请确认"});
+            $("#iscmd").formValidator({validatorGroup:"13",tipID:"zhuangxiuTip",empty:true,onShow:"",onFocus:"请选择商铺当前状态",onCorrect:"填写正确",defaultValue:""}).inputValidator({min:1,onError:"请选择商铺当前状态!"});
+            $("#areaId").formValidator({validatorGroup:"13",tipID:"addressTip",onShow:"",onFocus:"请选择您商铺所在区域",onCorrect:"填写正确",defaultValue:""}).inputValidator({min:1,onError:"请选择您商铺所在区域!"});
+            $("#address").formValidator({validatorGroup:"13",onShow:"",onFocus:"填写您商铺的详细地址",onCorrect:"填写正确"}).inputValidator({min:4,max:60,empty:{leftEmpty:false,emptyError:"地址两边不能有空符号"},onError:"地址字符应在2-30字符内请确认"});
+            $("#oInfo").formValidator({validatorGroup:"13",onShow:"",onFocus:"5-2000字符，不能填写QQ电话号码等联系方式</br>如发现此信息中出现联系方式，信息将被删除",onCorrect:"填写正确",defaultvalue:"详细的介绍说明，会让别人更加了解你的需求，增加交易的成功率"}).inputValidator({min:10,max:4000,onError:"您输入的详细描述字数不符合要求，请按要求填写"});
+            if({$strTempLink} == 0){
+            $("#linkman").formValidator({validatorGroup:"13",empty:true,onShow:"",onFocus:"请输入联系人姓名",onCorrect:"填写正确",defaultValue:""}).inputValidator({min:4,max:20,empty:{leftEmpty:false,emptyError:"内容两边不能有空符号"},onError:"联系人姓名长度为2-10个字符"});
+            $('#tel').formValidator({validatorGroup:"13",onShow:"",onFocus:"填写手机号或者座机号码，格式为：</br>13988888888或010-82873836",onCorrect:"填写正确"}).regexValidator({regExp:"^(([0\\+]\\d{2,3}-)?(0\\d{2,3})-)?(\\d{7,8})(-(\\d{3,}))?$|(^(13|14|15|16|17|18|19)[0-9]{9}$)",onError:"你输入的联系电话格式不正确"});
+            $("#Email").formValidator({validatorGroup:"13",empty:true,onShow:"",onFocus:"请输入邮箱,邮箱6-100个字符",onCorrect:"填写正确"}).inputValidator({min:6,max:100,onError:"你输入的邮箱长度非法,请确认"}).regexValidator({regExp:"email",dataType:"enum",onError:"邮箱格式不正确"});
+            $("#qq").formValidator({validatorGroup:"13",empty:true,onShow:"",onFocus:"请填写QQ号码，方便购房者与您联系",onCorrect:"填写正确"}).regexValidator({regExp:"qq",dataType:"enum",onError:"QQ号码格式不正确"});
+            }
+        })
+
+        var users;
+        users = 1;
+
+        function subAjax() {
+
+            if(parseInt($("#upNum").val())<0){
+                if(confirm('图片数量过多，图片数量最多为8张，是否直接上传？\n您可以选"是"直接上传，将删除超过8张后面的图片；\n也可以选"否"进行手动删除！')){
+                    $("#Imagesli").children().eq(7).nextAll().remove()
+                    $('#upNum').val(8-$('#Imagesli').children().length)
+                    UpImages()
+                }else{
+                    return false;
+                }
+            }
+
+            if (users == 1) {
+                p1 = "";
+                p2 = "";
+            } else {
+                p1 = escape($('#delPass').val());
+                p2 = escape($('#delPassOk').val());
+            }
+            saveAllRec();
+
+            $('#msgbox').html('<img src="http://r.imgccoo.cn/post/images/loading.gif" border="0" />提交中…');
+            $('#button').attr("disabled", true);
+            var Images_input_list="";
+            $("#Imagesli :input[name='Images_input']").each(function(){
+                Images_input_list+=$(this).val()+'|'
+            })
+            $.ajax({
+                type: "POST",
+                url: "/home/release/shopSave",
+                data: {
+                    Hclass: escape($('#Hclasss').val()),
+                    oTitle: escape($('#oTitle').val()),
+                    areaId: escape($('#areaId').val()),
+                    address: escape($('#address').val()),
+                    Mianji: escape($('#Mianji').val()),
+                    MoneyNum: escape($('#MoneyNum').val()),
+                    zhuangxiu: escape($('#zhuangxiu').val()),
+                    MoneyNumzu: escape($('#MoneyNumzu').val()),
+                    hangye: escape($('#hangye').val()),
+                    iscmd: escape($('#iscmd').val()),
+                    shopname: escape($('#shopname').val()),
+                    oInfo: escape($('#oInfo').val()),
+                    SellingPoint: escape($('#SellingPoint').val()),
+                    ServiceInfo: escape($('#ServiceInfo').val()),
+                    linkman: escape($('#linkman').val()),
+                    Tel: escape($('#tel').val()),
+                    Email: escape($('#Email').val()),
+                    qq: escape($('#qq').val()),
+                    nid: escape($('#MapId').val()),
+                    type_id: '{$type_id}',
+                    upLoadList: escape(Images_input_list),
+                    delPass: p1,
+                    telmsg: escape($('#telbd').val()),
+                    delPassOk: p2},
+                error: function() {alert("系统错误，请与管理员联系！");
+                    $('#msgbox').html("");
+                    $('#button').attr("disabled", false);
+                },
+                success: function(data){
+                    if (data != "") {
+                        if (data > 5) {
+                            $.cookie('recState','2');//成功后，改变状态。
+
+                            if({$IsPostFufei} == 1){
+                                ShowWinAuto('信息发布权限购买','/post/buy_fabu_step.asp?action=fb&cid=2&tname=home_chudui&id='+data+'',520,420,function(){
+                                    var a=confirm("本条信息支付后才能显示，确认关闭？");
+                                    if(a==true)
+                                    {
+                                        window.location.href='/post/users/zj/'
+                                    }
+                                    else
+                                    {
+                                        return false;
+                                    }
+                                });
+                                return false;
+                            }else{
+                                clearRecFun(); //清空表单项
+                                location.href = '/post/fwcd/url/' + data + '/';
+                            }
+
+                        } else {
+                            switch (parseInt(data)) {
+                                case 0:
+                                    alert('此用户不是新昌在线用户，不能在新昌在线发布分类信息！');
+                                    location.href = '/login/?backurl=/post/fabu/?ch=fwcd'
+                                    break;
+                                case 1:
+                                    alert('您的账号被管理员禁发，没有发布信息的权限，如需发布请联系本站！联系电话：{$service_comptel}');
+                                    location.href = '/post/fangwu/chudui/'
+                                    break;
+                                case 2:
+                                    alert('请登录后发布信息!');
+                                    $('.nav30').show();
+                                    $('#uName').focus();
+
+                                    //location.href = '/login/?backurl=/post/fabu/?ch=fwcd'
+                                    break;
+                                case 3:
+                                    alert('您的账号被管理员禁发，没有发布信息的权限，如需发布请联系本站！联系电话：{$service_comptel}');
+                                    location.href = '/post/fangwu/chudui/'
+                                    break;
+                                case 4:
+                                    alert('您发布的信息涉及非法信息，禁止发布!');
+                                    location.href = '/post/fangwu/chudui/'
+                                    break;
+                                case 5:
+                                    alert('您发布的信息内容涉及非法信息，禁止发布!');
+                                    location.href = '/post/fangwu/chudui/'
+                                    break;
+                                default:
+                                    alert(unescape(data));
+                                    // location.reload();
+                                    $('#msgbox').html("");
+                                    $('#button').attr("disabled", false);
+                                    break;
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        //-------------------------------------
+        function showCode() {
+            $('#imgCode').attr('src', '/reg/verifycode.asp?t=' + Math.random())
+        }
+        function doMap(){
+            $('#bz').show();
+        }
+        //-------------------------------------
+    </script>
+    <form method="post" id="form1" name="form1" onsubmit="return $.formValidator.pageIsValid('13');">
+        {include file="common/house_top" /}
+        <div class="fbbd" style="position:relative">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td width="120" height="45" align="right"><font color="#FF0000">*</font> 标　　题：
+                        <input name="Hclass" id="Hclass" type="hidden" value="0" /></td>
+                    <td><table width="100%" border="0" cellspacing="0">
+                        <tr>
+                            <td width="23%"><input name="oTitle" type="text" class="tjbd" id="oTitle" style="width:400px" maxlength="25" /></td>
+                            <td width="77%"><div id="oTitleTip" style="width:280px"></div></td>
+                        </tr>
+                    </table></td>
+                </tr>
+                <tr>
+                    <td height="41" align="right">转 让 费：</td>
+                    <td><table width="100%" border="0" cellspacing="0">
+                        <tr>
+                            <td width="24%"><input name="MoneyNum" type="text" class="tjbd" id="MoneyNum" style="width:150px" maxlength="10" />
+                                万元</td>
+                            <td width="76%"><div id="MoneyNumTip" style="width:280px"></div></td>
+                        </tr>
+                    </table></td>
+                </tr>
+                <tr>
+                    <td height="41" align="right">商铺租金：</td>
+                    <td><table width="100%" border="0" cellspacing="0">
+                        <tr>
+                            <td width="24%"><input name="MoneyNumzu" type="text" class="tjbd" id="MoneyNumzu" style="width:150px" maxlength="10" />
+                                元/月</td>
+                            <td width="76%"><div id="MoneyNumzuTip" style="width:280px"></div></td>
+                        </tr>
+                    </table></td>
+                </tr>
+                <tr>
+                    <td height="41" align="right"><font color="#FF0000">*</font> 面　　积：</td>
+                    <td><table width="100%" border="0" cellspacing="0">
+                        <tr>
+                            <td width="24%"><input name="Mianji" type="text" class="tjbd" id="Mianji" style="width:150px" maxlength="10" />
+                                平米</td>
+                            <td width="76%"><div id="MianjiTip" style="width:280px"></div></td>
+                        </tr>
+                    </table></td>
+                </tr>
+                <tr>
+                    <td height="41" align="right"> 装修程度：</td>
+                    <td><table width="100%" border="0" cellspacing="0">
+                        <tr>
+                            <td width="53%"><select name="zhuangxiu" id="zhuangxiu">
+                                <option value="0" selected="selected">选择装修程度</option>
+                                <option value="1">精装</option>
+                                <option value="2">中装</option>
+                                <option value="3">简装</option>
+                                <option value="4">毛坯</option>
+                                <option value="5">豪装</option>
+                            </select>
+                                <select name="hangye" id="hangye">
+                                    <option value="0">选择所属行业</option>
+                                    <option value="1">超市零售</option>
+                                    <option value="2">餐饮美食</option>
+                                    <option value="3">美容美发</option>
+                                    <option value="4">酒店宾馆</option>
+                                    <option value="5">电子通讯</option>
+                                    <option value="6">服饰鞋包</option>
+                                    <option value="7">专柜转让</option>
+                                    <option value="8">家居建材</option>
+                                    <option value="9">教育培训</option>
+                                    <option value="10">汽修美容</option>
+                                    <option value="11">生活服务</option>
+                                    <option value="12">休闲娱乐</option>
+                                    <option value="13">医药保健</option>
+                                    <option value="14">其他</option>
+                                </select>
+                                <select name="Hclasss" id="Hclasss">
+                                    <option value="0" selected="selected">选择商铺类型</option>
+                                    <option value="1">购物中心</option>
+                                    <option value="2">临街店铺</option>
+                                    <option value="3">摊位/柜台</option>
+                                    <option value="4">写字楼底商</option>
+                                    <option value="5">住宅底商</option>
+                                    <option value="6">其他</option>
+                                </select>
+                                <select name="iscmd" id="iscmd">
+                                    <option value="0" selected="selected">选择当前状态</option>
+                                    <option value="1">新铺</option>
+                                    <option value="2">空铺</option>
+                                    <option value="3">营业中</option>
+                                </select>
+                            </td>
+                            <td width="47%"><div id="zhuangxiuTip" style="width:280px"></div></td>
+                        </tr>
+                    </table></td>
+                </tr>
+                <tr>
+                    <td height="41" align="right"><font color="#FF0000">*</font> 地　　址：</td>
+                    <td><table width="100%" border="0" cellspacing="0">
+                        <tr>
+                            <td width="641">
+                                <select name="areaId" id="areaId">
+                                    <option value="0">所在区域</option>
+                                    {if $zone_data}
+                                        {foreach $zone_data as $vo}
+                                        <option value="{$vo.id}">{$vo.zonename}</option>
+                                        {/foreach}
+                                    {/if}
+                                </select>
+
+                                <input name="address" type="text" class="tjbd" id="address" style="width:310px" maxlength="30" /></td>
+                            <td width="609" ><div id="addressTip" style="width:280px"></div></td>
+                        </tr>
+                    </table></td>
+                </tr>
+                <tr>
+                    <td height="220" align="right" valign="top"><br>
+                        <font color="#FF0000">*</font> 详细描述：</td>
+                    <td><table width="100%" border="0" cellspacing="0">
+                        <tr>
+                            <td width="32%"><textarea  id="oInfo" name="oInfo" style="width:500px; height:200px; font-size:12px;" class="tjbd1"></textarea></td>
+                            <td width="68%"><div id="oInfoTip" style="width:280px"></div></td>
+                        </tr>
+                    </table></td>
+                </tr>
+                {if $is_open == 1}
+                <tr>
+                    <td height="220" align="right" valign="top"><br>
+                        核心卖点：</td>
+                    <td><table width="100%" border="0" cellspacing="0">
+                        <tr>
+                            <td width="32%"><textarea  id="SellingPoint" name="SellingPoint" style="width:500px; height:200px; font-size:12px;" class="tjbd1"></textarea></td>
+                            <td width="68%"><div id="SellingPointTip" style="width:280px"></div></td>
+                        </tr>
+                    </table></td>
+                </tr>
+                <tr>
+                    <td height="220" align="right" valign="top"><br>
+                        服务介绍：</td>
+                    <td><table width="100%" border="0" cellspacing="0">
+                        <tr>
+                            <td width="32%"><textarea  id="ServiceInfo" name="ServiceInfo" style="width:500px; height:200px; font-size:12px;" class="tjbd1">本人从事房地产多年，优质好房源多多，欢迎进入我的店铺查看，欢迎随时电话咨询，用我的服务为您置业安家保驾护航。</textarea></td>
+                            <td width="68%"><div id="ServiceInfoTip" style="width:280px"></div></td>
+                        </tr>
+                    </table></td>
+                </tr>
+                {/if}
+            </table>
+            {if $strTempLink == 0}
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td  width="120" height="41" align="right">联 系 人：</td>
+                    <td><table width="100%" border="0" cellspacing="0">
+                        <tr>
+                            <td width="13%"><input name="linkman" type="text" class="tjbd" id="linkman" style="width:150px" maxlength="10" /></td>
+                            <td width="87%"><div id="linkmanTip" style="width:280px"></div></td>
+                        </tr>
+                    </table></td>
+                </tr>
+                <tr>
+                    <td height="45" align="right"><font color="#FF0000">*</font> 联系电话：</td>
+                    <td><table width="100%" border="0" cellspacing="0">
+                        <tr>
+                            <td width="13%"><input name="tel" type="text" class="tjbd" id="tel" style="width:150px" maxlength="20" /></td>
+                            <td width="87%"><div id="telTip" style="width:280px"></div></td>
+                        </tr>
+                    </table></td>
+                </tr>
+                <tr id="bdTel" style="display:none">
+                    <td height="60" align="right"><font color="#FF0000">*</font> 短信验证码：</td>
+                    <td><table width="100%" border="0" cellspacing="0">
+                        <tr>
+                            <td width="22%"><input type="text" class="tjbd" id="telbd" style="width:65px" maxlength="6" />
+                                <a href="javascript:void(0);" onclick="GetTelMsg();" id="telmsg" class="blue">点击获取</a></td>
+                            <td width="78%"><div id="telbdTip" style="width:280px"></div></td>
+                        </tr>
+                    </table></td>
+                </tr>
+                <tr style="display:none">
+                    <td height="41" align="right">电子邮箱：</td>
+                    <td><table width="100%" border="0" cellspacing="0">
+                        <tr>
+                            <td width="13%"><input name="Email" type="text"  class="tjbd" id="Email" style="width:150px" maxlength="30"/></td>
+                            <td width="87%"><div id="EmailTip" style="width:280px"></div></td>
+                        </tr>
+                    </table></td>
+                </tr>
+                <tr>
+                    <td height="41" align="right">QQ 号码：</td>
+                    <td><table width="100%" border="0" cellspacing="0">
+                        <tr>
+                            <td width="13%"><input name="qq" type="text"  class="tjbd" id="qq" style="width:150px" maxlength="11"/></td>
+                            <td width="87%"><div id="qqTip" style="width:280px"></div></td>
+                        </tr>
+                    </table></td>
+                </tr>
+            </table>
+            {/if}
+        </div>
+        <div class="clear"></div>
+        <div class="sctp">
+            <table width="830" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td width="120"></td>
+                    <td width="750"><input type="hidden" name="upNum" id="upNum" value="8" />
+                        <input type="hidden" name="upLoadList" id="upLoadList"  />
+                        <div class="plan"><a href="javascript:;" class="upload-swf"> <span id="UpLoadBtn"></span></a> <a href="javascript:;" class="upload-mb" id="upload_mb" onclick="showDg();"></a>
+                            <p id="upStrInfoImagesDiv" style="clear:left"></p>
+                        </div>
+                        <div id="Imagesli" style=" width:750px; float:left"> </div>
+                        <div id="upLoading"></div></td>
+                </tr>
+            </table>
+        </div>
+        <div class="clear"></div>
+        <div class="fbbd">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td width="120" height="41" align="right"></td>
+                    <td><input type="button" onClick="ShowWin('标注地图','/post/public/map.asp',730,500);" value="在地图上标记房屋位置" style="height:26px; width:170px; padding:0 2px 0 2px">
+                        <input id="MapId" type="hidden" name="nid" size="30" maxlength="30" readonly="readonly" value=""/>
+                        <span style="color:#096; display:none" id="bz">标注成功</span></td>
+                </tr>
+            </table>
+        </div>
+        <div class="clear"></div>
+        {if $is_login == 0}
+            {include file="common/login" /}
+        {/if}
+        <div class="clear"></div>
+
+        {include file="common/recom_adv" /}
+
+        <div class="ljfb">
+
+            <input type="submit" name="button" id="button" value="立即发布" class="fbbu" />
+
+            <span id="msgbox"></span>
+        </div>
+        <div class="clear"></div>
+    </form>
+    <script type="text/javascript">
+
+        /* $.getScript("http://r.imgccoo.cn/post/images/js/swfupload.js", function(){
+            $.getScript("http://r.imgccoo.cn/post/images/js/fabu_upimg.js", function(){
+                $('#upStrInfoImagesDiv').html('按住 "ctrl" 键可一次选择多张图片，最多可以上传' + parseInt($('#upNum').val()) + '张图片，每张不超过' + _upSize + '。');
+                init("http://up9.ccoo.cn/upload.ashx?siteid=1507&uid=58077994&mode=s&filesrc=post&print=2&size=2&frmpage=" + document.location.href, 8, 'UpLoadBtn', 'ImagesDiv', 'Imagesli', 'Images_input', 'ImagesInfo', 'upNum', 'upLoadList', 'upLoading');
+            });
+        });
+
+        $.getScript("http://r.imgccoo.cn/post/images/ui.core.js", function(){
+            $.getScript("http://r.imgccoo.cn/post/images/ui.sortable.js", function(){
+                $("#Imagesli").sortable();
+            });
+        });*/
+
+        $.ajax({
+            dataType:'script',
+            scriptCharset:'gb2312',
+            url:'http://r.imgccoo.cn/post/images/js/swfupload.js',
+            success:function(){
+                $.ajax({
+                    dataType:'script',
+                    scriptCharset:'gb2312',
+                    url:'http://r.imgccoo.cn/post/images/js/fabu_upimg.js',
+                    success:function(){
+                        $('#upStrInfoImagesDiv').html('按住 "ctrl" 键可一次选择多张图片，最多可以上传' + parseInt($('#upNum').val()) + '张图片，每张不超过' + _upSize + '。');
+                        init("http://up9.ccoo.cn/upload.ashx?siteid={:session('site_id')}&uid={:session('uid')}&mode=s&filesrc=post&print=2&size=2&frmpage=" + document.location.href, 8, 'UpLoadBtn', 'ImagesDiv', 'Imagesli', 'Images_input', 'ImagesInfo', 'upNum', 'upLoadList', 'upLoading');
+                    }
+                })
+            }
+        });
+
+
+        $.ajax({
+            dataType:'script',
+            scriptCharset:'gb2312',
+            url:'http://r.imgccoo.cn/post/images/ui.core.js',
+            success:function(){
+                $.ajax({
+                    dataType:'script',
+                    scriptCharset:'gb2312',
+                    url:'http://r.imgccoo.cn/post/images/ui.sortable.js',
+                    success:function(){
+                        $("#Imagesli").sortable();
+                    }
+                })
+            }
+        });
+
+        $(function(){
+            if ($('.locking').length > 0) {
+                $('.locking').click(function() {
+                    alert($('.showtip p').text());
+                });
+            }
+            firstRecoFun();
+        });
+
+        function firstRecoFun(){
+            var recState="0";//状态 0默认，1正在编辑，2提交成功
+            var mainCls="0";//大类	1招聘，2简历，3房屋出售，4出租，5求购，6求租，7二手，8上门，9车辆，10生活，11商业，12教育，13交友,14商铺出兑
+
+            recState=$.cookie('recState');
+            mainCls=$.cookie('mainCls');
+
+            if(recState=="1" && mainCls=="14"){
+                var recBoxhtml="<iframe id='zheIframe' src='javascript:false' style='z-index:1;position: absolute; filter: alpha(opacity=0);opacity:0;" +
+                        "-moz-opacity:0; visibility:inherit;top: 0px;left: 0px;'></iframe>" +
+                        "<div id='zheDiv' style='z-index: 2; position: absolute; filter: alpha(opacity=50);opacity:.5;" +
+                        "-moz-opacity:0.5;BACKGROUND-COLOR: #000; zoom: 1; top: 0px;left: 0px;'></div>" +
+                        "<div class='showRecBox'>" + "<span>您有未正常提交的信息，是否恢复信息？</span>" +
+                        "<div><a href='javascript:;' onclick='return RecoFun();'>是</a>&nbsp;&nbsp;<a href='javascript:;' onclick='closeRecBox(1);return false;'>否</a>" +
+                        "</div></div>"
+                var w=$(document.body).width();
+                var h=$(document.body).height();
+                if($('.showRecBox').length==0){
+                    $(document.body).append(recBoxhtml)
+                }
+                var mw=$('.showRecBox').width();
+
+                $('#zheIframe').css('width', w+"px");
+                $('#zheIframe').css('height', h+"px");
+                $('#zheDiv').css('width', w+"px");
+                $('#zheDiv').css('height', h+"px");
+
+                $('#zheIframe').show();
+                $('#zheDiv').show();
+
+                $('.showRecBox').css('left',(w-mw)/2 + 'px');
+                $('.showRecBox').show();
+            }
+        }
+
+        function closeRecBox(sw){
+            $('.showRecBox').remove();
+            $('#zheDiv').remove();
+            $('#zheIframe').remove();
+            if(sw==1){
+                $.cookie('recState',"0");
+
+                clearRecFun();
+            }
+        }
+
+        function saveAllRec(){
+            $.cookie('Rec_Hclasss',$("#Hclasss").val());
+            $.cookie('Rec_oTitle',$("#oTitle").val());
+            $.cookie('Rec_areaId',$("#areaId").val());
+            $.cookie('Rec_address',$("#address").val());
+
+            $.cookie('Rec_Mianji',$("#Mianji").val());
+            $.cookie('Rec_MoneyNum',$("#MoneyNum").val());
+            $.cookie('Rec_zhuangxiu',$("#zhuangxiu").val());
+
+            $.cookie('Rec_MoneyNumzu',$("#MoneyNumzu").val());
+            $.cookie('Rec_hangye',$("#hangye").val());
+            $.cookie('Rec_iscmd',$("#iscmd").val());
+            $.cookie('Rec_shopname',$("#shopname").val());
+
+            $.cookie('Rec_oInfo',$("#oInfo").val());
+            $.cookie('Rec_SellingPoint',$("#SellingPoint").val());
+            $.cookie('Rec_ServiceInfo',$("#ServiceInfo").val());
+            $.cookie('Rec_linkman',$("#linkman").val());
+            $.cookie('Rec_Tel',$('#tel').val());
+            $.cookie('Rec_Email',$("#Email").val());
+            $.cookie('Rec_qq',$("#qq").val());
+
+
+        }
+
+        function clearRecFun(){
+            $.cookie('Rec_Hclasss',null);
+            $.cookie('Rec_oTitle',null);
+            $.cookie('Rec_areaId',null);
+            $.cookie('Rec_address',null);
+
+            $.cookie('Rec_Mianji',null);
+            $.cookie('Rec_MoneyNum',null);
+            $.cookie('Rec_zhuangxiu',null);
+
+            $.cookie('Rec_MoneyNumzu',null);
+            $.cookie('Rec_hangye',null);
+            $.cookie('Rec_iscmd',null);
+            $.cookie('Rec_shopname',null);
+
+            $.cookie('Rec_oInfo',null);
+            $.cookie('Rec_linkman',null);
+            $.cookie('Rec_Tel',null);
+            $.cookie('Rec_Email',null);
+            $.cookie('Rec_qq',null);
+        }
+
+        function RecoFun(){
+            closeRecBox();
+            var Rec_Hclasss=$.cookie('Rec_Hclasss');
+            var Rec_oTitle=$.cookie('Rec_oTitle');
+            var Rec_areaId=$.cookie('Rec_areaId');
+            var Rec_address=$.cookie('Rec_address');
+
+            var Rec_Mianji=$.cookie('Rec_Mianji');
+            var Rec_MoneyNum=$.cookie('Rec_MoneyNum');
+            var Rec_zhuangxiu=$.cookie('Rec_zhuangxiu');
+
+            var Rec_MoneyNumzu=$.cookie('Rec_MoneyNumzu');
+            var Rec_hangye=$.cookie('Rec_hangye');
+            var Rec_iscmd=$.cookie('Rec_iscmd');
+            var Rec_shopname=$.cookie('Rec_shopname');
+
+            var Rec_oInfo=$.cookie('Rec_oInfo');
+            var Rec_SellingPoint=$.cookie('Rec_SellingPoint');
+            var Rec_ServiceInfo=$.cookie('Rec_ServiceInfo');
+            var Rec_linkman=$.cookie('Rec_linkman');
+            var Rec_Tel=$.cookie('Rec_Tel');
+            var Rec_Email=$.cookie('Rec_Email');
+            var Rec_qq=$.cookie('Rec_qq');
+
+            if(Rec_Hclasss!=null && Rec_Hclasss!=0){$('#Hclasss option[value=' + Rec_Hclasss + ']').attr('selected','selected');}
+            if(Rec_oTitle!=null && Rec_oTitle!=""){$("#oTitle").val(Rec_oTitle);}
+            if(Rec_areaId!=null && Rec_areaId!=0){$('#areaId option[value=' + Rec_areaId + ']').attr('selected','selected');}
+            if(Rec_address!=null && Rec_address!=""){$('#address').val(Rec_address);}
+
+            if(Rec_Mianji!=null && Rec_Mianji!=""){$('#Mianji').val(Rec_Mianji);}
+            if(Rec_MoneyNum!=null && Rec_MoneyNum!=""){$('#MoneyNum').val(Rec_MoneyNum);}
+            if(Rec_zhuangxiu!=null && Rec_zhuangxiu!=0){$('#zhuangxiu option[value=' + Rec_zhuangxiu + ']').attr('selected','selected');}
+
+            if(Rec_MoneyNumzu!=null && Rec_MoneyNumzu!=""){$('#MoneyNumzu').val(Rec_MoneyNumzu);}
+            if(Rec_hangye!=null && Rec_hangye!=0){$('#hangye option[value=' + Rec_hangye + ']').attr('selected','selected');}
+            if(Rec_iscmd!=null && Rec_iscmd!=0){$('#iscmd option[value=' + Rec_iscmd + ']').attr('selected','selected');}
+            if(Rec_shopname!=null && Rec_shopname!=""){$("#shopname").val(Rec_shopname);}
+
+
+            if(Rec_oInfo!=null && Rec_oInfo!=""){$('#oInfo').val(Rec_oInfo);}
+            if(Rec_SellingPoint!=null && Rec_SellingPoint!=""){$('#SellingPoint').val(Rec_SellingPoint);}
+            if(Rec_ServiceInfo!=null && Rec_ServiceInfo!=""){$('#ServiceInfo').val(Rec_ServiceInfo);}
+            if(Rec_linkman!=null && Rec_linkman!=""){$('#linkman').val(Rec_linkman);}
+            if(Rec_Tel!=null && Rec_Tel!=""){$('#tel').val(Rec_Tel);if (isUserFabu == 1 || isUserName != '') { CheckTel();}}
+            if(Rec_Email!=null && Rec_Email!=""){$('#Email').val(Rec_Email);}
+            if(Rec_qq!=null && Rec_qq!=""){$('#qq').val(Rec_qq);}
+            if(isUserName==''){$('.nav30').show();}
+            return false;
+        }
+    </script>
+    <div id="bdtelid" result="0" style="display:none;"></div>
+
+    <script type="text/javascript">
+        // 验证号码
+        $('#tel').bind('blur', function() {
+            if (isUserFabu == 1 || isUserName != '') {
+                $('#telbd').unFormValidator(true);
+                CheckTel();
+            }
+        });
+        $('#telbd').bind('blur', function() {
+            var btTelId = parseInt($('#bdtelid').attr('result'));
+            if (btTelId == 1) {
+                $('#bdTel').remove();
+            }
+        });
+
+        function CheckTel() {
+            var Tel = $('#tel').val();
+            if (Tel != '') {
+                if (/^(([0\\+]\\d{2,3}-)?(0\\d{2,3})-)?(\\d{7,8})(-(\\d{3,}))?$|(^(1[3|4|5|6|7|8|9])[0-9]{9}$)/.test(Tel)) {
+                    $.ajax({
+                        type: 'GET',
+                        beforeSend: function() {},
+                        url: '/post/ajax/ajax.asp',
+                        data: {
+                            action: 'fabutel',
+                            tel: Tel,
+                            channel: 1,
+                            n: Math.random()
+                        },
+                        dataType: 'json',
+                        error: '',
+                        success: function(data) {
+                            if (data.err != 1) {
+                                $('#bdTel').css('display', '');
+                                //
+                                $("#telbd").formValidator({
+                                    validatorGroup: "13",
+                                    onShow: "",
+                                    onFocus: "请输入短信验证码",
+                                    onCorrect: "填写正确",
+                                    defaultValue: ""
+                                }).regexValidator({
+                                    regExp: "num",
+                                    dataType: "enum",
+                                    onError: "短信验证码为6位数"
+                                }).inputValidator({
+                                    min: 6,
+                                    max: 6,
+                                    onError: "请填写你收到的6位数字的验证码"
+                                }).ajaxValidator({
+                                    dataType: "json",
+                                    async: true,
+                                    url: '/post/ajax/ajax.asp',
+                                    data: {
+                                        action: 'chktel',
+                                        tel: Tel,
+                                        telcode: function() {
+                                            return $("#telbd").val()
+                                        },
+                                        n: Math.random()
+                                    },
+                                    success: function(data) {
+                                        if (data.err == 1) {
+                                            $('#bdtelid').attr('result', 1);
+                                            /*$('#bdTel').remove();*/
+                                            return true;
+                                        } else {
+                                            return false;
+                                        }
+                                    },
+                                    buttons: $("#button"),
+                                    error: function(jqXHR, textStatus, errorThrown) {
+                                        alert("服务器没有返回数据，可能服务器忙，请重试" + errorThrown);
+                                    },
+                                    onError: "该验证码不正确",
+                                    onWait: "正在校验，请稍候..."
+                                }).defaultPassed();
+                            } else {
+                                $('#bdTel').css('display', 'none');
+                            }
+                        }
+                    })
+                } else {
+                    $('#bdTel').css('display', 'none');
+                    $('#telbd').val('');
+                }
+            }
+        }
+
+        function GetTelMsg() {
+            if ($('#tel').val() == '') {
+                alert('联系电话不能为空');
+                $('#tel').focus();
+                return false;
+            }
+            if (/^(([0\\+]\\d{2,3}-)?(0\\d{2,3})-)?(\\d{7,8})(-(\\d{3,}))?$|(^(1[3|4|5|6|7|8|9])[0-9]{9}$)/.test($('#tel').val())) {
+                $.ajax({
+                    type: 'GET',
+                    beforeSend: function() {},
+                    url: '/post/ajax/ajax.asp',
+                    data: {
+                        action: 'sendtel',
+                        tel: $('#tel').val(),
+                        n: Math.random()
+                    },
+                    dataType: 'json',
+                    error: '',
+                    success: function(data) {
+                        if (data.err == 0) {
+                            alert('短信已经发送至：' + $('#tel').val() + ',请查收');
+                            timer();
+                        } else {
+                            alert('今日发送短信次数过多，请改日再试！');
+                        }
+                    }
+                })
+            }
+        }
+
+        //倒计时
+        var ele = document.getElementById('telmsg');
+
+        function timer() {
+            ele.onclick = null;
+            var now = new Date().getTime();
+            window.timeout = window.setTimeout(function() {
+                var ofs = parseInt((new Date().getTime() - now) / 1000);
+                if (ofs >= 120) {
+                    window.clearTimeout(window.timeout);
+                    ele.innerHTML = "点击获取";
+                    ele.onclick = GetTelMsg
+                } else {
+                    ele.innerHTML = (120 - ofs + "") + "秒后可重发";
+                    window.setTimeout(arguments.callee, 300)
+                }
+            }, 300)
+        }
+    </script>
+    <script type="text/javascript">
+        function sloadcate(id){
+            $(".onError").hide();
+            $(".onCorrect").hide();
+            $(".sylb").html('');
+            $(".sylb1").show();
+            if  (id==1) {LoadList2('fw',0,0);}
+            if  (id==2) {LoadList3('fw',5,0,0);}
+            if  (id==3) {LoadList4('fw',5,0,0);}
+        }
+
+        function xiaoqu_onkeyup(obj) {
+            $(".xiaoqu").hide();
+            var key=$(obj).val().replace("'","").replace("%27","");
+            if(rLATW(key)!=""){
+                $.ajax({
+                    url: '/post/xqxx.asp',
+                    data: 'action=getxqword&key=' + escape(key) + '&Num=' + Math.random()*1000,
+                    success: function(ajaxdata){
+                        if(rLATW(ajaxdata)!=""){
+                            $('.xiaoqu2').remove();
+                            $(document.body).append(ajaxdata);
+                            showWord();
+                            var oY=$(obj).offset().top;
+                            var oX=$(obj).offset().left;
+                            $('.xiaoqu2').css('top', oY + 26);
+                            $('.xiaoqu2').css('left', oX);
+                            $('.xiaoqu2').show();
+                        }else{
+                            $('.xiaoqu2').hide();
+                            $("#xqid").val(0);
+                        }
+                    }
+                });
+            }
+        }
+        function showWord(){
+            $(".xiaoqu2 li").hover(function(){
+                $(this).addClass("lanse");
+            },function(){
+                $(this).removeClass("lanse");
+            });
+            $(".xiaoqu2 li").click(function(){
+                var oxq=$(this).children("b").text();
+                var xqid=$(this).attr('val');
+                var xqadd=$(this).children("em").text();
+
+                $("#areazone").val(oxq);
+                $('.xiaoqu2').hide();
+                $("#xqid").val(xqid);
+                getData(xqid)
+                $('#address').val(xqadd);
+                $("#areazone").blur();
+                $('#address').blur();
+
+
+                $.cookie('Rec_xqid',xqid);
+                $.cookie('Rec_address',xqadd);
+                $.cookie('Rec_areazone',oxq);
+            });
+        }
+
+        $("window,*").click(function(e){
+            if($(".xiaoqu2")[0] != e.target && e.target!=$("#areazone")[0]){
+                $(".xiaoqu2").hide();
+            }
+        });
+
+        function rLATW(inputString){
+            if (typeof inputString == "string"){
+                var firstNonWhite = inputString.search(/\S/);
+                if (firstNonWhite != -1){
+                    for (var i=inputString.length-1; i >= 0; i--){
+                        if (inputString.charAt(i).search(/\S/) != -1){
+                            inputString = inputString.substring(firstNonWhite, i+1);
+                            break;
+                        }
+                    }
+                }else{return "";}
+            }
+            return inputString;
+        }
+        function load_qxlist(stype){
+            $("#zmFenlei").hide();
+            $("#fenLeiCon").html('<img src="http://r.imgccoo.cn/post/images/loading.gif" border="0" />载入中…')
+            $.ajax({
+                url: '/post/xqlist.asp',
+                data: 'action=getxqlist&stype='+stype+'&Num=' + Math.random()*1000,
+                success: function(ajaxdata){
+                    $("#fenLeiCon").html(ajaxdata)
+                    $("#zmFenlei").show();
+                    var load_i=0
+                    $("#fenLeiCon dl").each(function(){
+                        if(parseInt($(this).children().length)==0){
+                            $("#zmFenlei li").eq(load_i).hide();
+                        }
+                        load_i++;
+                    })
+
+                }
+            });
+        }
+        if(stype!=""){
+            $(document).ready(function(){
+                setTimeout("load_qxlist(stype)",1000)
+            })
+        }
+    </script>
+    <div id="imgModule" style="display:none;">
+        <div id="ImagesDiv{{N}}" style="float:left;width:82px;font-size:12px;padding:0 5px 0 0;line-height:18px;" class="mobileli">
+            <input name="Images_input" type="hidden" value="{{image}}">
+            <img src="http://r.imgccoo.cn/news/v3/images/1px.gif" width="80" height="60" border="0"><br>
+            <center>
+                <a href="javascript:void(0);" onClick="deldiv('ImagesDiv{{N}}','{{image}}');return false;">删 除</a>
+            </center>
+        </div>
+    </div>
+    <script>
+        var dgWin, uptime;
+        function showDg() {
+            uptime = (new Date()).Format("yyyy/M/dHms");
+            if ($('#Imagesli img').length == 8) {
+                $.dialog.alert($('#upStrInfoImagesDiv').html());
+            } else {
+                dgWin = ShowWin('手机传图', '/post/fabu/upload_mobile.asp?pictime=' + uptime, 780, 320);
+            }
+        }
+        //手机上传图片，网页显示AJAX
+        var autotime=null;
+        $("#upload_mb").click(function() {
+            clearInterval(autotime);
+            autotime = setInterval(function() {
+                orderback(uptime);
+            }, 5000);
+        });
+
+        var module='';
+        var imgLength=0;
+        $.ajaxSetup({
+            cache: false
+        });
+
+        function orderback(pictime) {
+            $.ajax({
+                type: "post",
+                url: "/post/fabu/kind.asp?action=ajaxpics&picids=" + pictime,
+                error: function() {
+                    alert("系统错误，请与管理员联系！");
+                },
+                success: function(data) {
+                    if (data != "" && data != 1001) {
+                        if ($('#Imagesli img').length == 8) {
+                            clearInterval(autotime);
+                            dgWin.close();
+                        } else {
+                            var images = data.split(',');
+                            for (var x in images) {
+                                var plen = parseInt($('#Imagesli img').length);
+                                var l = $('#Imagesli').length;
+                                if (plen == 8) {
+                                    UpdateUpPicText();
+                                    clearInterval(autotime);
+                                    dgWin.close();
+                                } else {
+                                    var temp = '';
+                                    temp = $('#imgModule').html();
+                                    temp = temp.replace(/{{N}}/g, x + l);
+                                    //http://r.imgccoo.cn/news/v3/images/1px.gif
+                                    temp = temp.replace(/{{image}}/g, images[x]);
+                                    temp = temp.replace(/{{simage}}/g, images[x]);
+                                    temp = temp.replace(/http:\/\/res.pccoo.cn\/news\/v3\/images\/1px.gif/g, images[x]);
+                                    $('#Imagesli').append(temp);
+                                }
+                            }
+                            UpdateUpPicText();
+                            clearInterval(autotime);
+                            dgWin.close();
+                        }
+                    }
+                }
+            });
+        }
+        function UpdateUpPicText() {
+            var imgNum = $('#Imagesli .mobileli').length;
+            var htmlText = '';
+            htmlText = '您已经上传了 <font style="font-weight:bold;color:red;">' + imgNum + '</font> 张图片，';
+            htmlText += '还可以再上传 <font style="font-weight:bold;color:red;">' + (8 - imgNum) + '</font> 张';
+            htmlText += '， 每张不超过5 MB。';
+            $('#upStrInfoImagesDiv').html(htmlText);
+            $('#upNum').val(8 - $('#Imagesli').children().length);
+            UpImages();
+        }
+        // 对Date的扩展，将 Date 转化为指定格式的String
+        // 月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符，
+        // 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字)
+        // 例子：
+        // (new Date()).Format("yyyy-MM-dd hh:mm:ss.S") ==> 2006-07-02 08:09:04.423
+        // (new Date()).Format("yyyy-M-d h:m:s.S")      ==> 2006-7-2 8:9:4.18
+        Date.prototype.Format = function (fmt) { //author: meizz
+            var o = {
+                "M+": this.getMonth() + 1, //月份
+                "d+": this.getDate(), //日
+                "H+": this.getHours(), //小时
+                "m+": this.getMinutes(), //分
+                "s+": this.getSeconds(), //秒
+                "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+                "S": this.getMilliseconds() //毫秒
+            };
+            if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+            for (var k in o)
+                if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+            return fmt;
+        }
+
+    </script>
+
+</div>
+<div class="jg"></div>
+{/block}
+
+{block name="zhushou"}
+{include file="public:zhushou"}
+{/block}
+
+{block name="under_js"}
+
+{/block}
+

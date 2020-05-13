@@ -1,0 +1,951 @@
+{extend name="public/base" /}
+
+{block name="title"}
+<title>分类信息发布，免费发布信息-新昌在线</title>
+{/block}
+{block name="keywords"}
+
+{/block}
+{block name="description"}
+<meta name="description" content="新昌招聘信息、求职信息、房屋出租出售、二手房、二手信息、车辆买卖、商机、培训信息、交友信息，免费发布！">
+{/block}
+
+
+{block name='css'}
+<link rel="stylesheet" type="text/css" href="http://r.imgccoo.cn/post/images/biaodan.css">
+<link rel="stylesheet" type="text/css" href="http://r.imgccoo.cn/post/images/fabu1.css">
+<link rel="stylesheet" type="text/css" href="http://r.imgccoo.cn/post/images/fenlei_v2.css">
+<script type="text/javascript" src="http://r.imgccoo.cn/post/images/js/form/form.js" charset="gb2312"></script>
+<script type="text/javascript" src="http://r.imgccoo.cn/post/images/js/form/regex.js" charset="gb2312"></script>
+<script type="text/javascript" src="http://r.imgccoo.cn/post/images/js/cookie.js" charset="gb2312"></script>
+<script type="text/javascript" src="http://r.imgccoo.cn/post/images/js/xheditor-1.2.1.min.js" charset="utf-8"></script>
+<link href="http://r.imgccoo.cn/post/js/xcConfirm/xcConfirm.css" rel="stylesheet" type="text/css">
+
+<script type="text/javascript" src="http://r.imgccoo.cn/post/js/xcConfirm/xcConfirm.js" charset="gb2312"></script>
+<script type="text/javascript" src="http://r.imgccoo.cn/post/images/js/laydate/laydate.js" charset="gb2312"></script>
+<link type="text/css" rel="stylesheet" href="http://r.imgccoo.cn/post/images/js/laydate/need/laydate.css">
+<link type="text/css" rel="stylesheet" href="http://r.imgccoo.cn/post/images/js/laydate/skins/default/laydate.css" id="LayDateSkin">
+<script type="text/javascript" src="http://r.imgccoo.cn/post/js/dialog/fun.js" charset="gb2312"></script>
+<script>
+    if (/Android|webOS|iPhone|iPod|BlackBerry|Windows CE|Windows Phone/i.test(navigator.userAgent)) {
+        if (window.location.href.indexOf("?pc") < 0) {
+            window.location.href = "http://m.xinchang.ccoo.cn/post/fabu/";
+        }
+    }
+</script>
+
+{/block}
+
+{block name="crumbs"}
+
+{/block}
+
+{block name="content"}
+<div class="sylb">
+
+
+    {include file="common/house_crumb" /}
+
+
+    {if $is_login == 1}
+    {include file="common/live_tip" /}
+    {/if}
+
+
+    {if $is_login == 1 && $IsPostFufei == 1 && $pay_price > 0}
+    {include file="common/open_live" /}
+    {/if}
+
+    <form method="post" name="form1" id="form1" onsubmit="return $.formValidator.pageIsValid('6');">
+        {include file="common/live_top" /}
+        <div class="fbbd">
+
+            <table width="100%" border="0" cellspacing="0" cellpadding="0"  id="SencondClass">
+                <tr>
+                    <td width="120" height="41" align="right"><font color="#FF0000">*</font> 类　　别：</td>
+                    <td><table width="100%" border="0" cellspacing="0">
+                        <tr>
+                            <td width="31%"><select id="ClassId" name="ClassId">
+                                <option value="0">请选择类别</option>
+                                {if $findData}
+                                {foreach $findData as $vo}
+                                <option value="{$vo.id}" NTitle="{$vo.kindTitle}" NSelect="{$vo.kindSelect}">{$vo.kindname}</option>
+                                {/foreach}
+                                {/if}
+
+                            </select>
+                                <font id="ajax_select">
+                                    <select id="ClassId2_S" name="ClassId2_S" style="display:none;">
+                                    </select>
+                                </font></td>
+                            <td width="69%"><div id="ClassIdTip" style="width:280px"></div></td>
+                        </tr>
+                    </table></td>
+                </tr>
+            </table>
+
+
+            <div id="ajax_content"></div>
+            <input type="checkbox" value="0" checked="checked" name="ClassId2_C" style="display:none"/>
+            <input type="checkbox" value="0" checked="checked" name="ClassId2_C" style="display:none"/>
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+
+
+                <tr class="Class_LX">
+                    <td width="120" height="41" align="right"><font color="#FF0000">*</font> 来　　源：</td>
+                    <td><table width="100%" border="0" cellspacing="0">
+                        <tr>
+                            <td width="13%"><label>
+                                <input type="radio" value="1" name="DX_1" id="DX_1_1"/>
+                                个人 </label>
+                                <label>
+                                    <input type="radio" value="2" name="DX_1" id="DX_1_2" checked="checked"/>
+                                    公司 </label></td>
+                            <td width="87%"><div id="DX_1Tip" style="width:280px"></div></td>
+                        </tr>
+                    </table></td>
+                </tr>
+
+                <tr class="Class_SJ">
+                    <td width="120" height="41" align="right"><font color="#FF0000">*</font> 公司名称：</td>
+                    <td><table width="100%" border="0" cellspacing="0">
+                        <tr>
+                            <td width="13%"><input type="text" class="tjbd" id="LinkCompName" style="width:400px" maxlength="25" value="{$compname ?? ''}" /></td>
+                            <td width="87%"><div id="LinkCompNameTip" style="width:280px"></div></td>
+                        </tr>
+                    </table></td>
+                </tr>
+
+                <tr>
+                    <td width="120" height="41" align="right"> 详细地址：</td>
+                    <td><table width="100%" border="0" cellspacing="0">
+                        <tr>
+                            <td width="10%" height="35">
+                                <select name="areaId" id="areaId">
+                                    <option value="0">所在区域</option>
+                                    {if $zone_data}
+                                    {foreach $zone_data as $vo}
+                                    <option value="{$vo.id}">{$vo.zonename}</option>
+                                    {/foreach}
+                                    {/if}
+                                </select>
+                            </td>
+                            <td width="20%"><input type="text" class="tjbd" id="workArea" style="width:150px" maxlength="20" /></td>
+                            <td width="70%"><div id="workAreaTip" style="width:280px"></div></td>
+                        </tr>
+                    </table></td>
+                </tr>
+                <tr>
+                    <td width="120" height="41" align="right"><font color="#FF0000">*</font> 标　　题：</td>
+                    <td><table width="100%" border="0" cellspacing="0">
+                        <tr>
+                            <td width="13%"><input type="text" class="tjbd" id="Title" style="width:400px" maxlength="25" /></td>
+                            <td width="87%"><div id="TitleTip" style="width:280px"></div></td>
+                        </tr>
+                    </table></td>
+                </tr>
+                <tr>
+                    <td height="220" align="right" valign="top"><br>
+                        <font color="#FF0000">*</font> 详细描述：</td>
+                    <td><table width="100%" border="0" cellspacing="0">
+                        <tr>
+                            <td width="13%"><textarea  id="HtmlInfo" style="width:500px; height:200px; font-size:12px;" class="tjbd1"></textarea></td>
+                            <td width="87%"><div id="HtmlInfoTip" style="width:280px"></div></td>
+                        </tr>
+                    </table></td>
+                </tr>
+            </table>
+        </div>
+        <div class="fbbd">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td  width="120" height="41" align="right"><font color="#FF0000">*</font>联 系 人：</td>
+                    <td><table width="100%" border="0" cellspacing="0">
+                        <tr>
+                            <td width="13%"><input name="linkman" type="text" class="tjbd" id="LinkMan" style="width:150px" maxlength="10"  value="{$linkman ?? ''}"/></td>
+                            <td width="87%"><div id="LinkManTip" style="width:280px"></div></td>
+                        </tr>
+                    </table></td>
+                </tr>
+                <tr>
+                    <td height="45" align="right"><font color="#FF0000">*</font> 联系电话：</td>
+                    <td><table width="100%" border="0" cellspacing="0">
+                        <tr>
+                            <td width="13%"><input name="tel" type="text" class="tjbd" id="tel" style="width:150px" maxlength="20" value="{$tel ?? ''}"/></td>
+                            <td width="87%"><div id="telTip" style="width:280px"></div></td>
+                        </tr>
+                    </table></td>
+                </tr>
+                <tr id="bdTel" style="display:none">
+                    <td height="60" align="right"><font color="#FF0000">*</font> 短信验证码：</td>
+                    <td><table width="100%" border="0" cellspacing="0">
+                        <tr>
+                            <td width="25%"><input type="text" class="tjbd" id="telbd" style="width:65px" maxlength="6" />
+                                <a href="javascript:void(0);" onclick="GetTelMsg();" id="telmsg" class="blue">点击获取</a></td>
+                            <td width="75%"><div id="telbdTip" style="width:280px"></div></td>
+                        </tr>
+                    </table></td>
+                </tr>
+                <tr>
+                    <td height="41" align="right">QQ 号码：</td>
+                    <td><table width="100%" border="0" cellspacing="0">
+                        <tr>
+                            <td width="13%"><input name="qq" type="text"  class="tjbd" id="LinkQQ" style="width:150px" maxlength="11" value="{$qq ?? ''}"/></td>
+                            <td width="87%"><div id="LinkQQTip" style="width:280px"></div></td>
+                        </tr>
+                    </table></td>
+                </tr>
+            </table>
+        </div>
+        <div class="clear"></div>
+        <div class="sctp">
+            <table width="830" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td width="120"></td>
+                    <td width="750"><input type="hidden" name="upNum" id="upNum" value="8" />
+                        <input type="hidden" name="upLoadList" id="upLoadList"  />
+                        <div class="plan"><a href="javascript:;" class="upload-swf"> <span id="UpLoadBtn"></span></a> <a href="javascript:;" class="upload-mb" id="upload_mb" onclick="showDg();"></a>
+                            <p id="upStrInfoImagesDiv" style="clear:left"></p>
+                        </div>
+                        <div id="Imagesli" style=" width:750px; float:left"> </div>
+                        <div id="upLoading"></div></td>
+                </tr>
+            </table>
+        </div>
+
+        {if $is_login == 0}
+        {include file="common/login" /}
+        {/if}
+
+        <div class="clear"></div>
+
+        {include file="common/recom_adv" /}
+
+        <div class="ljfb">
+
+            <input type="submit" name="button" id="button" value="立即发布" class="fbbu" />
+
+            <span id="msgbox"></span> </div>
+        <div class="clear"></div>
+    </form>
+    <script type="text/javascript">
+
+        $.ajax({
+            dataType:'script',
+            scriptCharset:'gb2312',
+            url:'http://r.imgccoo.cn/post/images/js/swfupload.js',
+            success:function(){
+                $.ajax({
+                    dataType:'script',
+                    scriptCharset:'gb2312',
+                    url:'http://r.imgccoo.cn/post/images/js/fabu_upimg.js',
+                    success:function(){
+                        $('#upStrInfoImagesDiv').html('按住 "ctrl" 键可一次选择多张图片，最多可以上传' + parseInt($('#upNum').val()) + '张图片，每张不超过' + _upSize + '。');
+                        init("http://up9.ccoo.cn/upload.ashx?siteid={:session('site_id')}&uid={:session('uid')}&mode=s&filesrc=post&print=2&size=2&frmpage=" + document.location.href, 8, 'UpLoadBtn', 'ImagesDiv', 'Imagesli', 'Images_input', 'ImagesInfo', 'upNum', 'upLoadList', 'upLoading');
+                    }
+                })
+            }
+        });
+
+
+        $.ajax({
+            dataType:'script',
+            scriptCharset:'gb2312',
+            url:'http://r.imgccoo.cn/post/images/ui.core.js',
+            success:function(){
+                $.ajax({
+                    dataType:'script',
+                    scriptCharset:'gb2312',
+                    url:'http://r.imgccoo.cn/post/images/ui.sortable.js',
+                    success:function(){
+                        $("#Imagesli").sortable();
+                    }
+                })
+            }
+        });
+
+        function firstRecoFun() {
+            var recState = "0"; //状态 0默认，1正在编辑，2提交成功
+            var mainCls = "0"; //大类	1招聘，2简历，3房屋出售，4出租，5求购，6求租，7二手，8上门，9车辆，10生活，11商业，12教育，13交友
+            recState = $.cookie('recState');
+            mainCls = $.cookie('mainCls');
+
+            if (recState == "1" && mainCls == "10") {
+                var recBoxhtml = $("#recBoxhtml").html();
+                var w = $(document.body).width();
+                var h = $(document.body).height();
+                if ($('.showRecBox').length == 0) {
+                    $(document.body).append(recBoxhtml)
+                }
+                var mw = $('.showRecBox').width();
+                $('#zheIframe').css('width', w + "px");
+                $('#zheIframe').css('height', h + "px");
+                $('#zheDiv').css('width', w + "px");
+                $('#zheDiv').css('height', h + "px");
+                $('#zheIframe').show();
+                $('#zheDiv').show();
+                $('.showRecBox').css('left', (w - mw) / 2 + 'px');
+                $('.showRecBox').show();
+            }
+        }
+
+        $(function(){
+            if ($('.locking').length > 0) {
+                $('.locking').click(function() {
+                    alert($('.showtip p').text());
+                });
+            }
+            firstRecoFun();
+
+            $.formValidator.initConfig({validatorGroup:"6",formID:"",theme:"ArrowSolidBox",onError:function(msg){alert(msg)},onSuccess:function(){subAjax();}});
+
+            $('#form1').keydown(function(){
+                $.cookie('recState','1');
+                $.cookie('mainCls','10');
+            });
+            $('#form1').bind('paste', function(){
+                $.cookie('recState','1');
+                $.cookie('mainCls','10');
+            });
+            $("#areaId").blur(function(){
+                $.cookie('Rec_areaId',$("#areaId").val());
+            });
+            $("#workArea").blur(function(){
+                $.cookie('Rec_workArea',$("#workArea").val());
+            });
+            $("#Title").blur(function(){
+                $.cookie('Rec_Title',$("#Title").val());
+            });
+            $("#LinkCompName").blur(function(){
+                $.cookie('Rec_LinkCompName',$("#LinkCompName").val());
+            });
+            $("#fwqy").blur(function(){
+                $.cookie('Rec_fwqy',$("#fwqy").val());
+            });
+            $("#LinkMan").blur(function(){
+                $.cookie('Rec_LinkMan',$("#LinkMan").val());
+            });
+            $("#LinkEmail").blur(function(){
+                $.cookie('Rec_LinkEmail',$("#LinkEmail").val());
+            });
+            $("#LinkQQ").blur(function(){
+                $.cookie('Rec_LinkQQ',$("#LinkQQ").val());
+            });
+            $("#tel").blur(function(){
+                $.cookie('Rec_LinkTel',$("#tel").val());
+            });
+            $("#ClassId").formValidator({validatorGroup:"6",onShow:"",onFocus:"请选择类别",onCorrect:"填写正确",defaultValue:""}).inputValidator({min:1,onError:"请选择类别",type:"value"});
+
+
+
+
+            $(":radio[name='DX_1']").formValidator({validatorGroup:"6",tipID:"DX_1Tip",onShow:"",onFocus:"请选择类型",onCorrect:"填写正确",defaultValue:""}).inputValidator();
+            $("#LinkCompName").formValidator({validatorGroup:"6",onShow:"",onFocus:"公司名称为2-25个字",onCorrect:"填写正确"}).inputValidator({min:4,max:50,empty:{leftEmpty:false,emptyError:"公司名称两边不能有空符号"},onError:"公司名称长度应2-25个字符请确认"});
+
+            $(":radio[name='DX_1']").live("click",function(){
+                if($(this).val()==1){
+                    $(".Class_SJ").hide()
+                    $("#LinkCompName").unFormValidator(true);
+                }else{
+                    $(".Class_SJ").show()
+                    $("#LinkCompName").unFormValidator(false);
+                }
+            })
+
+            $("#workArea").formValidator({validatorGroup:"6",empty:true,onShow:"",onFocus:"填写详细地址",onCorrect:"填写正确",defaultValue:""}).inputValidator({min:4,max:60,empty:{leftEmpty:false,emptyError:"详细地址两边不能有空符号"},onError:"填写详细地址应2-30个字符请确认"});
+            $("#Title").formValidator({validatorGroup:"6",onShow:"",onFocus:"5-25个字符，如大华家政为您服务",onCorrect:"填写正确",defaultValue:""}).inputValidator({min:10,max:50,empty:{leftEmpty:false,rightEmpty:false,emptyError:"标题两边不能有空符号"},onError:"标题长度应为5-25个字符请确认"});
+            $("#HtmlInfo").formValidator({validatorGroup:"6",onShow:"",onFocus:"5-2000字符，不能填写QQ电话号码等联系方式</br>如发现此信息中出现联系方式，信息将被删除",onCorrect:"填写正确",defaultvalue:"详细的介绍说明，会让别人更加了解你的需求，增加交易的成功率"}).inputValidator({min:10,max:2000,onError:"您输入的详细描述字数不符合要求，请按要求填写"});
+            $("#LinkMan").formValidator({validatorGroup:"6",onShow:"",onFocus:"请输入联系人姓名",onCorrect:"填写正确",defaultValue:""}).inputValidator({min:4,max:20,empty:{leftEmpty:false,rightEmpty:false,emptyError:"姓名两边不能有空符号"},onError:"联系人姓名长度为2-10个字符"});
+
+            $("#tel").formValidator({validatorGroup:"6",onShow:"",onFocus:"手机：13855555555<br>固话：010-8555555<br>400：4005555555 或 4005555-555",onCorrect:"填写正确"}).regexValidator({regExp:"(^(0\\d{2,3}-)?([2-9]\\d{6,7})(-\\d{1,5})?$)|(^(13|14|15|16|17|18|19)\\d{9}$)|(^(400|800)\\d{7}(-\\d{1,6})?$)",onError:"你输入的联系电话格式不正确"});
+            $("#LinkQQ").formValidator({validatorGroup:"6",empty:true,onShow:"",onFocus:"请填写QQ号码，方便网民与您联系",onCorrect:"填写正确"}).regexValidator({regExp:"qq",dataType:"enum",onError:"QQ号码格式不正确"});
+
+            $(":checkbox[name='ClassId2_C']").live("click",function(){
+                $("input[name='ClassId2_C']").attr('disabled', true);
+                if ($("input[name='ClassId2_C']:checked").length >= 7) {
+                    $("input[name='ClassId2_C']:checked").attr('disabled', false);
+                } else {
+                    $("input[name='ClassId2_C']").attr('disabled', false);
+                }
+            })
+        });
+    </script>
+    <div id="recBoxhtml" style="display:none">
+        <iframe id="zheIframe" src="javascript:false" style="z-index:1;position: absolute; filter: alpha(opacity=0);opacity:0;-moz-opacity:0; visibility:inherit;top: 0px;left: 0px;"></iframe>
+        <div id="zheDiv" style="z-index: 2; position: absolute; filter: alpha(opacity=50);opacity:.5;-moz-opacity:0.5;BACKGROUND-COLOR: #000; zoom: 1; top: 0px;left: 0px;"></div>
+        <div class="showRecBox"><span>您有未正常提交的信息，是否恢复信息？</span>
+            <div><a href="javascript:;" onclick="return RecoFun();">是</a>&nbsp;&nbsp;<a href="javascript:;" onclick="closeRecBox(1);return false;">否</a></div>
+        </div>
+    </div>
+    <script>
+        function closeRecBox(sw) {
+            $('.showRecBox').remove();
+            $('#zheDiv').remove();
+            $('#zheIframe').remove();
+            if (sw == 1) {
+                $.cookie('recState', "0");
+                clearRecFun();
+            }
+        }
+
+        function saveAllRec() {
+            $.cookie('Rec_areaId', $("#areaId").val());
+            $.cookie('Rec_workArea', $("#workArea").val());
+            $.cookie('Rec_Title', $("#Title").val());
+            $.cookie('Rec_LinkCompName', $("#LinkCompName").val());
+            $.cookie('Rec_fwqy', $("#fwqy").val());
+            $.cookie('Rec_HtmlInfo', $("#HtmlInfo").val());
+            $.cookie('Rec_LinkMan', $("#LinkMan").val());
+            $.cookie('Rec_LinkEmail', $("#LinkEmail").val());
+            $.cookie('Rec_LinkQQ', $("#LinkQQ").val());
+            $.cookie('Rec_LinkTel', $("#tel").val());
+        }
+
+        function clearRecFun(){
+            $.cookie('Rec_areaId',null);
+            $.cookie('Rec_workArea',null);
+            $.cookie('Rec_Title',null);
+            $.cookie('Rec_LinkCompName',null);
+            $.cookie('Rec_fwqy',null);
+            $.cookie('Rec_HtmlInfo',null);
+
+            $.cookie('Rec_LinkMan',null);
+            $.cookie('Rec_LinkEmail',null);
+            $.cookie('Rec_LinkQQ',null);
+            $.cookie('Rec_LinkTel',null);
+
+        }
+        function RecoFun() {
+            closeRecBox();
+            var Rec_areaId = $.cookie('Rec_areaId');
+            var Rec_workArea = $.cookie('Rec_workArea');
+            var Rec_Title = $.cookie('Rec_Title');
+            var Rec_LinkCompName = $.cookie('Rec_LinkCompName');
+            var Rec_fwqy = $.cookie('Rec_fwqy');
+            var Rec_HtmlInfo = $.cookie('Rec_HtmlInfo');
+            var Rec_LinkMan = $.cookie('Rec_LinkMan');
+            var Rec_LinkEmail = $.cookie('Rec_LinkEmail');
+            var Rec_LinkQQ = $.cookie('Rec_LinkQQ');
+            var Rec_LinkTel = $.cookie('Rec_LinkTel');
+
+            if (Rec_areaId != null && Rec_areaId != 0) {
+                $('#areaId option[value=' + Rec_areaId + ']').attr('selected', 'selected');
+            }
+            if (Rec_workArea != null && Rec_workArea != "") {
+                $('#workArea').val(Rec_workArea);
+            }
+            if (Rec_Title != null && Rec_Title != "") {
+                $("#Title").val(Rec_Title);
+            }
+            if (Rec_LinkCompName != null && Rec_LinkCompName != "" && !$('#LinkCompName').attr("readonly")) {
+                $('#LinkCompName').val(Rec_LinkCompName);
+            }
+            if (Rec_fwqy != null && Rec_fwqy != "") {
+                $('#fwqy').val(Rec_fwqy);
+            }
+            if (Rec_HtmlInfo != null && Rec_HtmlInfo != "") {
+                $('#HtmlInfo').val(Rec_HtmlInfo);
+            }
+            if (Rec_LinkMan != null && Rec_LinkMan != "") {
+                $('#LinkMan').val(Rec_LinkMan);
+            }
+            if (Rec_LinkEmail != null && Rec_LinkEmail != "") {
+                $('#LinkEmail').val(Rec_LinkEmail);
+            }
+            if (Rec_LinkQQ != null && Rec_LinkQQ != "") {
+                $('#LinkQQ').val(Rec_LinkQQ);
+            }
+            if (Rec_LinkTel != null && Rec_LinkTel != "") {
+                $('#tel').val(Rec_LinkTel);
+            }
+            return false;
+        }
+
+        //字符判断
+        function len(s) {
+            var l = 0;
+            var a = s.split("");
+            for (var i = 0; i < a.length; i++) {
+                if (a[i].charCodeAt(0) < 299) {
+                    l++;
+                } else {
+                    l += 2;
+                }
+            }
+            return l;
+        }
+        //去掉所有的html标记
+        function delHtmlTag(str) {
+            return str.replace(/<[^>]+>/g, "");
+        }
+        $(pageInit);
+
+        function pageInit() {
+            $('#HtmlInfo').xheditor({
+                tools: 'Bold,Italic,Underline,FontColor,BackColor,Align',
+                skin: 'default',
+                layerShadow: 3,
+                cleanPaste: 3,
+                clickCancelDialog: false,
+                forcePtag: true,
+                loadCSS: '<style>body{font-size:14px;lineheight:28px}</style>',
+                focus: dofocus,
+                blur: delfocus
+            });
+        }
+
+        function dofocus() {
+            $("#HtmlInfoTip").html('<span class="onFocus"><span class="onFocus_top">5-2000字符，不能填写QQ电话号码等联系方式</br>如发现此信息中出现联系方式，信息将被删除</span><span class="onFocus_bot"></span></span>')
+            $("#HtmlInfoTip").show()
+            $.cookie('Rec_HtmlInfo', $("#HtmlInfo").val());
+        }
+
+        function delfocus() {
+            if (len(delHtmlTag($('#HtmlInfo').val())) > 4000 || len(delHtmlTag($('#HtmlInfo').val())) < 10) {
+                $("#HtmlInfoTip").html('<span class="onError"><span class="onError_top">您输入的详细描述字数不符合要求，请按要求填写</span><span class="onError_bot"></span></span>')
+                $.cookie('Rec_HtmlInfo', $("#HtmlInfo").val());
+            } else {
+                $("#HtmlInfoTip").html('<span class="onCorrect"></span>')
+                $.cookie('Rec_HtmlInfo', $("#HtmlInfo").val());
+            }
+        }
+
+
+        //-------------------------------------
+        var users;
+
+        users = 1;
+
+        function subAjax() {
+            if(parseInt($("#upNum").val())<0){
+                if(confirm("图片数量过多，图片数量最多为8张，是否直接上传？\n您可以选“是”直接上传，将删除超过8张后面的图片；\n也可以选“否”进行手动删除！")){
+                    $("#Imagesli").children().eq(7).nextAll().remove()
+                    $('#upNum').val(8-$('#Imagesli').children().length)
+                    UpImages()
+                }else{
+                    return false;
+                }
+            }
+            var p1, p2,Infokind,ClassId2_S;
+            Infokind = 1;
+
+            if ($("#ClassId2_S").val()){
+                ClassId2_S=$("#ClassId2_S").val()
+            }else{
+                ClassId2_S=0
+            }
+
+            $('#msgbox').html('<img src="http://r.imgccoo.cn/post/images/loading.gif" border="0" />提交中…');
+            $('#button').attr("disabled", true);
+            if (users == 1) {
+                p1 = "";
+                p2 = "";
+            } else {
+                p1 = escape($('#Pwd1').val());
+                p2 = escape($('#Pwd2').val());
+            }
+            saveAllRec();
+            var Images_input_list="";
+            $("#Imagesli :input[name='Images_input']").each(function(){
+                Images_input_list+=$(this).val()+'|'
+            })
+            $.ajax({
+                type: "POST",
+                url: "/home/release/liveSave",
+                data: {
+                    Infokind: escape('{$type_id}'),
+                    ClassId: escape($("#ClassId").val()),
+                    ClassId2_S: escape(ClassId2_S),
+                    ClassId2_C: escape(getCheckBox("ClassId2_C")),
+                    DX_1: escape($(":radio[name='DX_1'][checked]").val()),
+                    sh_CompName: escape($('#LinkCompName').val()),
+                    areaId: escape($('#areaId').val()),
+                    address: escape($('#workArea').val()),
+                    Title: escape($('#Title').val()),
+                    info: escape($('#HtmlInfo').val()),
+                    linkman: escape($('#LinkMan').val()),
+                    tel: escape($('#tel').val()),
+                    qq: escape($('#LinkQQ').val()),
+                    email: escape($('#LinkEmail').val()),
+                    telmsg: escape($('#telbd').val()),
+                    upLoadList: escape(Images_input_list)
+                },
+                error: function() {alert("系统错误，请与管理员联系！");$('#button').attr("disabled", false);},
+                success: function(data){
+                    if (data > 888) {
+                        $.cookie('recState','2');//成功后，改变状态。
+
+                        if({$IsPostFufei} == 1){
+                            ShowWinAuto('信息发布权限购买','/post/buy_fabu_step.asp?action=fb&cid=5&tname=live_info&id='+data+'',520,420,function(){
+
+                                var a=confirm("本条信息支付后才能显示，确认关闭？");
+                                if(a==true)
+                                {
+                                    window.location.href='/post/users/'
+                                }
+                                else
+                                {
+                                    return false;
+                                }
+                            });
+                            return false;
+                        }else{
+                            clearRecFun(); //清空表单项
+                            location.href = '/post/sh/url/' + data + '/';
+                        }
+
+                    } else {
+                        switch (data) {
+                            case '0':
+                                alert('根据国家法律法规，您的信息涉及到非法字符，请修改后发布!');
+                                break;
+                            case '100':
+                                alert('此用户不是新昌在线用户，不能在新昌在线发布分类信息!');
+                                location.reload();
+                                break;
+                            case '1':
+                                alert('请选择信息类别!');
+                                $('#msgbox').hide();
+                                break;
+                            case '2':
+                                alert('标题是您的必填项!');
+                                $('#msgbox').hide();
+                                break;
+                            case '3':
+                                alert('您填写的标题过长!');
+                                $('#msgbox').hide();
+                                break;
+                            case '4':
+                                alert('详细说明是您的必填项!');
+                                $('#msgbox').hide();
+                                break;
+                            case '5':
+                                alert('联系电话是您的必填项!');
+                                $('#msgbox').hide();
+                                break;
+                            case 6:
+                                alert('您的账号被管理员禁发，没有发布信息的权限，如需发布请联系本站！联系电话：{$service_comptel}');
+                                location.reload();
+                                break;
+                            case '7':
+                                alert('删除信息密码是您必须填写的项!');
+                                $('#msgbox').hide();
+                                break;
+                            case '8':
+                                alert('确认删除密码是您必须填写的项!');
+                                $('#msgbox').hide();
+                                break;
+                            case '9':
+                                alert('两次密码输入不相同!');
+                                $('#msgbox').hide();
+                                break;
+                            case 10:
+                                alert('您的账号被管理员禁发，没有发布信息的权限，如需发布请联系本站！联系电话：{$service_comptel}');
+                                location.reload();
+                                break;
+                            default:
+                                alert(unescape(data));
+                                //location.reload();
+                                $('#msgbox').hide();
+                                $('#button').attr("disabled", false);
+                                break;
+                        }
+                    }
+                }
+            });
+        }
+        function getCheckBox(CheckBox) {
+            var val = ""
+            $(":checkbox[name='" + CheckBox + "'][checked]").each(function() {
+                val = val + "," + $(this).val();
+            })
+            if (val != "") {
+                return val.substring(1);
+            } else {
+                return "";
+            }
+        }
+
+        //-------------------------------------
+
+
+        function showCode() {
+            $('#imgCode').attr('src', '/reg/verifycode.asp?t=' + Math.random());
+        }
+        //-------------------------------------
+
+
+        function sloadcate(id) {
+            $(".onError").hide();
+            $(".onCorrect").hide();
+            $(".sylb").html('');
+            $(".sylb1").show();
+            if (id == 1) {
+                LoadList2('sh', 0, 0);
+            }
+            if (id == 2) {
+                LoadList3('sh', 1 , 0, 0);
+            }
+            if (id == 3) {
+                LoadList4('sh', 1 , 0 , 0);
+            }
+        }
+    </script>
+    <div id="imgModule" style="display:none;">
+        <div id="ImagesDiv{{N}}" style="float:left;width:82px;font-size:12px;padding:0 5px 0 0;line-height:18px;" class="mobileli">
+            <input name="Images_input" type="hidden" value="{{image}}">
+            <img src="{{simage}}" width="80" height="60" border="0"><br>
+            <center>
+                <a href="javascript:void(0);" onClick="deldiv('ImagesDiv{{N}}','{{image}}');return false;">删 除</a>
+            </center>
+        </div>
+    </div>
+    <script>
+        var dgWin, uptime;
+        function showDg() {
+            uptime = (new Date()).Format("yyyy/M/dHms");
+            if ($('#Imagesli img').length == 8) {
+                $.dialog.alert($('#upStrInfoImagesDiv').html());
+            } else {
+                dgWin = ShowWin('手机传图', '/post/fabu/upload_mobile.asp?pictime=' + uptime, 780, 320);
+            }
+        }
+        //手机上传图片，网页显示AJAX
+        var autotime=null;
+        $("#upload_mb").click(function() {
+            clearInterval(autotime);
+            autotime = setInterval(function() {
+                orderback(uptime);
+            }, 5000);
+        });
+
+        var module='';
+        var imgLength=0;
+        $.ajaxSetup({
+            cache: false
+        });
+
+        function orderback(pictime) {
+            $.ajax({
+                type: "post",
+                url: "/post/fabu/kind.asp?action=ajaxpics&picids=" + pictime,
+                error: function() {
+                    alert("系统错误，请与管理员联系！");
+                },
+                success: function(data) {
+                    if (data != "" && data != 1001) {
+                        if ($('#Imagesli img').length == 8) {
+                            clearInterval(autotime);
+                            dgWin.close();
+                        } else {
+                            var images = data.split(',');
+                            for (var x in images) {
+                                var plen = parseInt($('#Imagesli img').length);
+                                var l = $('#Imagesli').length;
+                                if (plen == 8) {
+                                    UpdateUpPicText();
+                                    clearInterval(autotime);
+                                    dgWin.close();
+                                } else {
+                                    var temp = '';
+                                    temp = $('#imgModule').html();
+                                    temp = temp.replace(/{{N}}/g, x + l);
+                                    temp = temp.replace(/{{image}}/g, images[x]);
+                                    temp = temp.replace(/{{simage}}/g, images[x]);
+                                    $('#Imagesli').append(temp);
+                                }
+                            }
+                            UpdateUpPicText();
+                            clearInterval(autotime);
+                            dgWin.close();
+                        }
+                    }
+                }
+            });
+        }
+        function UpdateUpPicText() {
+            var imgNum = $('#Imagesli .mobileli').length;
+            var htmlText = '';
+            htmlText = '您已经上传了 <font style="font-weight:bold;color:red;">' + imgNum + '</font> 张图片，';
+            htmlText += '还可以再上传 <font style="font-weight:bold;color:red;">' + (8 - imgNum) + '</font> 张';
+            htmlText += '， 每张不超过5 MB。';
+            $('#upStrInfoImagesDiv').html(htmlText);
+            $('#upNum').val(8 - $('#Imagesli').children().length);
+            UpImages();
+        }
+        // 对Date的扩展，将 Date 转化为指定格式的String
+        // 月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符，
+        // 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字)
+        // 例子：
+        // (new Date()).Format("yyyy-MM-dd hh:mm:ss.S") ==> 2006-07-02 08:09:04.423
+        // (new Date()).Format("yyyy-M-d h:m:s.S")      ==> 2006-7-2 8:9:4.18
+        Date.prototype.Format = function (fmt) { //author: meizz
+            var o = {
+                "M+": this.getMonth() + 1, //月份
+                "d+": this.getDate(), //日
+                "H+": this.getHours(), //小时
+                "m+": this.getMinutes(), //分
+                "s+": this.getSeconds(), //秒
+                "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+                "S": this.getMilliseconds() //毫秒
+            };
+            if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+            for (var k in o)
+                if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+            return fmt;
+        }
+    </script>
+    <div id="bdtelid" result="0" style="display:none;"></div>
+    <script type="text/javascript">
+        var isUserFabu = 0;
+        var isUserName = 'sid58077994';
+        // 验证号码
+        $('#tel').bind('change keyup blur', function() {
+            if (isUserFabu == 1 || isUserName != '') {
+                CheckTel();
+            }
+        });
+        $('#telbd').bind('change keyup blur', function() {
+            var btTelId = parseInt($('#bdtelid').attr('result'));
+            if (btTelId == 1) {
+                $('#bdTel').remove();
+            }
+        });
+
+        function CheckTel() {
+            var Tel = $('#tel').val();
+            if (Tel != '') {
+                if (/^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/.test(Tel)) {
+                    $.ajax({
+                        type: 'GET',
+                        beforeSend: function() {},
+                        url: '/post/ajax/ajax.asp',
+                        data: {
+                            action: 'fabutel',
+                            tel: Tel,
+                            channel: 4,
+                            n: Math.random()
+                        },
+                        dataType: 'json',
+                        error: '',
+                        success: function(data) {
+                            if (data.err != 1) {
+                                $('#bdTel').css('display', '');
+                                //
+                                $("#telbd").formValidator({
+                                    validatorGroup: "6",
+                                    onShow: "",
+                                    onFocus: "请输入短信验证码",
+                                    onCorrect: "填写正确",
+                                    defaultValue: ""
+                                }).regexValidator({
+                                    regExp: "num",
+                                    dataType: "enum",
+                                    onError: "短信验证码为6位数"
+                                }).inputValidator({
+                                    min: 6,
+                                    max: 6,
+                                    onError: "请填写你收到的6位数字的验证码"
+                                }).ajaxValidator({
+                                    dataType: "json",
+                                    async: true,
+                                    url: '/post/ajax/ajax.asp',
+                                    data: {
+                                        action: 'chktel',
+                                        tel: Tel,
+                                        telcode: function() {
+                                            return $("#telbd").val()
+                                        },
+                                        n: Math.random()
+                                    },
+                                    success: function(data) {
+                                        if (data.err == 1) {
+                                            $('#bdtelid').attr('result', 1);
+                                            /*$('#bdTel').remove();*/
+                                            return true;
+                                        } else {
+                                            return '校队短信验证码错误';
+                                        }
+                                    },
+                                    buttons: $("#button"),
+                                    error: function(jqXHR, textStatus, errorThrown) {
+                                        alert("服务器没有返回数据，可能服务器忙，请重试" + errorThrown);
+                                    },
+                                    onError: "该验证码不正确",
+                                    onWait: "正在校队验证码的真实性，请稍候..."
+                                }).defaultPassed();
+                            } else {
+                                $('#bdTel').css('display', 'none');
+                                $('#telbd').val('');
+                            }
+                        }
+                    })
+                } else {
+                    $('#bdTel').css('display', 'none');
+                    $('#telbd').val('');
+                }
+            }
+        }
+
+        function GetTelMsg() {
+            if ($('#tel').val() == '') {
+                alert('联系电话不能为空');
+                $('#tel').focus();
+                return false;
+            }
+            if (/^(([0\\+]\\d{2,3}-)?(0\\d{2,3})-)?(\\d{7,8})(-(\\d{3,}))?$|(^(1[3|4|5|6|7|8|9])[0-9]{9}$)/.test($('#tel').val())) {
+                $.ajax({
+                    type: 'GET',
+                    beforeSend: function() {},
+                    url: '/post/ajax/ajax.asp',
+                    data: {
+                        action: 'sendtel',
+                        tel: $('#tel').val(),
+                        n: Math.random()
+                    },
+                    dataType: 'json',
+                    error: '',
+                    success: function(data) {
+                        if (data.err == 0) {
+                            alert('短信已经发送至：' + $('#tel').val() + ',请查收');
+                            timer();
+                        } else {
+                            alert('今日发送短信次数过多，请改日再试！');
+                        }
+                    }
+                })
+            }
+        }
+
+        //倒计时
+        var ele = document.getElementById('telmsg');
+
+        function timer() {
+            ele.onclick = null;
+            var now = new Date().getTime();
+            window.timeout = window.setTimeout(function() {
+                var ofs = parseInt((new Date().getTime() - now) / 1000);
+                if (ofs >= 120) {
+                    window.clearTimeout(window.timeout);
+                    ele.innerHTML = "点击获取";
+                    ele.onclick = GetTelMsg
+                } else {
+                    ele.innerHTML = (120 - ofs + "") + "可重发";
+                    window.setTimeout(arguments.callee, 300)
+                }
+            }, 300)
+        }
+    </script>
+
+</div>
+<div class="jg"></div>
+{/block}
+
+{block name="zhushou"}
+{include file="public:zhushou"}
+{/block}
+
+{block name="under_js"}
+
+{/block}
+

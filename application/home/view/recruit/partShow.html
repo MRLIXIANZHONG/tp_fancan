@@ -1,0 +1,720 @@
+{extend name="public/base" /}
+
+{block name="title"}
+<title>{$vo.title}_{$siteName}</title>
+{/block}
+{block name="keywords"}
+<meta name="keywords" content="{$vo.title},{$areaName}{$vo.kindname}{$areaName}人才,{$areaName}招聘" />
+{/block}
+{block name="description"}
+<meta name="description" content="{$vo.title}，{$vo.info | strip_tags | mb_substr=0,200,'utf-8'}">
+{/block}
+
+{block name='css'}
+
+<link href="http://c.imgccoo.cn/post/images/fenleishow_v2.css" rel="stylesheet" type="text/css">
+<link href="http://r.imgccoo.cn/post/images/jquery.ad-gallery1.css" rel="stylesheet" type="text/css">
+<!--<script type="text/javascript" src="http://r.imgccoo.cn/post/images/postcommon.js"></script>-->
+
+<script type="text/javascript">
+    /*if (/Android|webOS|iPhone|iPod|BlackBerry|Windows CE|Windows Phone/i.test(navigator.userAgent)) {
+     if (window.location.href.indexOf("?pc") < 0) {
+     window.location.href = "http://m.bc.ccoo.cn/post/jianzhi/jzshow.aspx?id=193653";
+     }
+     }*/
+    $(function() {
+        var galleries = $('.ad-gallery').adGallery();
+        $('#switch-effect').change(function() {
+            galleries[0].settings.effect = $(this).val();
+            return false
+        })
+    });
+
+    function getPage(strHtml, sValue, page, username) {
+        var strHtmlTitle = '<p style="text-align:center; font-size:12px; color:#000;margin:2px;vertical-align:middle;">';
+        strHtmlTitle += '<img src="http://r.imgccoo.cn/post/images/loading.gif" style="vertical-align:middle;margin-right:1px;" border="0" />加载中……</p>';
+        $("#" + strHtml).html(strHtmlTitle);
+        $.post("{:url('Home/Recruit/partOthers');}", {
+                    strHtml: strHtml,
+                    id: sValue,
+                    toName:username,
+                    p: page
+                },
+                function (data) {
+                    if (data != "") {
+                        $("#" + strHtml).html(data);
+                    }
+                });
+    }
+
+    $(function() {
+        /* var tel=$('.gettel').attr('id');
+         $.ajax({
+         type: "POST",
+         url: "/post/public/post_tel.asp",
+         data: 'tel=' + tel + '&num=' + Math.random()*10000,
+         success: function(data) {
+         $(".gettel").html(data);
+         }, error: function(error) {
+         $(".gettel").html("无");
+         }
+         });*/
+        // 收藏
+        GetCollectionIs(14,'{$vo.id}');
+    });
+
+</script>
+
+{/block}
+
+{block name="crumbs"}
+<div class="fenleiq">您当前的位置：<a href="/">{:cookie('sitename')}首页</a> &gt;&gt; <a href="/post/">分类信息首页</a> &gt;&gt; <a href="/post/job/">招聘求职首页</a> &gt;&gt; <a href="/post/jianzhis/list-{$vo.k_id}-0-1.html">{$vo.kindname}</a>&gt;&gt;招聘信息</div>
+{/block}
+{block name="content"}
+<div class="d_main">
+    <h1>{$vo.title}</h1>
+    <div class="balefthead"> <span class="fltl">发布时间：{$vo.edittime|date='Y-m-d'} 信息关注度：{$showHit | raw}</span> <span class="fltr">
+    <ul>
+
+        <li class="sc" title="收藏信息" id="scbox"><a href="javascript:void(0);" onclick="GetCollection(14,'{$vo.id}');return false;">收藏</a></li>
+        <li class="jb" title="举报信息">
+            <a href="javascript:void(0);" onclick="ShowWin('举报信息','/post/Post_report.asp?action=postReport&id={$vo.id}&cls=14&IndexWinUrl=/post/jianzhi/{$vo.id}x.html',550,300);return false;" title="举报信息">举报
+            </a>
+        </li>
+        <li title="分享信息" class="bdsharebuttonbox bdshare_t bds_tools get-codes-bdshare fx bdshare-button-style0-16" data-bd-bind="1568944276638">
+            <a class="bds_more bds_morex" data-cmd="more" style="margin:0px; padding:0px;  color:#00c;">分享</a>
+        </li>
+        <li class="gl" title="管理我发布的信息">
+            <span>
+                <a href="javascript:void(0);">管理</a>
+            </span>
+
+            <p>
+                {if ($session_username == $vo.username ) }
+                {$ldata.strEditUrl | raw}
+                {else /}
+                {if ($vo.username && !$isVipMark) }
+                <a href="javascript:void(0);" onclick="ShowWin('修改我发布的信息','{$ldata.strEditUrl}',400,245);return false;">修改</a>
+                {/if}
+                {/if}
+
+                {if ($vo.username && !$isVipMark) }
+                <a href="javascript:void(0);" onclick="ShowWinAuto('刷新信息','/post/ajax/post_up.asp?stype=14&id={$vo.id}',850,'auto');return false;">刷新</a>
+                {/if}
+
+                <a href="javascript:void(0);" onclick="ShowWin('删除信息','{$ldata.strDelUrl}',430,180);return false;">删除</a>
+            </p>
+
+        </li>
+        <input type="hidden" name="username{$vo.id}" id="username{$vo.id}" value="{$vo.username}">
+        <span id="WinUrl_job_jz_info_193653" style="display:none;">/post/jianzhi/{$vo.id}x.html</span>
+        <li class="tj" title="在本站推荐我的信息">
+            <a href="javascript:void(0);" onclick="ShowWinAuto('信息推荐申请','/post/postjump/post_cmd.asp?tname=job_jz_info&id={$vo.id}',850,520);return false;">推荐</a>
+            <i class="iTipTop">置顶推荐</i>（提高效果6-8倍）
+        </li>
+    </ul>
+    </span>
+        <div style="clear:both;"></div>
+    </div>
+
+    <div class="smleft">
+        <div class="xxshow">
+            <div class="zprshow">
+                <div class="neirong">
+                    <div class="mqconx">
+                        <div class="gongsimq">
+                            {if ($isVipMark) }
+                            <a href="/post/zhaopin/vip/index{$vo.m_id}.html" target="_blank" class="commz">{$vo.compname | mb_substr=0,50,'utf-8'}</a><span><img src="http://c.imgccoo.cn/post/img/tj-mq.png"></span><i>　(名企招聘为本站推荐信息,建议您优先选择。<a href="/post/job/mingqi_ys.html" target="_blank"> 什么是名企招聘？</a>)</i>
+                            {elseif ($vo.ismq) /}
+                            <a href="/post/zhaopin/minqi/index{$vo.m_id}.html" target="_blank" class="commz">{$vo.compname | mb_substr=0,50,'utf-8'}</a><span><img src="http://c.imgccoo.cn/post/img/tj-mq.png"></span><i>　(名企招聘为本站推荐信息,建议您优先选择。<a href="/post/job/mingqi_ys.html" target="_blank"> 什么是名企招聘？</a>)</i>
+                            {elseif ($vo.isrz) /}
+                            <a href="/post/job/rz/{$vo.isrz}/" target="_blank" class="commz">{$vo.compname | mb_substr=0,50,'utf-8'}</a><span><img src="http://c.imgccoo.cn/post/img/tj-rz.png"></span><i>　(企业已认证 <a href="/post/job/renzheng_ys.html" target="_blank">什么是认证企业？</a>)</i>
+                            {else /}
+                            {$vo.compname | mb_substr=0,50,'utf-8'}
+                            <i>　(企业未认证 <a href="/post/job/renzheng_ys.html" target="_blank">什么是认证企业？</a>)</i>
+                            {/if}
+
+
+                        </div>
+                        <p><span>公司规模：</span> {$vo.compsize} <span>公司性质：</span> {$vo.compkind} <span>公司行业：</span> {$vo.Comptrade} </p>
+                    </div>
+                    <div class="jianzhicon">
+                        <dl>
+                            <dt>招聘职位：</dt>
+                            <dd>{$vo.kindname}</dd>
+                        </dl>
+                        <dl>
+                            <dt>招聘人数：</dt>
+                            <dd>{if ($vo.number == 0) } 若干 {else /} {$vo.number}人 {/if}</dd>
+                        </dl>
+                        <dl>
+                            <dt>薪资水平：</dt>
+                            <dd>
+                                {if ($vo.salary > 0 ) }
+                                {$vo.salary}{$vo.salarytype}
+                                {else /} 面议 {/if}
+                                {$vo.paytype}
+                            </dd>
+                        </dl>
+                        <dl class="wee">
+                            <dt>公司地址：</dt>
+                            <dd>[{$vo.zonename}]{$vo.Compaddr}</dd>
+                        </dl>
+                        <dl>
+                            <dt>联 系 人：</dt>
+                            <dd>{if ($vo.linkman) } {$vo.linkman} {else /} -- {/if}</dd>
+                        </dl>
+                        <dl>
+                            <dt>电子邮箱：</dt>
+                            <dd>{if ($vo.email) } {$vo.email} {else /} -- {/if}</dd>
+                        </dl>
+                        <dl class="wee">
+                            <dt>QQ 交谈：</dt>
+                            <dd>{if ($vo.qq) }
+                                <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin={$vo.qq}&site=qq&menu=yes">
+                                    <img border="0" src="http://wpa.qq.com/pa?p=2:{$vo.qq}:51" alt="点击这里给我发消息" title="点击这里给我发消息" data-bd-imgshare-binded="1">
+                                </a>
+
+                                {else /} --
+
+                                {/if}</dd>
+                        </dl>
+                        <dl class="wee">
+                            <dt>联系电话：</dt>
+                            {if ($vo.IsExit) == 1 }
+                            <dd>已招满</dd>
+                            {else /}
+                            <dd>
+                                <i class="gettel" id="{:base64_encode(trim($vo.tel))}">{$vo.tel}</i>
+                                <span>(
+                                    <font id="LoadTel">
+                                        <a href="http://r.imgccoo.cn/post/images/inc/tel.asp?tel={:base64_encode(trim($vo.tel))}" target="_blank"><font style="font-size:12px;">查询电话属地</font></a>
+                                    </font>
+                                    )
+                                    <a href="javascript:;" onclick="ShowWin('该号码发布的招聘信息','/post/job/job_tel.asp?tel={$baTel}&id={$vo.id}&type=1',550,450);return false;">该号码发布招聘信息记录</a>
+                                </span>
+                            </dd>
+                            {/if}
+                        </dl>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="show_zhiwei">
+
+                    {if ($vo.IsExit) == 1 }
+                    <a href="javascript:void(0);" onClick="alert('该职位已招满！');return false;">
+                        <img src="http://r.imgccoo.cn/post/images/job_zhiwei.gif" width="201" height="53">
+                    </a>
+                    {else /}
+                    <a href="javascript:void(0);" onClick="ShowWin('投简历','/post/job/job_pass.asp?oAction=JianLiForm&Win=2&id={$vo.id}&IndexWinUrl={$IndexWinUrl}&type=1',400,300);return false;">
+                        <img src="http://r.imgccoo.cn/post/images/job_zhiwei.gif" width="201" height="53" data-bd-imgshare-binded="1">
+                    </a>
+
+                    {/if}
+                    {if ($vo.countJl > 0) }
+                    <span>
+                        已有<font>{$vo.countJl}</font>人申请该职位 {$vo.compname}点击
+                        <a href="javascript:void(0);" onclick="ShowWin('查看申请职位人才','/post/job/job_infouser.asp?id={$vo.id}&type=1',620,350);return false;">查看详情</a>
+                    </span>
+                    {/if}
+                </div>
+                <div class="ts-msg">提示：刷信誉、淘宝刷钻、YY网络兼职、在家工作、加微信联系的职位都是骗子！收取费用或押金都可能有欺诈嫌疑，请警惕！（本平台仅提供信息交流，不承担因使用网站提供的信息所引致的损害赔偿！）</div>
+            </div>
+        </div>
+        <div class="d_description">
+            <div class="zpzhiwei_nav">
+                <ul>
+                    <li class="xz_zw zw_xz"><a href="javascript:;">职位描述</a></li>
+                    <li class="xz_zw"><a href="javascript:;">公司介绍</a></li>
+                    <li class="xz_zw"><a href="javascript:;">公司其它职位</a></li>
+                    <li class="xz_zw"><a href="javascript:;"> 申请记录</a></li>
+                </ul>
+                <div class="xian_nav"></div>
+            </div>
+        </div>
+        <div class="zhiwei_content">
+            <div class="zwms">{$vo.info | raw}<br>
+                <p style="color:red">联系我时请说明是在<b>{$siteName}</b>看到的……</p></div>
+            <div class="gongsi-js">
+                <h3>公司介绍</h3>
+            </div>
+        </div>
+        <div class="zhiwei_content">
+            <div class="gongsi-js">
+                <div class="gsjs">
+                    <p>公司名称：
+
+
+                        {if $vo.ismq }
+                        <a href="/post/zhaopin/minqi/index{$vo.id}.html" target="_blank" class="commz">{$vo.compname}</a><span><img src="http://c.imgccoo.cn/post/img/tj-mq.png" alt="名企招聘为本站认证信息，建议您优先选择"></span>
+                        {elseif ($vo.isrz) /}
+                        {$vo.compname}<span><img src="http://c.imgccoo.cn/post/img/tj-rz.png" alt="该公司已通过本站认证" data-bd-imgshare-binded="1"></span>
+                        {else /}
+                        {$vo.compname}
+                        {/if}
+
+                        <br>
+                        公司地址：
+                        {$vo.Compaddr}
+                        <br>
+                        公司行业：
+                        {$vo.Comptrade}
+                        <br>
+                        公司类型：
+                        {$vo.compkind}
+                        <br>
+                        公司规模：
+                        {$vo.compsize}
+                        <br>
+                    </p>
+                </div>
+            </div>
+
+            {if ($picList)}
+            <div class="gongsi-js" style="width:733px">
+                <div id="gallery" class="ad-gallery" style=" float:none; margin:0 auto;>">
+                    <div class="ad-image-wrapper"> </div>
+                    <div class="ad-controls"> </div>
+                    <div class="ad-nav">
+                        <div class="ad-thumbs">
+                            <ul class="ad-thumb-list">
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {/if}
+
+            {if($oMap) }
+
+            <div class="ditu" style="margin-top:10px;"> <a name="dtweizhi"></a>
+
+                <style type="text/css">
+                    #baidumap {width:703px;height:290px;border:1px solid #999;font-size:14px;line-height:20px;}
+                    #baidumap .memo{font-size:12px;color:#666;}
+
+                </style>
+
+                <div id="baidumap"></div>
+
+                {if strstr($oMap,',')}
+
+                <script type="text/javascript">
+
+                    //百度地图API功能
+                    function loadJScript() {
+                        var script = document.createElement("script");
+                        script.type = "text/javascript";
+                        script.src = "//api.map.baidu.com/api?v=2.0&ak=ak=635d42b9b6b4440116879ac7a2bc0dc9&callback=init";
+                        document.body.appendChild(script);
+                    }
+                    function init() {
+                        var omap = '{$oMap}';
+                        var res = omap.split(",");
+                        var sContent = '{$vo.compname}';
+                        var map = new BMap.Map("baidumap");            // 创建Map实例
+                        var point = new BMap.Point(res[0],res[1]); // 创建点坐标
+                        map.centerAndZoom(point,17);
+
+                        var infoWindow = new BMap.InfoWindow(sContent);  // 创建信息窗口对象
+                        map.openInfoWindow(infoWindow,point); //开启信息窗口
+                        enableGeolocation: true;
+                        map.enableScrollWheelZoom();                 //启用滚轮放大缩小
+
+                        var marker = new BMap.Marker(point);  //
+                        map.addOverlay(marker);
+                        marker.setAnimation(BMAP_ANIMATION_BOUNCE);
+
+                    }
+                    window.onload = loadJScript;  //异步加载地图
+                </script>
+
+
+                {/if}
+            </div>
+
+            {/if}
+
+        </div>
+        <div class="zhiwei_content" style="display: none;">
+            {if ($vo.username && $vo.IsSite ==0)}
+            <div id="jianzhilist"></div>
+            <script type="text/javascript">
+                getPage('jianzhilist','{$vo.id}', 1, '{$vo.username}');
+            </script>
+            {/if}
+        </div>
+        <div class="zhiwei_content" style="display: none;">
+            {if ($vo.countJl > 0) }
+            <div id="jljzlist"></div>
+            <script type="text/javascript">
+                getPage('jljzlist','{$vo.id}', 1, '{$vo.username}');
+            </script>
+            {else /}
+            <p>暂无职位申请记录。</p>
+            {/if}
+
+        </div>
+        <script type="text/javascript">var siteNameID  = {$siteId};</script>
+        <link href="http://r.imgccoo.cn/ewx/AdvInfo/css/advinfoforfangchan.css" rel="stylesheet">
+        <script type="text/javascript" src="http://r.imgccoo.cn/ewx/AdvInfo/js/ccoocityweb.advinfoforzhaopin.js"></script>
+        <div id="lc_ad"></div>
+        <div class="d_ad">
+            <div class="d_adtop"> <span>赞助商广告</span> </div>
+
+            {if ($advRes) }
+            {$advRes | raw}
+            {/if}
+
+
+        </div>
+        <!-- 留言开始 -->
+        <div class="zply" style="display:none">
+            <div class="zpyq">网友留言</div>
+            <div id="bookpage">
+                <div style="clear: both;"></div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            function getBookPage(strHtml, sValue, page, strType) {
+                var strHtmlTitle = '<p style="text-align:center; font-size:12px; color:#000;margin:2px;vertical-align:middle;">';
+                strHtmlTitle += '<img src="http://r.imgccoo.cn/post/images/loading.gif" style="vertical-align:middle;margin-right:1px;" border="0" />加载中……</p>';
+                $("#" + strHtml).html(strHtmlTitle);
+                $.post('/post/ajax/booklist.asp', {
+                            strHtml: strHtml,
+                            id: sValue,
+                            strType: strType,
+                            page: page
+                        },
+                        function(data) {
+                            if (data != "") {
+                                $("#" + strHtml).html(data)
+                                if($('.zpyqcon').length>0){$(".zply").show()}
+                            }
+                        })
+            }
+            getBookPage('bookpage','{$vo.id}',1,'jianzhi');
+            function addBook() {
+                var test = "既然路过就说些什么吧（理性上网 文明留言 200个字符以内）";
+                if ($('#HtmlContent').val() == "" || $('#HtmlContent').val() ==test) {
+                    alert("回复信息不能为空!");
+                    $('#HtmlContent').focus();
+                    return;
+                }
+                if ($('#HtmlContent').val().length > 200) {
+                    alert("回复信息过长，200字以内!");
+                    $('#HtmlContent').focus();
+                    return;
+                }
+                if ($('#PostCode').val() == "") {
+                    alert("验证码不能为空!");
+                    $('#PostCode').focus();
+                    return;
+                }
+                $.post('/post/ajax/addbook.asp', {
+                            stype: 'jianzhi',
+                            HtmlContent: escape($('#HtmlContent').val()),
+                            PostCode: escape($('#PostCode').val()),
+                            newsid: $('#newsid').val(),
+                            reid: 0
+                        },
+                        function(data) {
+                            if (data == 1 || data == '1') {
+                                alert('留言提交成功！')
+                                $("#formBook")[0].reset();
+                                getBookPage('bookpage','{$vo.id}',1,'jianzhi');
+                            } else {
+                                alert(data);
+                            }
+                        })
+            }
+        </script>
+
+        <div class="fabu_1">
+            <form id="formBook" method="post" action="javascript:addBook();">
+                <div class="shuohua"></div>
+                <div class="liuy">
+                    <div class="liuleft"><img src="{$userface}" width="48" height="48" alt="{:cookie('nickname')}" data-bd-imgshare-binded="1"></div>
+                    <textarea rows="5" cols="45" id="HtmlContent" name="HtmlContent" placeholder="既然路过就说些什么吧（理性上网 文明留言 200个字符以内）"></textarea>
+                </div>
+                <div class="fabuanliu">
+                    {if $is_login == 0 }
+                    <div class="loginshow">请<a href="javascript:;" onclick="ShowWin('会员登录', '/post/users/login.asp?IndexWinUrl=/post/jianzhi/{$vo.id}x.html',350, 230);return false;">登录</a>后发表评论，该频道暂时关闭匿名留言功能</div>
+                    {else /}
+                    <!-- 登入后显示开始 -->
+                    <p>尊敬的<font color="red">
+                        <a href="/forum/user/index.asp?username=sid58077994" target="_blank">{:cookie('nickname')}</a></font>，您可对信息进行回复(*回复200字以内)</p>
+                    <input maxlength="4" size="6" id="PostCode" name="verifycode" class="yzcode">
+                    <!--结束-->
+                    {/if}
+
+                    <img align="absmiddle" style="cursor:pointer;" onclick="this.src='/blog/verifycode.asp?'+Math.random();" alt="看不清楚?请点击刷新" src="/blog/verifycode.asp?t=NLgqLgNskk3wkVcJZi13" data-bd-imgshare-binded="1">
+                    <input type="submit" class="postbtn" value=" ">
+                    <input type="hidden" value="{$vo.id}" id="newsid">
+                </div>
+            </form>
+        </div>
+        <script type="text/javascript">
+            $(function(){
+                $('#PostCode').focus(function() {
+                    if ($(this).next().attr('src') == 'http://r.imgccoo.cn/post/images/yammr.gif') {
+                        $(this).next().click();
+                    }
+                })
+            });
+            function postResubmit(reid) {
+                var test = '既然路过就说些什么吧（理性上网 文明留言 200个字符以内）';
+                reid = parseInt(reid);
+                if (reid > 0) {
+                    var HtmlContent = $('#HtmlContent' + reid);
+                    var PostCode = $('#PostCode' + reid);
+                    if (HtmlContent.val() == '' || HtmlContent.val() == test) {
+                        alert('回复信息不能为空!');
+                        HtmlContent.focus();
+                        return;
+                    }
+                    if (HtmlContent.val().length > 200) {
+                        alert('回复信息过长，200字以内!');
+                        HtmlContent.focus();
+                        return;
+                    }
+                    if (PostCode.val() == '') {
+                        alert('验证码不能为空!');
+                        PostCode.focus();
+                        return;
+                    }
+                    $.post('/post/ajax/addbook.asp', {
+                        stype: 'jianzhi',
+                        HtmlContent: escape(HtmlContent.val()),
+                        PostCode: escape(PostCode.val()),
+                        newsid: $('#newsid').val(),
+                        reid: reid
+                    }, function(data) {
+                        if (data == 1 || data == '1') {
+                            alert('留言提交成功！')
+                            getBookPage('bookpage', '{$vo.id}' , 1, 'jianzhi');
+                        } else {
+                            alert(data);
+                        }
+                    });
+                }
+                return false;
+            }
+        </script>
+
+        <!-- 留言结束 -->
+    </div>
+    <div class="smright">
+        {if !$isVipMark and $vo.ismq }
+        <div class="company-info">
+
+            <a href="/post/zhaopin/minqi/index{$vo.m_id}.html" class="link-company" target="_blank"><img src="{$vo.TempLogo}" /></a>
+            <a href="/post/zhaopin/minqi/index{$vo.m_id}.html" class="cy-name ellipsis" target="_blank">{$vo.compname}</a>
+            <div class="Identification">
+                <img class="mq-rz" src="http://c.imgccoo.cn/post/img/mq-show.jpg" alt="该公司为名企用户，可优先选择" title="该公司为名企用户，可优先选择">名企认证<img class="license" src="http://c.imgccoo.cn/post/images/jobmqzz.gif" alt="该公司已通过本站认证" title="该公司已通过本站认证">营业执照
+            </div>
+            <div class="join-v" onclick="window.location.href='/postvip/JobVip/AddJobVip'">立即加入名企</div>
+        </div>
+        {/if}
+        <div class="jingji"><b>该职位其他最新招聘</b></div>
+        <div class="zuixinzp">
+            <ul>
+                {if $others}
+                {foreach $others as $k=>$val}
+                <li>
+                    <p><a href="{:url('Home/Recruit/partShow','id='.$val.id);}">{$val.title}</a></p>
+                    {if $val.salary == 0}
+                    <b>面议</b>
+                    {else /}
+                    <b>{$val.salary}</b>{$val.salarytype}
+                    {/if}
+                    <span>-</span> {$val.workarea}
+                </li>
+                {/foreach}
+                {else /}
+                <p>暂无其他职位</p>
+                {/if}
+
+            </ul>
+        </div>
+
+        <div class="jingji"><b>常见的求职陷阱</b></div>
+        <div class="xianjing">
+            <ul>
+                <li>要求交纳"押金" 或者其他费用等</li>
+                <li>要求介绍他人亲戚朋友加盟</li>
+                <li>不签定任何的劳动合同</li>
+                <li>不将承诺写入合同</li>
+                <li>窃取求职者私人资料</li>
+                <li>不切实际的高薪</li>
+                <li>外地招聘请谨慎</li>
+                <li>招聘兼职文员打字员录</li>
+                <li>入等信息为虚假信息</li>
+                <li><a href="/post/help-8.html#" target="_blank" class="bangzu">查看招聘陷阱指南</a></li>
+            </ul>
+        </div>
+
+        <div adid="1980" class="advtip">
+            <div class="qtz">
+                {if ($advRight) }
+                {$advRight | raw}
+                {/if}
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<div class="clear"></div>
+
+{if ($session_username == $vo.username ) }
+
+{if $recom_adv }
+
+{if $recom_adv.posttjpay == 1}
+<div class="topTip">
+    <div class="topTCon clearfix">
+        <span class="sLeft"></span>
+        <div class="sMid">
+            <p class="p1">马上把这条信息置顶，效果提升 <span class="f60">6~8 </span>倍 !</p>
+            <div class="d1 topBtn">
+                {if $recom_adv.arra_tjprice}
+                {volist name="recom_adv.arra_tjprice" id="vad" }
+
+                {if ($recom_adv.len > 1) }
+                {if ($i == 2) }
+                          <span class="active" day="{$vad.Num}" money="{:number_format($vad.price,2)}" num="{:number_format($vad.price/$vad.Num,2)}" ppid="{$vad.id}" >
+                          {else /}
+                          <span day="{$vad.Num}" money="{:number_format($vad.price,2)}" num="{:number_format($vad.price/$vad.Num,2)}" ppid="{$vad.id}" >
+                          {/if}
+                        {else /}
+                            {if ($i == 1) }
+                            <span class="active" day="{$vad.Num}" money="{:number_format($vad.price,2)}" num="{:number_format($vad.price/$vad.Num,2)}" ppid="{$vad.id}" >
+                            {/if}
+                        {/if}
+
+                            {$vad.Num}天
+                            {if ($i eq 2) OR ($i eq 3)}
+                                <i class="disIcon">优惠</i>
+                            {elseif ($i gt 3) /}
+                                <i class="disIcon">特惠</i>
+                            {/if}
+                            <i class="checkIcon"></i>
+                        </span>
+
+                    {/volist}
+                {/if}
+                <a href="javascript:void(0);" onclick="goPay()" class="nowTopBtn">马上置顶</a>
+                <input type="hidden" id="topVal" value="">
+                <input name="cid" id="cid" type="hidden" value="{$recom_adv.tjprice_cid}">
+                <input name="tName" id="tName" type="hidden" value="{$recom_adv.tname}">
+                <input name="outTitle" id="outTitle" type="hidden" value="{$vo.title}">
+                <input name="oTel" id="oTel" type="hidden" value="{$vo.tel}">
+                <input name="numid" id="numid" type="hidden" value="{$recom_adv.de_id}">
+                <input name="ptype" id="ptype" type="hidden" value="{$recom_adv.ptype}">
+            </div>
+            <p class="p3 priSbt">已选择置顶推荐 <span class="f60" id="day">{$recom_adv.de_day}天</span>，需支付 <span class="f60 bold" id="money">￥{$recom_adv.de_money}</span> (平均每天 <span class="f60" id="num">￥{$recom_adv.de_num}</span>)</p>
+        </div>
+        <span class="sRight"></span>
+    </div>
+</div>
+
+<script type="text/javascript">
+    //置顶操作
+    $('.topBtn span').click(function(){
+        var day=$(this).attr('day');
+        var money=$(this).attr('money');
+        var num=$(this).attr('num');
+        var ppid=$(this).attr('ppid');
+        $('#day').text(day+'天');
+        $('#money').text('￥'+money);
+        $('#num').text('￥'+num);
+        $('.priSbt').show();
+        $('#numid').val(ppid)
+        $(this).addClass('active').siblings().removeClass('active')
+    })
+    //关闭
+    $('.topTip .sRight').click(function(){
+        $(this).parents('.topTip').animate({opacity:'0'},1000,function(){
+            $('.iTipTop').animate({opacity:'1'},1000,function(){
+                setTimeout(function(){
+                    $('.iTipTop').animate({opacity:'0'},1000)
+                },3000)
+            })
+
+        })
+    })
+    //马上置顶
+    function goPay(){
+        var cid= $('#cid').val();
+        var tName=$('#tName').val();
+        var outTitle=$('#outTitle').val();
+        var oTel=$('#oTel').val();
+        var numid=$('#numid').val();
+        var ptype=$('#ptype').val();
+        if (numid>0){
+            ShowWinAuto('信息推荐申请','/post/buy_tj_step.asp?step=2&id={$vo.id}&cid='+cid+'&tName='+tName+'&outTitle='+outTitle+'&oTel='+oTel+'&numid='+numid+'&ptype='+ptype+'',850,480);}
+        else
+        {
+            alert('请选择置顶时间');
+        }
+        return false;
+    }
+</script>
+{/if}
+{/if}
+{/if}
+{/block}
+
+{include file="public:footer"}
+
+{block name="zhushou"}
+{include file="public:zhushou"}
+{/block}
+
+
+{block name="under_js"}
+<script>
+    window._bd_share_config = {common : {bdMini : 1,bdMiniList:['qzone','tsina','bdysc','weixin','sqq','tqq','bdxc']},share : [{"bdSize" : 16}],image : [{viewType : 'list',viewPos : 'top',viewColor : 'black',viewSize : '16',viewList : ['qzone','tsina','bdysc','weixin','sqq','tqq','bdxc']}],selectShare : [{"bdselectMiniList" : ['qzone','tsina','bdysc','weixin','sqq','tqq','bdxc']}]}
+    with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+<script type="text/javascript" src="http://r.imgccoo.cn/post/images/jquery.ad-gallery.js" charset="gb2312"></script>
+<script type="text/javascript">
+    var Tel = '{$vo.tel}';
+    $(function() {
+        $.getJSON('/post/ajax/tel_area.asp', {
+                    tel: Tel
+                },
+                function(data) {
+                    if (data.QueryResult != 0) {
+                        var Address = data.Address;
+                        $('#LoadTel').html(' 归属地：' + Address.replace('_', ' '));
+                    }
+                });
+        $(".xz_zw").hover(function(){
+            var nindex=$(".xz_zw").index(this);
+            $(".xz_zw").eq(nindex).addClass("zw_xz").siblings().removeClass("zw_xz");
+            $(".zhiwei_content").css("display","none");
+            $(".zhiwei_content").eq(nindex).css("display","block");
+            if (nindex==0){
+                $(".zhiwei_content").eq(1).css("display","block");
+            }
+//		$('.gongsi-js').eq(0).html("");
+        });
+
+        $(".gl").hover(function(){
+            $(this).addClass("guanli");
+        }, function() {
+            $(this).removeClass("guanli");
+        });
+        $(".gl").hover(function(){
+                    $(".gl p").show();
+                },
+                function(){
+                    $(".gl p").hide();
+                });
+    })
+
+</script>
+{/block}

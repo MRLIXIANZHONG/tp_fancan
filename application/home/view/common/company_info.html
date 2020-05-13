@@ -1,0 +1,63 @@
+<div class="conBox zComBox">
+    {if $vo.ismq}
+    <i class="zp-tab-mingqi"></i>
+    {elseif $vo.isrz /}
+    <i class="zp-tab-renzheng"></i>
+    {/if}
+
+    <div class="imgBox">
+        <img class="img" src="{$vo.TempLogo}" alt="企业头像">
+    </div>
+    <p class="name">{$vo.compname | mb_substr=0,50,'utf-8'}</p>
+    <div class="zComImgBox">
+        {if $vo.licenseData}
+        <div class="xicon-zhizhao xicon">
+            <div class="imgbox1" title="点击查看大图">
+                <a href="{$vo.licenseData.long}" target="_blank">
+                    <img class="img" src="{$vo.licenseData.img}" alt="营业执照">
+                </a>
+            </div>
+        </div>
+        <span>营业执照认证</span>
+        {/if}
+        {if $vo.ismq}
+        <div class="xicon-mingqi xicon" title="该公司为名企会员，可优先选择"></div>
+        {elseif $vo.isrz /}
+        <div class="xicon-renzheng xicon" title="该公司为认证会员，可优先选择"></div>
+        {/if}
+
+        {if $vo.ismq}
+        <span>名企会员 </span><a class="link" href="/postvip/jobvip/addjobvip" target="_blank">了解</a>
+        {elseif $vo.isrz /}
+        <span>认证会员 </span><a class="link" href="/postvip/jobvip/addjobapprove" target="_blank">了解</a>
+        {/if}
+    </div>
+    <ul class="items">
+        <li class="item">
+            <i class="xicon xicon-hangye"></i>
+            <span>公司行业：{$vo.comptrade ? $vo.comptrade : '--'}</span>
+        </li>
+
+        <li class="item">
+            <i class="xicon xicon-guimo"></i>
+            <span>公司规模：{$vo.compSize ? $vo.compSize : '--'}</span>
+        </li>
+
+        <li class="item">
+            <i class="xicon xicon-xingzhi"></i>
+            <span>公司性质：{$vo.compKind ? $vo.compKind : '--'}</span>
+
+        </li>
+
+    </ul>
+    {if $vo.ismq || $vo.isrz }
+    <div class="linkBox">
+        {if $vo.ismq}
+        <a href="/post/zhaopin/minqi/index{$vo.ismq}.html" target="_blank">查看公司主页</a>
+        {elseif $vo.isrz /}
+        <a href="/post/job/rz/{$vo.isrz}/" target="_blank">查看公司主页</a>
+        {/if}
+
+    </div>
+    {/if}
+</div>

@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="http://r.imgccoo.cn/post/js/dialog/skins/discuz.css" rel="stylesheet" id="lhgdialoglink">
+    <meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {block name="meta"}
+    <title>用户中心_新昌分类信息_新昌在线</title>
+    {/block}
+    <link href="http://r.imgccoo.cn/post/images/header.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="http://c.imgccoo.cn/post/fenlei/css/classify.css">
+    <style type="text/css">
+        body,td,th {font-family: "Microsoft Yahei", "微软雅黑", Arial, Helvetica, sans-serif;}
+    </style>
+    <script type="text/javascript" src="http://r.imgccoo.cn/wap/js2/jquery.js?v1.0"></script>
+    <script type="text/javascript" src="http://r.imgccoo.cn/post/js/dialog/lhgdialog.js?skin=discuz" charset="utf-8"></script>
+    <script type="text/javascript" src="http://r.imgccoo.cn/post/js/dialog/fun.js"></script>
+    {block name='css'}
+
+    {/block}
+</head>
+<body>
+<div style="position: absolute; left: -9999em; top: 158px; visibility: visible; width: auto; z-index: 1976;">
+    <table class="ui_border ui_state_visible ui_state_focus">
+        <tbody>
+        <tr><td class="ui_lt"></td><td class="ui_t"></td><td class="ui_rt"></td></tr>
+        <tr><td class="ui_l"></td><td class="ui_c"><div class="ui_inner"><table class="ui_dialog"><tbody><tr><td colspan="2"><div class="ui_title_bar"><div class="ui_title" unselectable="on" style="cursor: move;">视窗 </div><div class="ui_title_buttons"><a class="ui_min" href="javascript:void(0);" title="最小化" style="display: inline-block;"><b class="ui_min_b"></b></a><a class="ui_max" href="javascript:void(0);" title="最大化" style="display: inline-block;"><b class="ui_max_b"></b></a><a class="ui_res" href="javascript:void(0);" title="还原"><b class="ui_res_b"></b><b class="ui_res_t"></b></a><a class="ui_close" href="javascript:void(0);" title="关闭(esc键)" style="display: inline-block;">×</a></div></div></td></tr><tr><td class="ui_icon" style="display: none;"></td><td class="ui_main" style="width: auto; height: auto;"><div class="ui_content" style="padding: 10px;"><div class="ui_loading"><span>loading...</span></div></div></td></tr><tr><td colspan="2"><div class="ui_buttons" style="display: none;"></div></td></tr></tbody></table></div></td><td class="ui_r"></td></tr>
+        <tr><td class="ui_lb"></td><td class="ui_b"></td><td class="ui_rb" style="cursor: se-resize;"></td></tr>
+        </tbody>
+    </table>
+</div>
+<link href="http://r.imgccoo.cn/post/js/msgbox/msgbox.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="http://r.imgccoo.cn/post/js/msgbox/msgbox.js"></script>
+
+<!--顶部导航-->
+{include file="public:top_nav0"/}
+<script type="text/javascript">
+    $(function() {
+        $(".topnav").hover(function() {
+            $(this).addClass("curr");
+            $(this).children("div").show();
+        }, function() {
+            $(this).removeClass("curr");
+            $(this).children("div").hide();
+        });
+        $(".topnav li").hover(function() {
+            $(this).addClass("tcurr");
+        }, function() {
+            $(this).removeClass("tcurr");
+        });
+    })
+</script>
+<!--logo-->
+{block name='top_js'}
+<script type="text/javascript">
+    var siteid = "{:cookie('site_id')}";
+
+
+    function getNumber(startNum, endNum) {
+        var randomNumber;
+        randomNumber = Math.round(Math.random() * (endNum - startNum)) + startNum;
+        return randomNumber;
+    }
+
+    function indexValue(sid, i) {
+        $('#' + sid).val(i);
+    }
+
+    function indexSo(strId, strText) {
+        if ($('#' + strId).val() == "" || $('#' + strId).val() == strText) {
+            $('#' + strId).val("");
+            $('#' + strId).focus();
+            alert(strText);
+            return false
+        }
+    }
+
+    function sTopFocus(i, strId, strText) {
+        if (i == 1) {
+            if ($('#' + strId).val() == strText) {
+                $('#' + strId).val("");
+            }
+        } else {
+            if ($('#' + strId).val() == "") {
+                $('#' + strId).val(strText);
+            }
+        }
+    }
+    $(function(){
+        $("#x_sou ul li").click(function(){ var text = $(this).html();$("#x_sou p").html(text);$("#x_sou ul").hide();});
+        $("#x_sou").hover(function(){$("#x_sou ul").show();},function (){$("#x_sou ul").hide();});
+    })
+    $(function() {
+        $(".topnav").hover(function() {
+            $(this).addClass("curr");
+            $(this).children("div").show();
+        }, function() {
+            $(this).removeClass("curr");
+            $(this).children("div").hide();
+        });
+        $(".topnav li").hover(function() {
+            $(this).addClass("tcurr");
+        }, function() {
+            $(this).removeClass("tcurr");
+        });
+    });
+    function GetCollection(stype, dataid) {
+        $.ajax({
+            type: 'GET',
+            beforeSend: function() {
+                ZENG.msgbox.show('数据处理中...', 6, 1000000);
+            },
+            url: '/post/ajax/post_shoucang.asp',
+            data: {
+                action: 'insert',
+                stype: stype,
+                id: dataid,
+                n: Math.random()
+            },
+            dataType: 'json',
+            success: function(json) {
+                ZENG.msgbox._hide();
+                switch (json.code) {
+                    case 0:
+                        ZENG.msgbox.show('已经收藏过!', 1, 2000);
+                        break;
+                    case 1:
+                        ZENG.msgbox.show('收藏成功!', 4, 2000);
+                        setTimeout(function() {
+                            window.location.reload();
+                        }, 2000);
+                        break;
+                    case 2:
+                        ZENG.msgbox.show('请登录后进行收藏!', 5, 3000);
+                        setTimeout(function() {
+                            ShowWin('会员登录', '/post/users/login.asp?iscloseurl=1', 350, 230);
+                        }, 3000);
+                        break;
+                    default:
+                        ZENG.msgbox.show(json.msg, 5, 3000);
+                }
+            }
+        });
+    }
+    function GetCollectionIs(stype, dataid) {
+        $.ajax({
+            type: 'GET',
+            url: '/post/ajax/post_shoucang.asp',
+            data: {
+                action: 'read',
+                stype: stype,
+                id: dataid,
+                n: Math.random()
+            },
+            dataType: 'json',
+            success: function(json) {
+                if (json.code == 0) {
+                    $('#scbox').html('收藏');
+                }
+            }
+        });
+    }
+</script>
+{/block}
+<div id="cz" class="w newred-search">
+    <div id="logo" class="fl"> <a href="/"><img src="http://c.imgccoo.cn/logo/{$site_id}.gif" alt="{$site_id}" />
+        <span><b>·</b> 分类信息</span></a> </div>
+    <form name="form33" action="/post/chaxun.html" method="post" accept-charset="gbk" _charset="gbk" onSubmit="return indexSo('topKeyInput','请输入关键字');">
+        <div id="search" class="fl">
+            <!-- <div class="s_left fl"></div> -->
+            <div class="sea-box">
+                <div class="s_leib fl" id="x_sou">
+                    <input type="hidden" name="class1" id="indexTopClass" value="0" />
+                    <p>全部信息</p>
+                    <i class="row"></i>
+                    <ul>
+                        <li><a href="javascript:void(0);" onclick="indexValue('indexTopClass',0);return false;">全部信息</a></li>
+                        <li><a href="javascript:void(0);" onclick="indexValue('indexTopClass',1);return false;">招聘求职</a></li>
+                        <li><a href="javascript:void(0);" onclick="indexValue('indexTopClass',3);return false;">房屋出售</a></li>
+                        <li><a href="javascript:void(0);" onclick="indexValue('indexTopClass',32);return false;">房屋出租</a></li>
+                        <li><a href="javascript:void(0);" onclick="indexValue('indexTopClass',2);return false;">二手信息</a></li>
+                        <li><a href="javascript:void(0);" onclick="indexValue('indexTopClass',5);return false;">车辆买卖</a></li>
+                        <li><a href="javascript:void(0);" onclick="indexValue('indexTopClass',6);return false;">生活服务</a></li>
+                        <li><a href="javascript:void(0);" onclick="indexValue('indexTopClass',642);return false;">同城交友</a></li>
+                        <li><a href="javascript:void(0);" onclick="indexValue('indexTopClass',8);return false;">宠物世界</a></li>
+                    </ul>
+                </div>
+                <div class="s_text fl">
+                    <input name="keys" type="text" id="topKeyInput" onfocus="sTopFocus(1,'topKeyInput','请输入关键字');" onblur="sTopFocus(2,'topKeyInput','请输入关键字');" value="请输入关键字" maxlength="30" class="dss"/>
+                </div>
+                <div class="s_sous fl">
+                    <input type="submit" value="" />
+                </div>
+            </div>
+            <!--<div class="s_right fl"></div>-->
+            <div class="btn_1 fr"><a href="/post/fabu/">发布信息</a></div>
+        </div>
+    </form>
+    <div class="c"></div>
+</div>
+<!--导航-->
+{include file="public:top_nav"/}
+
+<script type="text/javascript">
+    $(function () {
+        $(".topnav").hover(function () {
+            $(this).addClass("curr");
+            $(this).children("div").show();
+        }, function () {
+            $(this).removeClass("curr");
+            $(this).children("div").hide();
+        });
+        $(".topnav li").hover(function () {
+            $(this).addClass("tcurr");
+        }, function () {
+            $(this).removeClass("tcurr");
+        });
+    })
+</script>
+
+{block name="content"}
+
+{/block}
+<script src="http://img.pccoo.cn/wap/WebApp/js/extfun/ExtFunc.js"></script>
+<script type="text/javascript">
+    function delId() {
+        return confirm("你确定要删除吗？");
+    }
+
+
+    //倒计时计算
+    setInterval(function () {
+        //购买超级置顶弹框倒计时计算
+        $("[data-daojishi]").each(function (i, obj) {
+            var DAte = $(obj).attr("data-daojishi");
+            if (DAte) {
+                var d = show_time(new Date(), new Date(DAte));
+                if (d == 0) {
+                    $(obj).parents("li").removeClass("off");
+                } else {
+                    $(obj).find(".p2 span").text(d);
+                }
+            }
+        });
+        //已经购买的超级置顶倒计时计算
+        $(".s_countdown[data-enddate]").each(function (i, obj) {
+            var DAte = $(obj).attr("data-enddate");
+            console.log(DAte)
+            if (DAte) {
+                var d = show_time(new Date(), new Date(DAte));
+                if (d == 0) {
+                    $(obj).remove();
+                } else {
+                    $(obj).find("i").text(d);
+                }
+            }
+        });
+    }, 1000);
+    //计算时间差
+    function show_time(startDate, endDate) {
+        var time_start = startDate.getTime();
+        var time_end = endDate.getTime();
+        if (startDate >= endDate) return 0;
+        // 计算时间差
+        var time_distance = time_end - time_start;
+        // 天
+        var int_day = Math.floor(time_distance / 86400000)
+        time_distance -= int_day * 86400000;
+        // 时
+        var int_hour = Math.floor(time_distance / 3600000)
+        time_distance -= int_hour * 3600000;
+        // 分
+        var int_minute = Math.floor(time_distance / 60000)
+        time_distance -= int_minute * 60000;
+        // 秒
+        var int_second = Math.floor(time_distance / 1000)
+        //// 时分秒为单数时、前面加零
+        //if (int_day < 10) {
+        //    int_day = "0" + int_day;
+        //}
+        //if (int_hour < 10) {
+        //    int_hour = "0" + int_hour;
+        //}
+        //if (int_minute < 10) {
+        //    int_minute = "0" + int_minute;
+        //}
+        //if (int_second < 10) {
+        //    int_second = "0" + int_second;
+        //}
+        if (int_day < 1 && int_hour < 1 && int_minute < 1 && int_second < 1) return 0;
+        return E(" {0}天 {1}时 {2}分 {3}秒").format(int_day, int_hour, int_minute, int_second);
+    }
+
+
+</script>
+
+{include file="public:footer"}
+
+<script type="text/javascript">
+    $(function(){
+        function online(){
+            $.post("/forum/ajax_bbs.asp",{action:"online"});
+            clearInterval(myonline);
+        }
+        var myonline = setInterval(online,1000);
+    });
+    // online
+    $(function() {
+        $.post("/post/ajax_post.asp", {
+            action: "online"
+        });
+    });
+    window.setInterval(function() {
+        $.ajax({
+            type: 'get',
+            url: '/post/ajax_post.asp',
+            data: {
+                action: 'online',
+                n: Math.random()
+            },
+            dataType: 'html',
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                //
+            },
+            success: function(data) {
+                //
+            }
+        })
+    }, (1000 * 60 * 5));
+</script>
+<script src="/mystat.asp"></script>
+<div style="display:none">
+    <script src="http://s9.cnzz.com/stat.php?id=3834609&web_id=3834609&show=pic" language="JavaScript"></script>
+    <script src="http://c.cnzz.com/core.php?web_id=3834609&show=pic&t=z" charset="utf-8" type="text/javascript"></script>
+    <a href="https://www.cnzz.com/stat/website.php?web_id=3834609" target="_blank" title="站长统计">
+        <img border="0" hspace="0" vspace="0" src="http://icon.cnzz.com/img/pic.gif"></a>
+</div>
+<script src="http://c.imgccoo.cn/website/js/jquery.dotdotdot.min.js"></script>
+<script>
+    $(function () {
+        $(".js-i-des").dotdotdot()
+        var num = $(".right-list li.on").index()
+        //悬浮侧边菜单栏时交互
+        $(".right-list li").each(function () {
+            $(this).mouseenter(function () {
+                $(this).addClass("on").siblings().removeClass("on")
+                $(".right-list li").eq(num).addClass("on")
+            }).mouseleave(function () {
+                $(".right-list li").removeClass("on").eq(num).addClass("on")
+            })
+        })
+    })
+</script>
+
+</body>
+</html>

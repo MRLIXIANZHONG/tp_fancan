@@ -1,0 +1,436 @@
+{extend name="public/base" /}
+{block name='css'}
+<link rel="stylesheet" type="text/css" href="http://r.imgccoo.cn/post/images/zp-za.css" />
+<link rel="stylesheet" type="text/css" href="http://r.imgccoo.cn/post/images/news.css" />
+{/block}
+{block name="top_js"}
+    <script type="text/javascript">
+    var siteid = 1068;
+
+    function getNumber(startNum, endNum) {
+        var randomNumber;
+        randomNumber = Math.round(Math.random() * (endNum - startNum)) + startNum;
+        return randomNumber;
+    }
+
+    function indexValue(sid, i) {
+        $('#' + sid).val(i);
+    }
+
+    function indexSo(strId, strText) {
+        if ($('#' + strId).val() == "" || $('#' + strId).val() == strText) {
+            $('#' + strId).val("");
+            $('#' + strId).focus();
+            alert(strText);
+            return false
+        }
+    }
+
+    function sTopFocus(i, strId, strText) {
+        if (i == 1) {
+            if ($('#' + strId).val() == strText) {
+                $('#' + strId).val("");
+            }
+        } else {
+            if ($('#' + strId).val() == "") {
+                $('#' + strId).val(strText);
+            }
+        }
+    }
+
+    $(function () {
+        $("#x_sou ul li").click(function () {
+            var text = $(this).html();
+            $("#x_sou p").html(text);
+            $("#x_sou ul").hide();
+        });
+        $("#x_sou").hover(function () {
+            $("#x_sou ul").show();
+        }, function () {
+            $("#x_sou ul").hide();
+        });
+
+    })
+    $(function () {
+        $(".topnav").hover(function () {
+            $(this).addClass("curr");
+            $(this).children("div").show();
+        }, function () {
+            $(this).removeClass("curr");
+            $(this).children("div").hide();
+        });
+        $(".topnav li").hover(function () {
+            $(this).addClass("tcurr");
+        }, function () {
+            $(this).removeClass("tcurr");
+        });
+    });
+
+    //收藏
+    function GetCollection(stype, dataid) {
+        $.ajax({
+            type: 'GET',
+            beforeSend: function () {
+                ZENG.msgbox.show('数据处理中...', 6, 1000000);
+            },
+            url: '/post/ajax/post_shoucang.asp',
+            data: {
+                action: 'insert',
+                stype: stype,
+                id: dataid,
+                n: Math.random()
+            },
+            dataType: 'json',
+            success: function (json) {
+                ZENG.msgbox._hide();
+                switch (json.code) {
+                    case 0:
+                        ZENG.msgbox.show('已经收藏过!', 1, 2000);
+                        break;
+                    case 1:
+                        ZENG.msgbox.show('收藏成功!', 4, 2000);
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 2000);
+                        break;
+                    case 2:
+                        ZENG.msgbox.show('请登录后进行收藏!', 5, 3000);
+                        setTimeout(function () {
+                            ShowWin('会员登录', '/post/users/login.asp?iscloseurl=1', 350, 230);
+                        }, 3000);
+                        break;
+                    default:
+                        ZENG.msgbox.show(json.msg, 5, 3000);
+                }
+            }
+        });
+    }
+
+    function GetCollectionIs(stype, dataid) {
+        $.ajax({
+            type: 'GET',
+            url: '/post/ajax/post_shoucang.asp',
+            data: {
+                action: 'read',
+                stype: stype,
+                id: dataid,
+                n: Math.random()
+            },
+            dataType: 'json',
+            success: function (json) {
+                if (json.code == 0) {
+                    $('#scbox').html('收藏');
+                }
+            }
+        });
+    }
+</script>
+{/block}
+{block name="crumbs"}
+<div class="fenleiq">您当前的位置：<a href="/">{:cookie('sitename')}首页</a> &gt;&gt; <a href="/post/">分类信息首页</a> &gt;&gt; <a href="/post/zhaopin/">招聘求职首页</a> &gt;&gt; <a href="{$kindvalue}">文章列表</a> &gt;&gt; 文章详细内容</div>
+{/block}
+{block name="content"}
+<div class="infor_salelist">
+    <div class="daohang">
+        <div class="daohanghead">
+            <ul>
+                <li><a href="/post/job/">招聘首页</a></li>
+                <li><a href="/post/zhaopin/">全职招聘</a></li>
+                <li><a href="/post/jianzhi/">兼职招聘</a></li>
+                <li><a href="/post/qiuzhi/">求职简历</a></li>
+                <li class="dhhover"><a href="/post/zhaopin/zhichangzixun/">职场资讯</a></li>
+                <li><a href="/post/zhaopin/gongjuxiang/">HR工具箱</a></li>
+                <li><a href="/post/zhaopin/bbs/">职场俱乐部</a></li>
+                <li><a href="/postvip/JobVip/jobindex">招聘推广中心</a></li>
+                {if condition="$zph_num gt 0"}
+                <li class="hotzph"><a href="/post/zhaopinhui/" target="_blank">招聘会</a><div class="imgzph"></div></li>
+                {/if}
+            </ul>
+        </div>
+        <div class="daohangcone">
+            <div class="searchmar">
+                <form action="/post/zhaopin/" method="get" name="myform" id="myform" onSubmit="return ChkTKey();">
+                    <input type="text" name="key" class="searchmarinpt" id="sskey" value="请输入关键词"  maxlength="20" onFocus="NullTJs(1);" onBlur="NullTJs(2);" />
+                    <input type="submit" value="搜职位" class="soso" onClick="submitForm(0)" />
+                    <input type="submit" value="搜简历" class="soso" onClick="submitForm(1)" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="gjxcon padbor">
+
+
+    <div class="news_left">
+        <h2 class="newsh21">{$kindname}</h2>
+        <div class="newstou">
+            <h1>{$info.title}</h1>
+
+            <div class="newsxx">
+                <span class="newsp1">发布时间：{:date_to_time($info.uptime)}　　</span>
+                <!--<span class="newsp2"><img src="http://r.imgccoo.cn/post/images/llxh.gif" /><img src="http://r.imgccoo.cn/post/images/llxh.gif" /><img src="http://r.imgccoo.cn/post/images/llxh.gif" /><img src="http://r.imgccoo.cn/post/images/llxh.gif" /><img src="http://r.imgccoo.cn/post/images/llxh.gif" /></span>-->
+                <span class="newsp3">来源：{$info.comf}</span>
+            </div>
+        </div>
+        <div class="newscon">
+            {$info.memo|raw}
+        </div>
+
+        <div class="newsxp">
+            <ul>
+                {if condition="$prev_info"}
+                    <li>上一篇：<a href="{$kindvalue}{$prev_info.id}x.html">{$prev_info.title}</a></li>
+                    {else /}
+                    {if condition="$next_info"}
+                      <li>下一篇：<a href="{$kindvalue}{$next_info.id}x.html">{$next_info.title}</a></li>
+                    {/if}
+                {/if}
+
+            </ul>
+            <div class="newsdm">
+                <div class="dingcai">
+                    <div class="ding"><span>{$info.ding}</span><a href="javascript:;" onClick="postViews(0);return false;">顶</a>
+                    </div>
+                    <div class="cai"><span>{$info.cai}</span><a href="javascript:;" onClick="postViews(1);return false;">踩</a>
+                    </div>
+                </div>
+                <div class="fenxiang">
+                    <!-- Baidu Button BEGIN -->
+                    <div class="bdsharebuttonbox"><A class=bds_more data-cmd="more">分享到：</A><A class=bds_qzone
+                                                                                               title=分享到QQ空间 href="#"
+                                                                                               data-cmd="qzone"></A><A
+                            class=bds_tsina title=分享到新浪微博 href="#" data-cmd="tsina"></A><A class=bds_tqq title=分享到腾讯微博
+                                                                                           href="#"
+                                                                                           data-cmd="tqq"></A><A
+                            class=bds_renren title=分享到人人网 href="#" data-cmd="renren"></A><A class=bds_weixin title=分享到微信
+                                                                                            href="#"
+                                                                                            data-cmd="weixin"></A></div>
+                    <!-- Baidu Button END -->
+                </div>
+            </div>
+        </div>
+
+        <div class="newsxg">
+            <ul>
+                <li><b>相关阅读</b></li>
+                {if condition="$xiangguan_list"}
+                    {foreach $xiangguan_list as $val}
+                        <li>·<a href="{$kindvalue}{$val.id}x.html" title="女生面试着装有哪些禁忌">{$val.title}</a><span>{:date_to_time($val.uptime)}</span>
+                        </li>
+                    {/foreach}
+                    {else /}
+                    <p>暂无相关动态。</p>
+                {/if}
+            </ul>
+            <div class="clear"></div>
+        </div>
+
+        <div class="liuyan">
+
+            <div class="liuy">
+
+                <div class="liuleft">
+                    {if condition="$is_login eq 1"}
+                    <img src="http://p5.pccoo.cn/PHBBS/20190919/2019091919070643417414_258_258.jpg"
+                         alt="一个漂泊的人"/>
+                    {else /}
+                    <img src="http://r.imgccoo.cn/post/images/kanfangke.gif" alt="">
+                    {/if}
+                </div>
+                <textarea onFocus="sTopFocus(1,'plContent','既然路过就说些什么吧（理性上网 文明留言）'); "
+                          onBlur="sTopFocus(2,'plContent','既然路过就说些什么吧（理性上网 文明留言）');" name="plContent" id="plContent"
+                          cols="45" rows="5">既然路过就说些什么吧（理性上网 文明留言）</textarea>
+                {if condition="$is_login eq 0"}
+                <div class="loginshow">请<a href="javascript:;" onclick="ShowWin('会员登录', '/post/users/login.asp?IndexWinUrl=/post/zhaopin/jianlibangzhu/251769x.html',350, 230);return false;">登录</a>后发表评论。</div>
+                {/if}
+
+            </div>
+            <div class="fabu">
+                <input name="reid" id="reid" type="hidden" value="0"/>
+                {if condition="$is_login eq 1"}
+                    <input width="70" height="28" type="image" src="http://r.imgccoo.cn/post/images/liuyanfabu.gif" onclick="addPinglun()"/>
+                    <p>您好！<a href="www.bc.ccoo.cn/forum/user/index.asp?username={:cookie('unsername')}" target="_blank">{:cookie('nickname')}</a>，欢迎发表评论！</p>
+                {else /}
+                    <input width="70" height="28" type="image" src="http://r.imgccoo.cn/post/images/liuyanfabu.gif" onclick="ShowWin('会员登录', '/post/users/login.asp?IndexWinUrl=/post/zhaopin/jianlibangzhu/251769x.html',350, 230);return false;">
+                {/if}
+            </div>
+            <div class="fayan" id="pinglun">
+            </div>
+
+        </div>
+
+
+    </div>
+
+    <div class="news_right">
+        <h2 class="newsh3"><b>{$tuijian1_name}</b><span><a href="{$tuijian1_url}" target="_blank">更多>></a></span></h2>
+        <ul class="newsul">
+            {foreach $tuijian1 as $val}
+            <li><a href="{$tuijian1_url}{$val.id}x.html" target="_blank" title="{$val.title}">{$val.title}</a></li>
+            {/foreach}
+        </ul>
+        <h2 class="newsh3"><b>{$tuijian2_name}</b><span><a href="{$tuijian2_url}" target="_blank">更多>></a></span></h2>
+        <ul class="newsul">
+            {foreach $tuijian2 as $val}
+            <li><a href="{$tuijian2_url}{$val.id}x.html" target="_blank" title="{$val.title}">{$val.title}</a></li>
+            {/foreach}
+        </ul>
+        <h2 class="newsh3"><b>{$tuijian3_name}</b><span><a href="{$tuijian3_url}" target="_blank">更多>></a></span></h2>
+        <ul class="newsul">
+            {foreach $tuijian3 as $val}
+            <li><a href="{$tuijian3_url}{$val.id}x.html" target="_blank" title="{$val.title}">{$val.title}</a></li>
+            {/foreach}
+        </ul>
+        <div class="newsgg">
+            <div AdId="1811" class="advtip">
+                <script type="text/javascript">
+                    /*200*200，创建于2012-2-22*/
+                var cpro_id = 'u778162';</script>
+                {if $advRight }
+                    {$advRight|raw}
+                {/if}
+            </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+<script type="text/javascript">
+    $(".nlist li").hover(
+        function () {
+            $(this).addClass("nlistbg")
+        }, function () {
+            $(this).removeClass("nlistbg")
+        }
+    )
+</script>
+{/block}
+{block name="zhushou"}
+{include file="public:zhushou"}
+{/block}
+{block name="under_js"}
+<script language="javascript" type="text/javascript" src="http://r.imgccoo.cn/post/images/js/LoadImage.js"></script>
+<script type="text/javascript">
+
+
+    $(function () {
+        $(".xx-con img").LoadImage(true, 650, 1000);
+    })
+    var id='{$id}';
+    var dinglock=false;
+    function postViews(sw) {
+        if (dinglock==true)return
+        dinglock=true;
+        $.ajax({
+            url: "{:url('home/zixun/dingcai',['kind'=>$kind,'id'=>$id])}",
+            type: "post",
+            data: 'action=postviews&type=' + sw + '&id='+id+'&rnd=' + Math.random() * 1000,
+            success: function (data) {
+                if (data == "no") {
+                    alert('请不要重复提交！');
+                    dinglock=false;
+                    return false;
+                }
+                if (data=="no2"){
+                    alert('文章不存在！');
+                    dinglock=false;
+                    return false;
+                }
+                if (sw == 0) {
+                    $('.ding > span').html(data);
+                    dinglock=false;
+                } else {
+                    $('.cai > span').html(data);
+                    dinglock=false;
+                }
+            },
+            error:function () {
+                alert('服务器开小差了，请稍后重试！');
+                dinglock=false;
+            }
+
+        });
+    }
+</script>
+<script type="text/javascript">
+    function getPingLunPage(strHtml, id, page, act) {
+        var strHtmlTitle = '<p style="text-align:center; font-size:12px; color:#000;margin:2px;vertical-align:middle;">';
+        strHtmlTitle += '<img src="http://r.imgccoo.cn/post/images/loading.gif" style="vertical-align:middle;margin-right:1px;" border="0" />加载中……</p>';
+        $("#" + strHtml).html(strHtmlTitle);
+        $.post("{:url('home/zixun/showList',['id'=>$id,'kind'=>$kind])}", {
+                strHtml: strHtml,
+                sid: id,
+                action: act,
+                page: page
+            },
+            function (data) {
+                if (data != "") {
+                    $("#" + strHtml).html(data)
+                }
+            })
+    }
+
+    getPingLunPage('pinglun', '{$id}', 1, 'showList');
+
+    function addPinglun() {
+        if ($('#plContent').val() == "" || $('#plContent').val() == "既然路过就说些什么吧（理性上网 文明留言）") {
+            alert("评论内容不能为空!");
+            $('#plContent').focus();
+            return;
+        }
+        if ($('#plContent').val().length > 2000) {
+            alert("评论内容过长，2000字以内!");
+            $('#plContent').focus();
+            return;
+        }
+        $.post("{:url('home/zixun/savepinglun',['id'=>$id,'kind'=>$kind])}", {
+                action: 'savepinglun',
+                plcontent: $('#plContent').val(),
+                sid: '{$id}',
+                reid: $('#reid').val()
+            },
+            function (data) {
+                //alert(data);
+                if (data == 2 || data == '2') {
+                    alert("对不起，您的用户禁止发布留言信息！")
+                    return false;
+                }
+                if (data == "no") {
+                    alert("请不要重复提交！")
+                    return false;
+                }
+                if (data == 1 || data == '1') {
+                    alert('评论提交成功！')
+                    $("#reid").val("0");
+                    $("#plContent").val("");
+                    getPingLunPage('pinglun', '{$id}', 1, 'showList');
+                }
+            })
+    }
+
+    function markhuifu(user, reid) {
+        //tmpStr=$("#plContent").val();
+        //tmpStr=tmpStr.replace("既然路过就说些什么吧（理性上网 文明留言）","");
+        //tmpStr="回复：[" + user + '] ' + tmpStr;
+        //$("#plContent").val(tmpStr);
+        $("#reid").val(reid);
+        $("#plContent").focus();
+
+    }
+
+    function plDing(id) {
+        $.ajax({
+            url: "{:url('home/zixun/ajax_pinglun')}",
+            type: "post",
+            data: 'action=plDing&ssid=' + id + '&rnd=' + Math.random() * 1000,
+            success: function (data) {
+                if (data == "no") {
+                    alert('请不要重复提交！');
+                    return false;
+                }
+                $('#plding' + id + ' > span').html('[' + data + ']');
+            }
+        });
+    }
+</script>
+
+{/block}

@@ -1,0 +1,51 @@
+{extend name="public/basew" /}
+
+{block name="title"}
+<title>分类首页</title>
+{/block}
+{block name="keywords"}
+<meta name="keywords" content="分类首页关键词">
+{/block}
+{block name="description"}
+<meta name="description" content="分类首页描述">
+{/block}
+
+{block name='css'}
+<script type="text/javascript" src="http://r.imgccoo.cn/post/js/jquery.js"></script>
+<link href="http://r.imgccoo.cn/post/images/index_w.css" rel="stylesheet" type="text/css" />
+<!-- <link href="./images/index_w.css" rel="stylesheet" type="text/css" /> -->
+<script type="text/javascript">
+    if (/Android|webOS|iPhone|iPod|BlackBerry|Windows CE|Windows Phone/i.test(navigator.userAgent)) {
+        if (window.location.href.indexOf("?pc") < 0) {
+            window.location.href = "http://m.xinchang.ccoo.cn/post/";
+        }
+    }
+</script>
+<link href="http://r.imgccoo.cn/post/js/msgbox/msgbox.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="http://r.imgccoo.cn/post/js/msgbox/msgbox.js"></script>
+{/block}
+
+
+{block name='menu'}
+
+{/block}
+
+{block name="crumbs"}
+{/block}
+
+{block name="content"}
+
+
+{/block}
+
+{include file="public:footer"}
+
+{block name="zhushou"}
+{include file="public:zhushou_new"}
+{/block}
+
+
+{block name="under_js"}
+
+
+{/block}

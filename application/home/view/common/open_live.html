@@ -1,0 +1,35 @@
+<!--无发布权限，提示购买会员及付费发布-->
+
+
+<script  type="text/javascript" >
+    //非会员，没有权限
+
+    var dialogTip =$.dialog({
+        title: "发布信息提示",
+        lock: true,
+        width: 600,
+        height: 350,
+        max: false,
+        min: false,
+        content: '<div class="fl-tips-dialog">\
+					  <p class="t"><i></i>您账号发布权限已用完，可以选择以下方式发布信息</p>\
+					  <div class="div-two">\
+						<a href="/postvip/livevip/liveindex" target="_blank">\
+						  <p>申请生活服务会员</p>\
+						</a>\
+						<p class="pay-tap-list clearfix">\
+						  <span>1、免费发布更多职位</span>\
+						  <span class="s1">2、多次刷新权限</span>\
+						  <span>3、信息免审核</span>\
+						</p>\
+					  </div>\
+					  {if $PostPower > 0}<div class="div-one"><a href="javascript:;" onclick="parent.dialogTip.close()"><p>付费发布信息</p></a><p class="pay-tap-list"><span>发布一条信息支付0.01元，信息立即显示</span></p></div>{/if}\
+					</div>'
+    });
+
+	if({$PostPower} == 0){
+		$(".ui_close").hide();
+	}
+
+</script>
+<!--无发布权限，提示购买会员及付费发布结束-->

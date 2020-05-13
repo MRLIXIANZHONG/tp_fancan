@@ -1,0 +1,411 @@
+{extend name="public/base" /}
+
+{block name="title"}
+<title>【{$areaName}兼职|{$areaName}兼职网|{$areaName}兼职招聘信息】{if $nowPage > 1}_第{$nowPage}页{/if}-{$siteName}</title>
+{/block}
+{block name="keywords"}
+<meta name="keywords" content="{$areaName}兼职,{$areaName}兼职网,{$areaName}兼职招聘信息" />
+{/block}
+{block name="description"}
+<meta name="description" content="{$siteName}兼职频道提供{$areaName}兼职、{$areaName}兼职招聘信息，您可以免费查询和发布大学生兼职、周末兼职、网络兼职、兼职家教等{$areaName}兼职信息。{if $nowPage > 1}_第{$nowPage}页{/if}">
+{/block}
+
+{block name='css'}
+<link rel="stylesheet" type="text/css" href="http://c.imgccoo.cn/post/images/zp_job3_v2.css" />
+
+<script type="text/javascript">
+    if (/Android|webOS|iPhone|iPod|BlackBerry|Windows CE|Windows Phone/i.test(navigator.userAgent)) {
+        if (window.location.href.indexOf("?pc") < 0) {
+            window.location.href = "http://m.bc.ccoo.cn/post/jianzhi/";
+        }
+    }
+    function ChkTKey() {
+        if ($('#sskey').val() == "" || $('#sskey').val() == "输入公司名或职位") {
+            $('#sskey').val("");
+            $('#sskey').focus();
+            alert('输入公司名或职位');
+            return false;
+        }
+    }
+    function NullTJs(oNum) {
+        if (oNum == 1) {
+            if ($('#sskey').val() == "输入公司名或职位") {
+                $('#sskey').val("");
+            }
+        } else {
+            if ($('#sskey').val() == "") {
+                $('#sskey').val("输入公司名或职位");
+            }
+        }
+    }
+    $(function () {
+        var st = 20;
+        $('#mucontent').mouseenter(function () {
+            $('#mucontent > .mulu').stop(false, true).slideDown(st);
+        }).mouseleave(function () {
+            $('#mucontent > .mulu').stop(false, true).slideUp(st);
+        });
+    });
+
+
+    $(function () {
+        $('.zhaopin-xx .zp-bt,.list_jianli .jl-bt').add($('.zhaopin-xx .mq-jp').next()).hover(function () {
+            var $next = $(this).parent().find(".inforbox");
+            var winheight = $(window).height();
+            var spanheight = $next.height();
+            var tipsbox = $next.find(".tipsbox");
+            $next.show();
+            var tipheight = tipsbox.height();
+            var adjust = tipheight - winheight + $(this).parent().offset().top - $(document).scrollTop() - spanheight + 15;
+            if (adjust > 1 * spanheight) {
+                tipsbox.css("top", "-" + adjust + "px")
+            } else {
+                tipsbox.css("top", "-18px")
+            }
+        }, function () {
+            $(this).parent().find(".inforbox").hide()
+        })
+    })
+
+</script>
+{/block}
+
+{block name="crumbs"}
+<div class="fenleiq">您当前的位置：<a href="/">{:cookie('sitename')}首页</a> &gt;&gt; <a href="/post/">分类信息首页</a> &gt;&gt; <a href="/post/job/">招聘求职首页</a> &gt;&gt; 招聘信息
+</div>
+{/block}
+
+{block name="content"}
+<div class="content">
+    <div class="infor_salelist">
+        <div class="daohang">
+            <div class="daohanghead">
+                <ul>
+                    <li><a href="/post/job/">招聘首页</a></li>
+                    <li><a href="/post/zhaopin/">全职招聘</a></li>
+                    <li class="dhhover"><a href="/post/jianzhi/">兼职招聘</a></li>
+                    <li><a href="/post/qiuzhi/">求职简历</a></li>
+                    <li><a href="/post/zhaopin/zhichangzixun/">职场资讯</a></li>
+                    <li><a href="/post/zhaopin/gongjuxiang/">HR工具箱</a></li>
+                    <li><a href="/post/zhaopin/bbs/">职场俱乐部</a></li>
+                    <li><a href="/postvip/JobVip/jobindex">招聘推广中心</a></li>
+                    {if condition="$zph_num gt 0"}
+                    <li class="hotzph"><a href="/post/zhaopinhui/" target="_blank">招聘会</a><div class="imgzph"></div></li>
+                    {/if}
+                </ul>
+            </div>
+            <div class="daohangcone">
+                <div class="jz_list">
+                    <div class="men-ys">
+                        <div class="lb">职位：</div>
+                        <ul>
+                            <li><a href="/post/jianzhi/" class="b"><span>不限</span></a></li>
+                            {foreach $jobData as $jkey=>$jval}
+                            <li>
+                                {if ($jval.id == $show_kind) }
+                                <a href="{$urlData['url_zhis']}list-{$jval.id}-{$show_area_id}-1.html" class="b" >{$jval.kindname}</a>
+                                {else /}
+                                <a href="{$urlData['url_zhis']}list-{$jval.id}-{$show_area_id}-1.html"  >{$jval.kindname}</a>
+                                {/if}
+
+                            </li>
+                            {/foreach}
+                        </ul>
+                    </div>
+                    <div class="men-ys">
+                        <div class="lb">区域：</div>
+                        <ul>
+                            <li><a href="/post/jianzhi/" class="b"><span>不限</span></a></li>
+                            {foreach $areaData as $k=>$v}
+                            <li>
+                                {if ($v.id == $show_area_id) }
+                                <a href="{$urlData['url_zhis']}list-{$show_kind}-{$v.id}-1.html" class="b" >{$v.zonename}</a>
+                                {else /}
+                                <a href="{$urlData['url_zhis']}list-{$show_kind}-{$v.id}-1.html">{$v.zonename}</a>
+                                {/if}
+
+
+                            </li>
+                            {/foreach}
+                        </ul>
+                    </div>
+
+                    <div class="clear"></div>
+                    <div class="searchmar">
+                        <form action=" " method="post" name="myform" id="myform" onsubmit="return ChkTKey();">
+                            <input type="text" name="key" class="searchmarinpt" id="sskey" value="输入公司名或职位" maxlength="20" onfocus="NullTJs(1);" onblur="NullTJs(2);">
+                            <input type="submit" value="搜职位" class="soso">
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="zhaopin-mq">
+        <div class="zp-head">
+            <a href="javascript:;">兼职信息</a>
+        </div>
+        <a href="/post/fabu/?ch=jz" target="_blank" class="zp-gd">免费发布兼职信息&#171;</a>
+    </div>
+
+    <!-- 推荐招聘开始 2018/6/27 优化-->
+    <div class="list_zhaopin">
+        <a href="/post/jianzhi/#viptj" name="viptj"></a>
+        <ul class="zhaopin-xx">
+            {if !$list}
+            <p>暂无相关信息！</p>
+            {else /}
+            {foreach $list as $key => $vo }
+            <li class="xx-mingqi">
+                <div class="zp-cb">
+                    <input type="checkbox" name="" value="{$vo.id}">
+                </div>
+                <div class="mingqi01">
+                        <span>
+                              <!--<a href="{:url('Home/Recruit/partShow','id='.$vo.id);}" target="_blank" class="title" title="{$vo.title}" style="max-width: 380px;">{$vo.title}</a>-->
+                              <a href="/post/jianzhi/{$vo.id}x.html" target="_blank" class="title" title="{$vo.title}" style="max-width: 380px;">{$vo.title}</a>
+                              <span class="inforbox" style="display: none;">
+                                    <div class="arrow">
+                                        <em></em>
+                                        <span></span>
+                                    </div>
+                                    <div class="tipsbox" style="top: -470px;">
+                                        <h3>{$vo.title}
+                                            {if ($vo.ismq)}
+                                            <span><img src="http://c.imgccoo.cn/post/img/tj-mq.png"></span>
+                                            {/if}
+                                        </h3>
+                                        <!--判断-->
+                                        {if ($vo.ismq)}
+                                            <span class="tip">(名企招聘为本站推荐信息，建议您优先选择。
+                                               <a href="/postvip/JobVip/AddJobVip" target="_blank">什么是名企招聘？</a>)
+                                            </span>
+                                        {/if}
+
+
+
+                                        <ul class="lists">
+                                            <li>
+                                                <span>招聘职位：</span>{$vo.kindname}</li>
+                                            <li>
+                                                <span>公司地址：</span>
+                                                <!--判断-->
+
+                                                {$vo.compaddr}
+
+
+                                            </li>
+
+                                            <li>
+                                                <span>薪资水平：</span> {if ($vo.salary > 0 ) } {$vo.salary}
+
+                                                {switch $vo.salarytype }
+                                                {case 2}元/时{/case}
+                                                {case 3}元/每次{/case}
+                                                {default /}元/天
+                                                {/switch} {else /} 面议 {/if}
+                                                {switch $vo.paytype }
+                                                {case 2}周结{/case}
+                                                {case 3}月结{/case}
+                                                {case 4}完工结算{/case}
+                                                {default /}日结
+                                                {/switch} </li>
+                                        </ul>
+                                        <dl class="noborder">{$vo.info | raw}</dl>
+                                    </div>
+                              </span>
+                        </span>
+                    <div class="mq-p">
+                            <span>{if ($vo.salary > 0 ) } {$vo.salary}
+
+                                {switch $vo.salarytype }
+                                    {case 2}元/时{/case}
+                                    {case 3}元/每次{/case}
+                                    {default /}元/天
+                                {/switch} {else /} 面议 {/if}
+
+                                {switch $vo.paytype }
+                                    {case 2} 周结{/case}
+                                    {case 3} 月结{/case}
+                                    {case 4} 完工结算{/case}
+                                    {default /} 日结
+                                {/switch}
+                            </span>
+                    </div>
+                </div>
+                <div class="mingqi02">
+                    <div class="mq02-01">
+                        <span class="mq-name">{$vo.compname}</span>
+                        <!--判断-->
+                        {if ($vo.ismq) }
+                        <span class="mq-lable" title="该公司为名企用户，可优先选择"></span>
+                        {else /}
+                        {if ($vo.isrz) }
+                        <span class="mq-rz-lable" title="该公司为认证用户，可优先选择"></span>
+                        {/if}
+                        {/if}
+
+
+                    </div>
+                    <div class="mq02-02">{$vo.kindname} | {if ($vo.number == 0) } 不限 {else /} {$vo.number}人 {/if}</div>
+                </div>
+                <div class="mingqi03">
+                    <div class="mq02-01">
+                        {$vo.workarea}
+                    </div>
+                    <div class="mq02-02">{$vo.edittime|date='Y-m-d'}</div>
+                </div>
+                {if ($vo.show_td == 0) }
+
+                <div class="apply-btn" onclick="ShowWin('投简历','/post/job/job_pass.asp?oAction=JianLiForm&Win=2&id={$vo.id}&IndexWinUrl={$url}&type=1',400,300);return false;">申请
+                </div>
+                {else /}
+                <div class="apply-btn active">
+                    已申请
+                </div>
+                {/if}
+            </li>
+            {/foreach}
+            {/if}
+
+            <!-- 推荐招聘结束 -->
+        </ul>
+    </div>
+    <div class="shuoming">
+        {if $list }
+        <label id="selectAll">
+            <input type="checkbox"> &#8194;全选
+        </label>
+        <a href="javascript:;" id="bltd"><i class="icon-up"></i> 申请职位</a>
+        {/if}
+        没有找到合适的工作？马上
+        <a href="/post/fabu/?ch=qz" target="_blank">免费登记</a>一份简历，让工作来找你
+    </div>
+    {if($page <> '    ')}
+    <div class="page">
+        <table width="980" border="0" align="center" cellpadding="0" cellspacing="0">
+            <tbody>
+            <tr>
+                <td>
+                    <div id="page_x">
+                        {$page | raw}
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    {/if}
+    {if $advShow }
+    <div class="ms-guanggao" style="position: relative;">
+        {$advShow | raw}
+        <span class="guanggao" style="position:absolute;z-index:9;left:2px;bottom:10px;margin:0;padding:0;width:19px;height:10px;background:url(http://r.imgccoo.cn/v10/images/advtip.png);"></span>
+    </div>
+
+    {else /}
+    <div class="ms-guanggao" style="position: relative;">
+        <a href="/post/job/jianlizhuanti.html" target="_blank"><img src="http://r.imgccoo.cn/post/images/zpbottomgg.gif"></a>
+        <span class="guanggao" style="position:absolute;z-index:9;left:2px;bottom:10px;margin:0;padding:0;width:19px;height:10px;background:url(http://r.imgccoo.cn/v10/images/advtip.png);"></span>
+    </div>
+    {/if}
+</div>
+{/block}
+
+{block name="under_js"}
+
+<script type="text/javascript">
+    $(function(){
+        $(".popactive ul li").click(function(){ var text = $(this).html();$(".popactive p").html(text);$(".popactive ul").hide();});
+        $(".popactive").hover(function(){$(".popactive ul").show();$(".popactive").addClass("popo")},function (){$(".popactive ul").hide();$(".popactive").removeClass("popo")});
+        $(".popactive1 ul li").click(function(){ var text = $(this).html();$(".popactive1 p").html(text);$(".popactive1 ul").hide();});
+        $(".popactive1").hover(function(){$(".popactive1 ul").show();$(".popactive1").addClass("popo")},function (){$(".popactive1 ul").hide();$(".popactive1").removeClass("popo")});
+        $(".popactive2 ul li").click(function(){ var text = $(this).html();$(".popactive2 p").html(text);$(".popactive2 ul").hide();});
+        $(".popactive2").hover(function(){$(".popactive2 ul").show();$(".popactive2").addClass("popo")},function (){$(".popactive2 ul").hide();$(".popactive2").removeClass("popo")});
+        $('.list_zhaopin li').hover(function() {
+            $(this).addClass("jsbj4");
+        }, function() {
+            $(this).removeClass("jsbj4");
+        });
+    });
+
+
+    $(function() {
+        $('.list_zhaopin li').hover(function() {
+            $(this).addClass("jsbj4");
+        }, function() {
+            $(this).removeClass("jsbj4");
+        });
+
+        $('.zhaopin-xx .zp-bt,.list_jianli .jl-bt').add($('.zhaopin-xx .mq-jp').next()).add('.mingqi01>span').hover(function() {
+            var $next = $(this).parent().find(".inforbox");
+            var winheight = $(window).height();
+            var spanheight = $next.height();
+            var tipsbox = $next.find(".tipsbox");
+            $next.show();
+            var tipheight = tipsbox.height();
+            var adjust = tipheight - winheight + $(this).parent().offset().top - $(document).scrollTop() - spanheight + 15;
+            if (adjust > 1 * spanheight) {
+                tipsbox.css("top", "-" + adjust + "px")
+            } else {
+                tipsbox.css("top", "-18px")
+            }
+        }, function() {
+            $(this).parent().find(".inforbox").hide()
+        })
+    });
+</script>
+
+
+<script type="text/javascript">
+    /*$(function() {
+     var PageID =301;
+     $.get("/wap/site_cache.asp?k=" + new Date().getTime(), {
+     v: "cachechk",
+     PageID: PageID
+     }, function(data) {
+     if (data == "1") {
+     setTimeout($.post("/wap/site_cache.asp", {
+     v: "cache",
+     PageID: PageID
+     }), 3000);
+     }
+     });
+     })*/
+
+
+    var sign = false
+    $('#selectAll input').change(function () {
+        $('.zhaopin-xx input[type=checkbox]').attr('checked', !sign);
+        sign = !sign
+    });
+    //批量投递
+    $('#bltd').click(function () {
+        var inputs = $('.zp-cb input:checked'),
+                value = [];
+        if (inputs.length == 0) {
+            alert('至少选择一项！');
+            return;
+        }
+        inputs.each(function () {
+            value.push($(this).val())
+        })
+
+        if (!document.cookie.match(/ccoo=[^;]+/)) {
+            ShowWin('批量投递简历', '/post/job/job_pass.asp?oAction=JianLiForm&Win=2&IndexWinUrl=/post/jianzhi/pn1/&type=1&cid=' + value.join(','), 400, 190);
+        } else {
+            ShowWin('投简历', '/post/job/job_pass.asp?oAction=JianLiForm&Win=2&IndexWinUrl=/post/jianzhi/pn1/&type=1&cid=' + value.join(','), 400, 250);
+            return false;
+        }
+    })
+    $('.mingqi01').each(function(){
+        if(!$(this).find('.mq-jp').length){
+            $(this).find('.title').css('max-width','380px')
+        }
+
+    })
+</script>
+
+{/block}

@@ -1,0 +1,2403 @@
+{extend name="public/basew" /}
+{block name="meta"}
+<title>分类信息发布，免费发布信息-新昌在线</title>
+<meta name="description" content="新昌招聘信息、求职信息、房屋出租出售、二手房、二手信息、车辆买卖、商机、培训信息、交友信息，免费发布！">
+{/block}
+{block name='css'}
+{include file="common:release_css_js"}
+{/block}
+{block name="crumbs"}
+
+{/block}
+{block name="content"}
+<div class="sylb">
+    {include file="common/house_crumb" /}
+    {if $is_login == 1}
+    {include file="common/live_tip" /}
+    {/if}
+    <script type="text/javascript" src="http://r.imgccoo.cn/post/images/date/WdatePicker.js"></script>
+    <script type="text/javascript">
+        //字符判断
+        function len(s) {
+            var l = 0;
+            var a = s.split("");
+            for (var i = 0; i < a.length; i++) {
+                if (a[i].charCodeAt(0) < 299) {
+                    l++;
+                } else {
+                    l += 2;
+                }
+            }
+            return l;
+        }
+        //去掉所有的html标记
+
+
+        function delHtmlTag(str) {
+            return str.replace(/<[^>]+>/g, "");
+        }
+        //编辑器代码+验证
+        $(pageInit);
+
+        function pageInit() {
+            $('#infoHtml').xheditor({
+                tools: 'Bold,Italic,Underline,FontColor,BackColor,Align',
+                skin: 'default',
+                layerShadow: 3,
+                cleanPaste: 3,
+                clickCancelDialog: false,
+                forcePtag: true,
+                loadCSS: '<style>body{font-size:14px;lineheight:28px}</style>',
+                focus: dofocus,
+                blur: delfocus
+            });
+        }
+
+        function dofocus() {
+            $("#infoHtmlTip").html('<span class="onFocus"><span class="onFocus_top">5-2000字符，不能填写QQ电话号码等联系方式</br>如发现此信息中出现联系方式，信息将被删除</span><span class="onFocus_bot"></span></span>');
+            $("#infoHtmlTip").show();
+            $.cookie('Rec_infoHtml', $("#infoHtml").val());
+        }
+
+        function delfocus() {
+            if (len(delHtmlTag($('#infoHtml').val())) > 4000 || len(delHtmlTag($('#infoHtml').val())) < 0) {
+                $("#infoHtmlTip").html('<span class="onError"><span class="onError_top">您输入的详细描述字数不符合要求，请按要求填写</span><span class="onError_bot"></span></span>');
+                $.cookie('Rec_infoHtml', $("#infoHtml").val());
+            } else {
+                $("#infoHtmlTip").html('<span class="onCorrect"></span>');
+                $.cookie('Rec_infoHtml', $("#infoHtml").val());
+            }
+        }
+        //alert("大类是："+$.cookie("Rec_oBrand"));
+        //alert("大类ID是："+$.cookie("Rec_brandN"));
+        //alert("小类是："+$.cookie("Rec_oBrand1"));
+        //alert("小类ID是："+$.cookie("Rec_CheXing"));
+        //品牌车系下拉选择模拟代码
+        $(function() {
+            $("#oBrand").click(function() {
+                //验证
+                $("#obrandNTip").html('<span class="onFocus"><span class="onFocus_top">请选择车型！</span><span class="onFocus_bot"></span></span>');
+                $("#obrandNTip").show();
+                if ($("#pinPaiWin").is(":hidden ")) {
+                    $("#pinPaiWin").css("display", "block");
+                    $(".chexi").css("display", "none");
+                }
+            });
+            $("window,*").click(function(e) {
+                if ($("#pinPaiWin")[0] != e.target && e.target != $("#oBrand")[0]) { //当点击窗口的任何一部分的时候，只要不是元素本身和那个出现的按钮，则隐藏这个DIV;$(".xiaoqu")[0] != e.target 这是判断事件源本身不是xiaoqu本身;e.target，是指当前的事件源(鼠标点击的是那一个目标)
+                    $("#pinPaiWin").css("display", "none");
+                }
+            });
+
+            $(".zm_fenlei li").hover(function() {
+                var nindex = $(".zm_fenlei li").index(this);
+                $(".zm_fenlei li").eq(nindex).addClass("curr").siblings().removeClass("curr");
+                $(".fenleicon dl").css("display", "none");
+                $(".fenleicon dl").eq(nindex).css("display", "block");
+            });
+            $(".fenleicon dl dd").click(function() {
+                var otext = $(this).text();
+                var otextid = $(this).children("a").attr("id");
+                $("#oBrand").text(otext);
+                $("#brandN").val(otextid);
+                //写入COOKIE
+                $.cookie('Rec_oBrand', otext);
+                $.cookie('Rec_brandN', otextid);
+
+                $("#oBrand1").css("display", "block");
+                $(".chexi").css("display", "block");
+                //判断后显示内容
+                if (otextid > 0) {
+                    $("#obrandNTip").html('<span class="onCorrect"></span>');
+                } else {
+                    $("#obrandNTip").html('<span class="onError"><span class="onError_top">你选择的车型不正确,请确认</span><span class="onError_bot"></span></span>');
+                }
+            });
+            $(".chexi li").live("mouseover", function() {
+                $(this).addClass("lanse");
+            });
+            $(".chexi li").live("mouseout", function() {
+                $(this).removeClass("lanse");
+            });
+            $(".chexi li").live("click", function() {
+                var otext1 = $(this).text();
+                var otext1id = $(this).attr("id");
+                $("#oBrand1").text(otext1);
+                $("#CheXing").val(otext1id);
+                //写入COOKIE
+                $.cookie('Rec_oBrand1', otext1);
+                $.cookie('Rec_CheXing', otext1id);
+
+                $(".chexi").css("display", "none");
+            });
+            $("#oBrand1").live("click", function() {
+                if ($(".chexi").is(":hidden ")) {
+                    $(".chexi").css("display", "block");;
+                }
+            });
+        });
+
+        var ChannelId = 9;
+        var strTempLink = 0;
+        var seUserName = "{:session('username')}";
+        var seUserFabu = 0;
+
+
+
+        $(function() {
+            $.formValidator.initConfig({
+                validatorGroup: "3",
+                formID: "",
+                theme: "ArrowSolidBox",
+                onError: function(msg) {
+                    alert(msg)
+                },
+                onSuccess: function() {
+                    subAjax();
+                    return false;
+                }
+            });
+            $('#form1').keydown(function() {
+                $.cookie('recState', '1');
+                $.cookie('mainCls', '9');
+            });
+            $('#form1').bind('paste', function() {
+                $.cookie('recState', '1');
+                $.cookie('mainCls', '9');
+            });
+            $("#ClassId").blur(function() {
+                $.cookie('Rec_ClassId', $("#ClassId").val());
+            });
+            $('input[name="IsHaveCar"]').blur(function() {
+                $.cookie('Rec_IsHaveCar', $("input[name='IsHaveCar']:checked").val());
+            });
+            $('input[name="Pinche"]').blur(function() {
+                $.cookie('Rec_Pinche', $("input[name='Pinche']:checked").val());
+            });
+            $('#QiDian').blur(function() {
+                $.cookie('Rec_QiDian', $('#QiDian').val());
+            });
+            $('#ZhongDian').blur(function() {
+                $.cookie('Rec_ZhongDian', $('#ZhongDian').val());
+            });
+            $('#deparTime').blur(function() {
+                $.cookie('Rec_deparTime', $('#deparTime').val());
+            });
+            $("#carpoolCls").blur(function() {
+                $.cookie('Rec_carpoolCls', $('#carpoolCls').val());
+            });
+            $('#pinHour').blur(function() {
+                $.cookie('Rec_pinHour', $('#pinHour').val());
+            });
+            $('#pinMinute').blur(function() {
+                $.cookie('Rec_pinMinute', $('#pinMinute').val());
+            });
+            $('#tujingZhan').blur(function() {
+                $.cookie('Rec_tujingZhan', $('#tujingZhan').val());
+            });
+            $("input[name='gongxu']").blur(function() {
+                $.cookie('Rec_gongxu', $("input[name='gongxu']:checked").val());
+            });
+            $("input[name='IsBaoyang']").blur(function() {
+                $.cookie('Rec_IsBaoyang', $("input[name='IsBaoyang']:checked").val());
+            });
+            $("input[name='IsShigu']").blur(function() {
+                $.cookie('Rec_IsShigu', $("input[name='IsShigu']:checked").val());
+            });
+            $("input[name='source']").blur(function() {
+                $.cookie('Rec_source', $("input[name='source']:checked").val());
+            });
+            $("#HtmlArea").blur(function() {
+                $.cookie('Rec_HtmlArea', $("#HtmlArea").val());
+            });
+            $("#oTitle").blur(function() {
+                $.cookie('Rec_oTitle', $("#oTitle").val());
+            });
+            $("#price").blur(function() {
+                $.cookie('Rec_price', $("#price").val());
+            });
+            $("#ShiYong").blur(function() {
+                $.cookie('Rec_ShiYong', $("#ShiYong").val());
+            });
+
+            $("#pinpaicl").blur(function() {
+                $.cookie('Rec_pinpaicl', $("#pinpaicl").val());
+            });
+            $("#brandN").blur(function() {
+                $.cookie('Rec_brandN', $("#brandN").val());
+            });
+            $("#CheXing").blur(function() {
+                $.cookie('Rec_CheXing', $("#CheXing").val());
+            });
+            $("#LicenseYear").blur(function() {
+                $.cookie('Rec_LicenseYear', $("#LicenseYear").val());
+            });
+            $("#color").blur(function() {
+                $.cookie('Rec_color', $("#color").val());
+            });
+            $("#GouCheYear").blur(function() {
+                $.cookie('Rec_GouCheYear', $("#GouCheYear").val());
+            });
+
+            $("#DianYa").blur(function() {
+                $.cookie('Rec_DianYa', $("#DianYa").val());
+            });
+
+            $("#DianChi").blur(function() {
+                $.cookie('Rec_DianChi', $("#DianChi").val());
+            });
+            $("#age").blur(function() {
+                $.cookie('Rec_age', $("#age").val());
+            });
+            $("#mileage").blur(function() {
+                $.cookie('Rec_mileage', $("#mileage").val());
+            });
+
+            $("#emission").blur(function() {
+                $.cookie('Rec_emission', $("#emission").val());
+            });
+
+            $("#FaDongji").blur(function() {
+                $.cookie('Rec_FaDongji', $("#FaDongji").val());
+            });
+            $("#ShopName").blur(function() {
+                $.cookie('Rec_ShopName', $("#ShopName").val());
+            });
+            $("#ZuoWei").blur(function() {
+                $.cookie('Rec_ZuoWei', $("#ZuoWei").val());
+            });
+
+            $("#gearbox").blur(function() {
+                $.cookie('Rec_gearbox', $("#gearbox").val());
+            });
+            $("#driveMode").blur(function() {
+                $.cookie('Rec_driveMode', $("#driveMode").val());
+            });
+            $("#checkEnd").blur(function() {
+                $.cookie('Rec_checkEnd', $("#checkEnd").val());
+            });
+
+            $("input[name='LicenseSell']").blur(function() {
+                $.cookie('Rec_LicenseSell', $("input[name='LicenseSell']:checked").val());
+            });
+            $("input[name='XinJiu']").blur(function() {
+                $.cookie('Rec_XinJiu', $("input[name='XinJiu']:checked").val());
+            });
+            $("#LinkMan").blur(function() {
+                $.cookie('Rec_LinkMan', $("#LinkMan").val());
+            });
+            $("#tel").blur(function() {
+                $.cookie('Rec_Tel', $("#tel").val());
+            });
+            $("#email").blur(function() {
+                $.cookie('Rec_email', $("#email").val());
+            });
+            $("#QQ").blur(function() {
+                $.cookie('Rec_QQ', $("#QQ").val());
+            });
+
+            $("input:radio[name='gongxu']").click(function() {
+                if ($(this).val() == 2) {
+                    $("#Ytupian").show();
+                    $("#Ydingqiby").show();
+                    $("#Yzhongdasg").show();
+                    $("#Ynianjiandq").show();
+                    $("#Yshangpaisj").show();
+                    $("#Ydaipai").show();
+                    $("#Ygongchesj").show();
+                    $("#Yxinjiu").show();
+                    $("#Ychelingyq").hide();
+                } else {
+                    $("#Ytupian").hide();
+                    $("#Ydingqiby").hide();
+                    $("#Yzhongdasg").hide();
+                    $("#Ynianjiandq").hide();
+                    $("#Yshangpaisj").hide();
+                    $("#Ydaipai").hide();
+                    $("#Ygongchesj").hide();
+                    $("#Yxinjiu").hide();
+                    $("#Ychelingyq").show();
+                }
+            });
+
+            $("input:radio[name='source']").click(function() {
+                if ($(this).val() == 2) {
+                    $("#Ydianpumc").show();
+                } else {
+                    $("#Ydianpumc").hide();
+                }
+            });
+            $("input:radio[name='IsHaveCar']").click(function() {
+                if ($(this).val() == 2) {
+                    $("#tujing").hide();
+                    $("#Ychexing").hide();
+                    $("#zuoweiname").html(" 乘车人数：");
+                    $("#zuoweidw").text("人");
+                } else {
+                    $("#zuoweiname").html(" 提供座位：");
+                    $("#zuoweidw").text("个");
+                    $("#tujing").show();
+                    $("#Ychexing").show();
+                }
+            });
+            if ({$type_id} == 8) {
+                $("input:radio[name='Pinche']").click(function() {
+                    if ($(this).val() == 2) {
+                        $('#divDeparTime').hide();
+                        $('#carpoolCls').hide();
+                        $('#rzshow_more').hide();
+                    } else {
+                        $('#carpoolCls').hide();
+                        $('#divDeparTime').show();
+                        $('#rzshow_more').hide();
+                    }
+                });
+            }
+            if ({$type_id} == 9) {
+                $("input:radio[name='gongxu']").click(function() {
+                    if ($(this).val() == 1) {
+                        $('#Ylicheng').hide();
+                    } else {
+
+                        $('#Ylicheng').show();
+                    }
+                });
+            }
+            if ({$type_id} == 1) {
+                $("input:radio[name='gongxu']").click(function() {
+                    if ($(this).val() == 1) {
+                        $('#brandN_b').hide();
+                    } else {
+
+                        $('#brandN_b').show();
+                    }
+                });
+            }
+
+            if ({$type_id} == 1 || {$type_id} == 3 || {$type_id} == 4 || {$type_id} == 5 || {$type_id} == 9) {
+                $("input:radio[name='gongxu']").click(function() {
+                    if ($(this).val() == 1) {
+                        $('#color_b').hide();
+                    } else {
+
+                        $('#color_b').show();
+                    }
+                });
+            }
+            if ({$type_id} == 6) {
+                $("input:radio[name='gongxu']").click(function() {
+                    if ($(this).val() == 1) {
+                        $('#price_b').hide();
+                    } else {
+
+                        $('#price_b').show();
+                    }
+                });
+            }
+            if ({$type_id} == 2 || {$type_id} == 9) {
+                $("input:radio[name='gongxu']").click(function() {
+                    if ($(this).val() == 1) {
+                        $('#mileage_b').hide();
+                    } else {
+
+                        $('#mileage_b').show();
+                    }
+                });
+            }
+            if ({$type_id} == 1 || {$type_id} == 9 || {$type_id} == 10) {
+                $("input:radio[name='gongxu']").click(function() {
+                    if ($(this).val() == 1) {
+                        $('#LicenseYear_b').hide();
+                    } else {
+
+                        $('#LicenseYear_b').show();
+                    }
+                });
+            }
+            if ({$type_id} == 3 || {$type_id} == 4 || {$type_id} == 5) {
+                $("input:radio[name='gongxu']").click(function() {
+                    if ($(this).val() == 1) {
+                        $('#XinJiu_b').hide();
+                    } else {
+
+                        $('#XinJiu_b').show();
+                    }
+                });
+            }
+            $("#XinJiu2").click(function() {
+                $("#sy").show();
+            });
+            $("#XinJiu1").click(function() {
+                $("#sy").hide();
+            });
+            if ({$type_id}==1 || {$type_id}==9 || {$type_id}==3 || {$type_id}==4 || {$type_id}==7) {
+                $("#ClassId").formValidator({
+                    tipID: "ClassIdTip",
+                    validatorGroup: "3",
+                    onShow: "",
+                    onFocus: "请选择类别",
+                    onCorrect: "选择正确",
+                    defaultValue: ""
+                }).inputValidator({
+                    min: 1,
+                    onError: "请选择类别!"
+                });
+            }
+
+
+            if ({$type_id} == 1 ) { //品牌or大类  只有二手汽车 品牌必选
+                $("#brandN").formValidator({
+                    validatorGroup: "3",
+                    onShow: "",
+                    onFocus: "请选择品牌",
+                    onCorrect: "填写正确",
+                    defaultValue: ""
+                }).inputValidator({
+                    min: 1,
+                    onError: "请选择品牌!"
+                });
+            }
+
+
+            if ({$type_id} == 7) {
+                $("#pinpaicl").formValidator({
+                    validatorGroup: "3",
+                    tipID: "pinpaiclTip",
+                    empty: true,
+                    onShow: "",
+                    onFocus: "2-25个字符，如捷达车",
+                    onCorrect: "填写正确",
+                    defaultValue: ""
+                }).inputValidator({
+                    min: 0,
+                    max: 50,
+                    empty: {
+                        leftEmpty: false,
+                        rightEmpty: false,
+                        emptyError: "车辆品牌两边不能有空符号"
+                    },
+                    onError: "车辆品牌长度应为4-25个字符请确认"
+                });
+            }
+            if ({$type_id} == 8) {
+                //是否有车
+                $("input:radio[name='IsHaveCar']").formValidator({
+                    validatorGroup: "3",
+                    tipID: "IsHaveCarTip",
+                    onShow: "",
+                    onFocus: "您是车主还是乘客?",
+                    onCorrect: "输入正确",
+                    defaultvalue: ["1"]
+                }).inputValidator({
+                    min: 1,
+                    max: 1,
+                    onError: "请确认"
+                });
+                //拼车类型
+                $(":radio[name='Pinche']").formValidator({
+                    validatorGroup: "3",
+                    tipID: "PincheTip",
+                    onShow: "",
+                    onFocus: "选择拼车类别",
+                    onCorrect: "输入正确",
+                    defaultvalue: ["2"]
+                }).inputValidator({
+                    min: 1,
+                    max: 1,
+                    onError: "请确认"
+                });
+                //上下班拼车时间
+                $("#carpoolCls").formValidator({
+                    validatorGroup: "3",
+                    tipID: "deparTimeTip",
+                    empty: true,
+                    onShow: "",
+                    onFocus: "请选择出发时间",
+                    onCorrect: "填写正确"
+                }).inputValidator({
+                    min: 0,
+                    onError: "请选择出发时间!"
+                });
+                //小时,与出发时间一起
+                $("#pinHour").formValidator({
+                    validatorGroup: "3",
+                    tipID: "deparTimeTip",
+                    empty: true,
+                    onShow: "",
+                    onFocus: "请选择小时",
+                    onCorrect: "填写正确",
+                    defaultValue: ""
+                }).inputValidator({
+                    min: 0,
+                    onError: "请选择小时!"
+                });
+                //分钟,与出发时间一起
+                $("#pinMinute").formValidator({
+                    validatorGroup: "3",
+                    tipID: "deparTimeTip",
+                    empty: true,
+                    onShow: "",
+                    onFocus: "请选择分钟",
+                    onCorrect: "填写正确",
+                    defaultValue: ""
+                }).inputValidator({
+                    min: 0,
+                    onError: "请选择分钟!"
+                });
+                //起点
+                $("#QiDian").formValidator({
+                    validatorGroup: "3",
+                    onShow: "",
+                    onFocus: "请填写起点",
+                    onCorrect: "填写正确",
+                    defaultValue: ""
+                }).inputValidator({
+                    min: 1,
+                    onError: "请填写起点!"
+                });
+                //终点
+                $("#ZhongDian").formValidator({
+                    validatorGroup: "3",
+                    tipID: "QiDianTip",
+                    onShow: "",
+                    onFocus: "请填写终点",
+                    onCorrect: "填写正确",
+                    defaultValue: ""
+                }).inputValidator({
+                    min: 1,
+                    onError: "请填写终点!"
+                });
+                //途经站点
+                $("#tujingZhan").formValidator({
+                    validatorGroup: "3",
+                    empty: true,
+                    onShow: "",
+                    onFocus: "请填写途经站点，多个站点请用&quot;，&quot;分隔",
+                    onCorrect: "填写正确",
+                    defaultValue: ""
+                }).inputValidator({
+                    min: 1,
+                    max: 140,
+                    empty: {
+                        leftEmpty: false,
+                        emptyError: "两边不能有空符号"
+                    },
+                    onError: "请填写途经站点，多个站点请用&quot;，&quot;分隔!"
+                });
+                //出发时间
+                //$("#deparTime").formValidator({validatorGroup:"3",onShow:"",onFocus:"填写出发时间",onCorrect:"填写正确"}).inputValidator({min:4,max:40,empty:{leftEmpty:false,emptyError:"两边不能有空符号"},onError:"填写出发时间"});
+                //提供座位数
+                $("#ZuoWei").formValidator({
+                    validatorGroup: "3",
+                    onShow: "",
+                    onFocus: "请正确填写"+$("#zuoweiname").html().replace("：",""),
+                    onCorrect: "填写正确",
+                    defaultValue: ""
+                }).inputValidator({
+                    min: 1,
+                    max: 1000,
+                    type: "value",
+                    onError: "请正确填写"+$("#zuoweiname").html().replace("：","")
+                });
+            }
+            if ({$type_id} != 7 && {$type_id} != 8) {
+                //供需
+                $(":radio[name='gongxu']").formValidator({
+                    validatorGroup: "3",
+                    tipID: "gongxuTip",
+                    onShow: "",
+                    onFocus: "您是出售物品还是求购物品？",
+                    onCorrect: "输入正确",
+                    defaultvalue: ["1"]
+                }).inputValidator({
+                    min: 1,
+                    max: 1,
+                    onError: "请确认"
+                });
+            }
+            if ({$type_id} != 8) {
+                //来源
+                $(":radio[name='source']").formValidator({
+                    validatorGroup: "3",
+                    tipID: "IsSourceTip",
+                    onShow: "",
+                    onFocus: "选择物品是个人或者是商家",
+                    onCorrect: "输入正确"
+                }).inputValidator({
+                    min: 1,
+                    max: 1,
+                    onError: "请确认"
+                });
+            }
+            if ({$type_id} != 8) {
+                //价格
+                $("#price").formValidator({
+                    validatorGroup: "3",
+                    onShow: "",
+                    onFocus: "填写费用",
+                    onCorrect: "填写正确"
+                }).inputValidator({
+                    min: 1,
+                    max: 10000000000,
+                    type: "value",
+                    onErrorMin: "你输入的值必须大于等于1",
+                    onError: "请正确填写你的价格数字"
+                });
+            }
+            if ({$type_id} == 1 || {$type_id} == 9) {
+                //是否带牌卖车
+                $(":radio[name='LicenseSell']").formValidator({
+                    validatorGroup: "3",
+                    tipID: "LicenseSellTip",
+                    empty: true,
+                    onShow: "",
+                    onFocus: "您是否带牌卖车？",
+                    onCorrect: "输入正确",
+                    defaultvalue: [" "]
+                }).inputValidator({
+                    min: 1,
+                    max: 1,
+                    onError: "请确认"
+                });
+            }
+            if ({$type_id} == 1 || {$type_id} == 3 || {$type_id} == 9) {
+                //行驶里程
+                if ({$type_id} != 1) {
+                    $("#mileage").formValidator({
+                        validatorGroup: "3",
+                        empty: true,
+                        onShow: "",
+                        onFocus: "请正确填写行驶里程，注意单位为万公里",
+                        onCorrect: "填写正确",
+                        defaultValue: ""
+                    }).inputValidator({
+                        min: 0.01,
+                        max: 1000,
+                        type: "value",
+                        onErrorMin: "请输入行驶里程数",
+                        onError: "请正确填写你的行驶里程，注意单位为万公里"
+                    });
+                } else {
+                    $("#mileage").formValidator({
+                        validatorGroup: "3",
+                        onShow: "",
+                        onFocus: "请正确填写行驶里程，注意单位为万公里",
+                        onCorrect: "填写正确",
+                        defaultValue: ""
+                    }).inputValidator({
+                        min: 0.01,
+                        max: 1000,
+                        type: "value",
+                        onErrorMin: "请输入行驶里程数",
+                        onError: "请正确填写你的行驶里程，注意单位为万公里"
+                    });
+                }
+
+                //排量
+                $("#emission").formValidator({
+                    validatorGroup: "3",
+                    empty: true,
+                    onShow: "",
+                    onFocus: "请正确填写排量，注意单位为L",
+                    onCorrect: "填写正确",
+                    defaultValue: ""
+                }).inputValidator({
+                    min: 0,
+                    max: 1000,
+                    type: "value",
+                    onError: "请正确填写你的排量数字，注意单位为L"
+                });
+            }
+            if ({$type_id} == 1 || {$type_id} == 3 ) {  //轿车 面包车 上牌时间必填。
+                //上牌时间
+                $("#LicenseYear").formValidator({
+                    tipID: "LicenseYearTip",
+                    validatorGroup: "3",
+                    onShow: "",
+                    onFocus: "请选择上牌时间",
+                    onCorrect: "选择正确",
+                    defaultValue: ""
+                }).inputValidator({
+                    min: 1,
+                    onError: "请选择上牌时间!"
+                });
+            }
+            //年检到期时间
+            $("#checkEnd").formValidator({
+                tipID: "checkEndTip",
+                validatorGroup: "3",
+                empty: true,
+                onShow: "",
+                onFocus: "请输入年检到期时间",
+                onCorrect: "填写正确",
+                defaultValue: ""
+            }).inputValidator({
+                min: 1,
+                onError: "请选择年检时间!"
+            });
+
+            //所在地
+            $("#HtmlArea").formValidator({
+                validatorGroup: "3",
+                empty: true,
+                onShow: "",
+                onFocus: "填写所在地",
+                onCorrect: "填写正确",
+                defaultValue: ""
+            }).inputValidator({
+                min: 4,
+                max: 60,
+                empty: {
+                    leftEmpty: false,
+                    emptyError: "所属地两边不能有空符号"
+                },
+                onError: "填写所在地应2-30个字符请确认"
+            });
+
+            if ({$type_id} == 1 || {$type_id} == 9) {
+                //是否定期保养
+                $(":radio[name='IsBaoyang']").formValidator({
+                    validatorGroup: "3",
+                    tipID: "IsBaoyangTip",
+                    empty: true,
+                    onShow: "",
+                    onFocus: "您是否定期保养？",
+                    onCorrect: "输入正确",
+                    defaultvalue: [" "]
+                }).inputValidator({
+                    min: 1,
+                    max: 1,
+                    onError: "请确认"
+                });
+                //有无重大事故
+                $(":radio[name='IsShigu']").formValidator({
+                    validatorGroup: "3",
+                    tipID: "IsShiguTip",
+                    empty: true,
+                    onShow: "",
+                    onFocus: "有无重大事故？",
+                    onCorrect: "输入正确",
+                    defaultvalue: [" "]
+                }).inputValidator({
+                    min: 1,
+                    max: 1,
+                    onError: "请确认"
+                });
+            }
+            if ({$type_id} == 8) {
+                //线路结题
+                //$('#oTitle').val()=$('#QiDian').val()+""+$('#ZhongDian').val();
+//        $("#oTitle").formValidator({
+//            validatorGroup: "3",
+//            onShow: "",
+//            onFocus: "2-25个字，如拼车上班东单到西单",
+//            onCorrect: "填写正确",
+//            defaultValue: ""
+//        }).inputValidator({
+//            min: 10,
+//            max: 50,
+//            empty: {
+//                leftEmpty: false,
+//                rightEmpty: false,
+//                emptyError: "标题两边不能有空符号"
+//            },
+//            onError: "2-25个字，如拼车上班东单到西单"
+//        });
+            } else {
+                //标题
+                $("#oTitle").formValidator({
+                    validatorGroup: "3",
+                    onShow: "",
+                    onFocus: "5-25个字符，如出售二手捷达一辆",
+                    onCorrect: "填写正确",
+                    defaultValue: ""
+                }).inputValidator({
+                    min: 10,
+                    max: 50,
+                    empty: {
+                        leftEmpty: false,
+                        rightEmpty: false,
+                        emptyError: "标题两边不能有空符号"
+                    },
+                    onError: "标题长度应为5-25个字符请确认"
+                });
+            }
+
+            //补充说明
+            if ({$type_id} != 8){
+                $("#infoHtml").formValidator({
+                    validatorGroup: "3",
+                    empty:true,
+                    onShow: "",
+                    onFocus: "5-2000字符，不能填写QQ电话号码等联系方式</br>如发现此信息中出现联系方式，信息将被删除",
+                    onCorrect: "填写正确",
+                    defaultvalue: "详细的介绍说明，会让别人更加了解你的需求，增加交易的成功率"
+                }).inputValidator({
+                    min: 0,
+                    max: 4000,
+                    onError: "您输入的详细描述字数不符合要求，请按要求填写"
+                });
+            }
+
+
+            if (strTempLink == 0) {
+                if (ChannelId == 80){
+                    $("#LinkMan").formValidator({
+                        validatorGroup: "3",
+                        onShow: "",
+                        onFocus: "请输入联系人姓名",
+                        onCorrect: "填写正确",
+                        defaultValue: ""
+                    }).inputValidator({
+                        min: 4,
+                        max: 20,
+                        empty: {
+                            leftEmpty: false,
+                            emptyError: "内容两边不能有空符号"
+                        },
+                        onError: "联系人姓名长度为2-10个字符"
+                    });
+                }
+
+
+
+
+
+
+
+                $("#tel").formValidator({
+                    validatorGroup: "3",
+                    onShow: "",
+                    onFocus: "填写手机号或者座机号码，格式为：</br>13988888888或010-82873836",
+                    onCorrect: "填写正确"
+                }).regexValidator({
+                    regExp: "^(([0\\+]\\d{2,3}-)?(0\\d{2,3})-)?(\\d{7,8})(-(\\d{3,}))?$|(^(13|14|15|16|17|18|19)[0-9]{9}$)",
+                    onError: "你输入的联系电话格式不正确"
+                });
+                $("#email").formValidator({
+                    validatorGroup: "3",
+                    empty: true,
+                    onShow: "",
+                    onFocus: "请输入邮箱,邮箱6-100个字符",
+                    onCorrect: "填写正确"
+                }).inputValidator({
+                    min: 6,
+                    max: 100,
+                    onError: "你输入的邮箱长度非法,请确认"
+                }).regexValidator({
+                    regExp: "email",
+                    dataType: "enum",
+                    onError: "邮箱格式不正确"
+                });
+                $("#QQ").formValidator({
+                    validatorGroup: "3",
+                    empty: true,
+                    onShow: "",
+                    onFocus: "请填写QQ号码，方便网民与您联系",
+                    onCorrect: "填写正确"
+                }).regexValidator({
+                    regExp: "qq",
+                    dataType: "enum",
+                    onError: "QQ号码格式不正确"
+                });
+            }
+            //车辆新旧
+            $(":radio[name='XinJiu']").formValidator({
+                validatorGroup: "3",
+                tipID: "ShiYongTip",
+                empty: true,
+                onShow: "",
+                onFocus: "车辆新旧？",
+                onCorrect: "输入正确",
+                defaultvalue: [" "]
+            }).inputValidator({
+                min: 1,
+                max: 1,
+                onError: "请确认"
+            });
+            //使用年限
+            $("#ShiYong").formValidator({
+                validatorGroup: "3",
+                empty: true,
+                onShow: "",
+                onFocus: "填写使用年限",
+                onCorrect: "填写正确"
+            }).inputValidator({
+                min: 1,
+                max: 10000000000,
+                type: "value",
+                onErrorMin: "你输入的值必须大于等于1",
+                onError: "请正确填写你的使用年限"
+            });
+            //购车时间
+            $("#GouCheYear").formValidator({
+                tipID: "GouCheYearTip",
+                validatorGroup: "3",
+                empty: true,
+                onShow: "",
+                onFocus: "请选择购车时间",
+                onCorrect: "选择正确",
+                defaultValue: ""
+            }).inputValidator({
+                min: 1,
+                onError: "请选择购车时间!"
+            });
+            //	电压
+            $("#DianYa").formValidator({
+                tipID: "DianYaTip",
+                validatorGroup: "3",
+                empty: true,
+                onShow: "",
+                onFocus: "请选择电压选项",
+                onCorrect: "选择正确",
+                defaultValue: ""
+            }).inputValidator({
+                min: 1,
+                onError: "请选择电压!"
+            });
+            //	电池
+            $("#DianChi").formValidator({
+                tipID: "DianChiTip",
+                validatorGroup: "3",
+                empty: true,
+                onShow: "",
+                onFocus: "请选择电池选项",
+                onCorrect: "选择正确",
+                defaultValue: ""
+            }).inputValidator({
+                min: 1,
+                onError: "请选择电池!"
+            });
+            //车龄
+            $("#age").formValidator({
+                tipID: "ageTip",
+                validatorGroup: "3",
+                empty: true,
+                onShow: "",
+                onFocus: "请选择车龄要求",
+                onCorrect: "选择正确",
+                defaultValue: ""
+            }).inputValidator({
+                min: 1,
+                onError: "请选择车龄!"
+            });
+            //发动机
+            $("#FaDongji").formValidator({
+                validatorGroup: "3",
+                empty: true,
+                onShow: "",
+                onFocus: "请正确填写发动机，单位是马力",
+                onCorrect: "填写正确",
+                defaultValue: ""
+            }).inputValidator({
+                min: 0,
+                max: 1000,
+                type: "value",
+                onError: "请正确填写发动机数字，注意单位是马力"
+            });
+            if ({$type_id} == 7) {
+                //店铺名称
+                $("#ShopName").formValidator({
+                    validatorGroup: "3",
+                    empty: true,
+                    onShow: "",
+                    onFocus: "请正确填写店铺名称",
+                    onCorrect: "填写正确",
+                    defaultValue: ""
+                }).inputValidator({
+                    min: 1,
+                    max: 1000,
+                    onError: "请正确填写店铺名称"
+                });
+                $("input:radio[name='source']").click(function() {
+                    if ($(this).val() == 2) {
+                        $("#ShopName").formValidator({
+                            validatorGroup: "3",
+                            onShow: "",
+                            onFocus: "请正确填写店铺名称",
+                            onCorrect: "填写正确",
+                            defaultValue: ""
+                        }).inputValidator({
+                            min: 1,
+                            max: 1000,
+                            onError: "请正确填写店铺名称"
+                        });
+                    } else {
+                        $("#ShopName").formValidator({
+                            validatorGroup: "3",
+                            empty: true,
+                            onShow: "",
+                            onFocus: "请正确填写店铺名称",
+                            onCorrect: "填写正确",
+                            defaultValue: ""
+                        }).inputValidator({
+                            min: 1,
+                            max: 1000,
+                            onError: "请正确填写店铺名称"
+                        });
+                    }
+                });
+            }
+            if (seUserName == '' && seUserFabu == 1) {
+                $("#Pwd1").formValidator({
+                    validatorGroup: "3",
+                    onShow: "",
+                    onFocus: "请输入删除密码，用于删除此信息,最少三位",
+                    onCorrect: "密码合法"
+                }).inputValidator({
+                    min: 3,
+                    empty: {
+                        leftEmpty: false,
+                        rightEmpty: false,
+                        emptyError: "密码两边不能有空符号"
+                    },
+                    onError: "密码最少三位,请确认"
+                }).regexValidator({
+                    regExp: "username",
+                    dataType: "enum",
+                    onError: "密码格式不正确，限数字、字母、下划线"
+                });
+                $("#Pwd2").formValidator({
+                    validatorGroup: "3",
+                    onShow: "",
+                    onFocus: "请再次输入删除密码",
+                    onCorrect: "密码一致"
+                }).inputValidator({
+                    min: 3,
+                    empty: {
+                        leftEmpty: false,
+                        rightEmpty: false,
+                        emptyError: "重复密码两边不能有空符号"
+                    },
+                    onError: "重复密码不能为空,请确认"
+                }).compareValidator({
+                    desID: "Pwd1",
+                    operateor: "=",
+                    onError: "2次密码不一致,请确认"
+                }).regexValidator({
+                    regExp: "username",
+                    dataType: "enum",
+                    onError: "密码格式不正确，限数字、字母、下划线"
+                });
+                $("#code").formValidator({
+                    validatorGroup: "3",
+                    onShow: "",
+                    onFocus: "请输入验证码",
+                    onCorrect: "填写正确"
+                }).inputValidator({
+                    min: 4,
+                    max: 8,
+                    onError: "请正确填写验证码"
+                }).regexValidator({
+                    regExp: "chinese",
+                    dataType: "enum",
+                    onError: "验证码格式不正确"
+                }).ajaxValidator({
+                    async: true,
+                    dataType: "html",
+                    url: '/post/ajax/check.asp?type=code',
+                    success: function(data) {
+                        if (data == "1") {
+                            return true
+                        } else {
+                            return false
+                        };
+                    },
+                    buttons: $("#button"),
+                    error: function() {
+                        alert("服务器没有返回数据，可能服务器忙，请重试")
+                    },
+                    onError: "验证码错误，请重新输入",
+                    onWait: "正在校验，请稍候..."
+                });
+            }
+        });
+
+
+
+
+        var users;
+        if(strTempLink == 0){
+            users = 0;
+        }else{
+            users = 1;
+        }
+        function subAjax() {
+
+            if (parseInt($("#upNum").val()) < 0) {
+                if (confirm('图片数量过多，图片数量最多为8张，是否直接上传？\n您可以选"是"直接上传，将删除超过8张后面的图片；\n也可以选"否"进行手动删除！')) {
+                    $("#Imagesli").children().eq(7).nextAll().remove();
+                    $('#upNum').val(8 - $('#Imagesli').children().length);
+                    UpImages();
+                } else {
+                    return false;
+                }
+            }
+
+            var pw1, pw2;
+            if (users == 0) {
+                pw1 = escape($('#Pwd1').val());
+                pw2 = escape($('#Pwd2').val());
+                strLinkMan = escape($('#LinkMan').val());
+                strTel = escape($('#tel').val());
+                strEmail = escape($('#email').val());
+                strQQ = escape($('#QQ').val());
+            } else {
+                pw1 = '';
+                pw2 = '';
+                strLinkMan = "";
+                strTel = "";
+                strEmail = "";
+                strQQ = "";
+            }
+
+
+            $('#msgbox').html('<img src="http://r.imgccoo.cn/post/images/loading.gif" border="0" />提交中…');
+            $('#button').attr("disabled", true);
+            saveAllRec();
+            var Images_input_list = "";
+            $("#Imagesli :input[name='Images_input']").each(function() {
+                Images_input_list += $(this).val() + '|'
+            })
+            $.ajax({
+                type: "POST",
+                url: "/home/release/carSave",
+                data: {
+                    Title: escape($('#oTitle').val()),
+                    Infokind: escape('{$type_id}'),
+                    ClassId: escape($('#ClassId').val()),
+                    brandN: escape($('#brandN').val()),
+                    CheXing: escape($('#CheXing').val()),
+                    LicenseYear: escape($('#LicenseYear').val()),
+                    color: escape($('#color').val()),
+                    Age: escape($('#age').val()),
+                    mileage: escape($('#mileage').val()),
+                    gearbox: escape($('#gearbox').val()),
+                    driveMode: escape($('#driveMode').val()),
+                    source: escape($("input:radio[name='source']:checked").val()),
+                    Price: escape($('#price').val()),
+                    discharge: escape($('#discharge').val()),
+                    tel: strTel,
+                    info: escape($('#infoHtml').val()),
+                    telmsg: escape($('#telbd').val()),
+                    Map: escape($('#MapId').val()),
+                    IsHaveCar: escape($("input:radio[name='IsHaveCar']:checked").val()),
+                    Pinche: escape($("input:radio[name='Pinche']:checked").val()),
+                    QiDian: escape($('#QiDian').val()),
+                    ZhongDian: escape($('#ZhongDian').val()),
+                    deparTime: escape($('#deparTime').val()),
+                    pinHour: escape($('#pinHour').val()),
+                    pinMinute: escape($('#pinMinute').val()),
+                    ZuoWei: escape($('#ZuoWei').val()),
+                    tujingZhan: escape($('#tujingZhan').val()),
+                    upLoadList: escape(Images_input_list)
+                },
+                error: function() {
+                    alert("系统错误，请与管理员联系！");
+                },
+                success: function(data) {
+                    if (data > 888) {
+                        $.cookie('recState', '2'); //成功后，改变状态。
+                        if({$IsPostFufei} == 1){
+                            ShowWinAuto('信息发布权限购买','/post/buy_fabu_step.asp?action=fb&cid=4&tname=traffic_info&id='+data+'',520,420,function(){
+                                var a=confirm("本条信息支付后才能显示，确认关闭？");
+                                if(a==true)
+                                {
+                                    window.location.href='/post/users/ch/'
+                                }
+                                else
+                                {
+                                    return false;
+                                }
+                            });
+                            return false;
+                        }else{
+                            clearRecFun(); //清空表单项
+                            location.href = '/post/cl/url/' + data + '/';
+                        }
+
+                    } else {
+                        switch (data) {
+                            case '0':
+                                alert('此用户不是白城之窗用户，不能在白城之窗发布分类信息!');
+                                location.reload();
+                                break;
+                            case '1':
+                                alert('标题是您的必填项!');
+                                $('#msgbox').hide();
+                                $('#button').attr("disabled", false);
+                                break;
+                            case '2':
+                                alert('标题不能为空并且不能大于25个字!');
+                                $('#msgbox').hide();
+                                $('#button').attr("disabled", false);
+                                break;
+                            case '3':
+                                alert('联系电话是您的必填项!');
+                                $('#msgbox').hide();
+                                $('#button').attr("disabled", false);
+                                break;
+                            case '4':
+                                alert('您的账号被管理员禁发，没有发布信息的权限，如需发布请联系本站！联系电话：{$service_comptel}');
+                                location.reload();
+                                break;
+                            case '5':
+                                alert('详细说明必须填写!');
+                                $('#msgbox').hide();
+                                $('#button').attr("disabled", false);
+                                break;
+                            case '6':
+                                alert('详细说明必须填写,并且信息不能大于500个字!');
+                                $('#msgbox').hide();
+                                $('#button').attr("disabled", false);
+                                break;
+                            case '10':
+                                alert('根据国家法律法规，您的信息涉及到非法字符，请修改后发布!');
+                                break;
+                            default:
+                                alert(unescape(data));
+                                $('#msgbox').hide();
+                                $('#button').attr("disabled", false);
+                                break;
+                        }
+                    }
+                }
+            });
+        }
+        //-------------------------------------
+        function showCode() {
+            $('#imgCode').attr('src', '/reg/verifycode.asp?t=' + Math.random())
+        }
+        //-------------------------------------
+        function sloadcate(id) {
+            $(".onError").hide();
+            $(".onCorrect").hide();
+            $(".sylb").html('');
+            $(".sylb1").show();
+
+            if (id == 1) {
+                LoadList2('cl', 0, 0);
+            }
+            if (id == 2) {
+                LoadList3('cl', 9 , 0, 0);
+            }
+            if (id == 3) {
+                LoadList4('cl', 9 , 0 , 0);
+            }
+        }
+
+
+        //根据页面channelID  控制页面显示内容
+
+
+
+        $(document).ready(function(e) {
+
+            if({$type_id} == 8){
+                $("#c_ConnectPerson,#c_qq,#c_email,#Ytupian,#c_price,#c_cate,#c_description").hide();
+            }
+        });
+
+
+    </script>
+    <form method="post" name="form1" id="form1" onsubmit="return $.formValidator.pageIsValid('3');">
+        {include file="common/live_top" /}
+        <div class="fbbd">
+            {if $type_id != 8}
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td width="120" height="41" align="right"><font color="#FF0000">*</font> 类　　别：</td>
+                    <td><table width="100%" border="0" cellspacing="0">
+                        <tr>
+                            <td width="14%">
+                                <select name="ClassId" id="ClassId">
+                                    <option value="0">类别</option>
+                                    {if $findData}
+                                    {foreach $findData as $vo}
+                                    <option value="{$vo.kindid}">{$vo.kindname}</option>
+                                    {/foreach}
+                                    {/if}
+                                </select>
+                            </td>
+                            <td width="86%"><div id="ClassIdTip" style="width:280px"></div></td>
+                        </tr>
+                    </table></td>
+                </tr>
+            </table>
+            {/if}
+            {if $type_id != 8}
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td width="120" height="41" align="right"><font color="#FF0000">*</font> 来　　源：</td>
+                    <td><table width="100%" border="0" cellspacing="0">
+                        <tr>
+                            <td width="14%"><label>
+                                <input type="radio" value="1" name="source" id="IsSource1" {if ($strTempLink == 0) } checked="checked" {/if} />
+                                个人</label>
+                                <label>
+                                    <input type="radio" value="2" name="source" id="IsSource2" {if ($strTempLink == 1) } checked="checked" {/if} />
+                                    商家</label></td>
+                            <td width="86%"><div id="IsSourceTip" style="width:280px"></div></td>
+                        </tr>
+                    </table></td>
+                </tr>
+            </table>
+            {else /}
+            <table width="100%" border="0" cellspacing="0" cellpadding="0"  id="c_cate" style="display: none">
+                <tr>
+                    <td width="120" height="41" align="right"><font color="#FF0000">*</font> 类　　别：</td>
+                    <td><table width="100%" border="0" cellspacing="0">
+                        <tbody>
+                        <tr>
+                            <td width="34%"><label>
+                                <input type="radio" value="2" name="Pinche" id="Pinche2">
+                                上下班拼车</label>
+                                <label>
+                                    <input type="radio" value="1" name="Pinche" id="Pinche1" checked="checked">
+                                    长途拼车</label>
+                                <label {if $type_id ==8 } style="display:none" {/if}>
+                                <input type="radio" value="3" name="Pinche" id="Pinche3">
+                                拼车自驾游</label></td>
+                            <td width="66%"><div id="PincheTip" style="width:280px"></div></td>
+                        </tr>
+                        </tbody>
+                    </table></td>
+                </tr>
+            </table>
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td width="120" height="41" align="right"><font color="#FF0000">*</font>&nbsp;拼 车 人：</td>
+                    <td><table width="100%" border="0" cellspacing="0">
+                        <tr>
+                            <td width="31%"><label>
+                                <input type="radio" value="1" name="IsHaveCar" checked="checked" id="IsHaveCar1">
+                                车找人</label>
+                                <label>
+                                    <input type="radio" value="2" name="IsHaveCar" id="IsHaveCar2">
+                                    人找车</label></td>
+                            <td width="69%"><div id="IsHaveCarTip" style="width:280px"></div></td>
+                        </tr>
+                    </table></td>
+                </tr>
+            </table>
+            {/if}
+            {if $type_id == 1 || $type_id == 9 || $type_id == 3}
+            <div id="rzshow_more" >
+                <table width="100%" border="0" cellpadding="0" cellspacing="0" class="cxfm_ul" style="position:relative" id="Ychexing">
+                    <tr>
+                        <td width="120" height="45" align="right">
+                            {if $type_id == 1}
+                            <span style="color:#FF0000" id="brandN_b">* </span>
+                            {/if}
+                            品　　牌：</td>
+                        <td><table width="100%" border="0" cellspacing="0">
+
+                            <tr>
+                                <td width="20%"><span id="oBrand">选择品牌</span>
+                                    <div class="pinpai_win" id="pinPaiWin"> <a href="javascript:void(0)" class="ppwin_close" id="ppwinClose"></a>
+                                        <div class="tit_sm">您可以根据品牌的首字母拼音来选择品牌！</div>
+                                        <ul class="zm_fenlei" id="zmFenlei">
+                                            {if ($type_id ==1) or ($type_id == 9) }
+                                            <li class="curr"><a href="javascript:void(0)">热门</a></li>
+                                            {/if}
+                                            {if $brandEnameData}
+                                            {foreach $brandEnameData as $key=>$vo}
+                                            <li {if ($useHot eq 1) and ($key == 0)} class="curr" {/if} >
+                                            <a href="javascript:void(0)" zm="a">{$vo.Ename}</a>
+                                            </li>
+                                            {/foreach}
+                                            {/if}
+
+                                        </ul>
+                                        <div class="fenleicon" id="fenLeiCon">
+                                            {if ($type_id == 1) or ($type_id == 9) }
+                                            <dl style="display: block;" zm="remei" class="fenleilist clearfix" id="reMei">
+                                                {if $hotData}
+                                                {foreach $hotData as $key=>$vo}
+                                                <dd><a href="javascript:void(0)" id="{$vo.kindid}">{$vo.kindname}</a></dd>
+                                                {/foreach}
+                                                {/if}
+                                            </dl>
+                                            {/if}
+
+                                            {if $brandEnameData}
+                                            {foreach $brandEnameData as $ek=>$evo}
+                                            <dl zm="a" class="fenleilist clearfix"
+                                                {if ($useHot <> 0 or ($useHot == 0 and $ek ==0))}
+                                            style="display: none;"
+                                            {else /}
+                                            style="display: block;"
+                                            {/if}
+
+                                            >
+                                            {if $brandData}
+                                            {foreach $brandData as $bk=>$bvo}
+                                            {if $bvo.Ename == $evo.Ename}
+                                            <dd zm="a"><a href="javascript:void(0)" id="{$bvo.kindid}">{$bvo.kindname}</a></dd>
+                                            {/if}
+                                            {/foreach}
+                                            {/if}
+                                            </dl>
+                                            {/foreach}
+                                            {/if}
+                                        </div>
+                                        <!--<div class="txtright">如果没有您要到车辆品牌请&nbsp;<a target="_blank" href="#">联系我们</a></div>-->
+                                        <iframe frameborder="0" style="position:absolute; visibility:inherit; top:0px; left:0px; width:740px; height:200px; z-index:-1; filter='progid:DXImageTransform.Microsoft.Alpha(style=0,opacity=0)';"></iframe>
+                                    </div>
+                                    <!--              <span id="oBrand1" style="display:none">选择车系</span>
+                                                      <div class="chexi" style="display:none">
+                                                        <ul class="con-c"></ul>
+                                                      </div>-->
+                                    <div id="write"></div>
+                                    <input name="brandN" id="brandN" type="hidden" />
+                                    <input name="CheXing" id="CheXing" type="hidden" /></td>
+                                <td width="50%"><div id="brandNTip" style="width:280px"></div></td>
+                            </tr>
+
+                        </table></td>
+                    </tr>
+                </table>
+            </div>
+            {/if}
+
+            {if $type_id == 8}
+
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td width="120" height="41" align="right"><font color="#FF0000">*</font> 起　　点：</td>
+                    <td><table width="100%" border="0" cellspacing="0">
+                        <tr>
+                            <td width=254><input name="QiDian" type="text" class="tjbd" id="QiDian" value="" maxlength="15" except=""></td>
+                            <td width="113">终点：</td>
+                            <td width="434"><input name="ZhongDian" type="text" class="tjbd" id="ZhongDian" value="" maxlength="15" except=""></td>
+                            <td width="915"><div id="QiDianTip" style="width:280px"></div></td>
+                        </tr>
+                    </table></td>
+                </tr>
+            </table>
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td width="120" height="41" align="right"><font color="#FF0000">*</font> 出发时间：</td>
+                    <td><table width="100%" border="0" cellspacing="0">
+                        <tr>
+                            <td width="52%" height="35"><div id="divDeparTime" name="divDeparTime" style="float:left"><input type="text" class="tjbd" id="deparTime" style="width:150px;" value="{$nowTime | date='Y-m-d'}" maxlength="20" readonly="readonly" />
+                                &nbsp;&nbsp;<img onclick="WdatePicker({el:'deparTime',dateFmt:'yyyy-MM-dd',minDate:'%y-%M-%d',readOnly:true})" src="http://r.imgccoo.cn/post/images/date/skin/datePicker.gif" width="16" height="22" align="absmiddle" style="cursor:pointer;" title="选择出发时间">
+                                &nbsp;&nbsp;</div>
+                                <SELECT id="carpoolCls" name="carpoolCls" style="display:none">
+                                    <OPTION value="1">工作日</OPTION>
+                                    <OPTION value="2">每天</OPTION>
+                                    <OPTION value="3">周末</OPTION>
+                                    <OPTION value="4">其他</OPTION>
+                                </SELECT>
+                                <select name="pinHour" id="pinHour">
+                                    <option value="0">选择小时</option>
+                                    <option value="1">6</option>
+                                    <option value="2">7</option>
+                                    <option value="3" selected>8</option>
+                                    <option value="4">9</option>
+                                    <option value="5">10</option>
+                                    <option value="6">11</option>
+                                    <option value="7">12</option>
+                                    <option value="8">13</option>
+                                    <option value="9">14</option>
+                                    <option value="10">15</option>
+                                    <option value="11">16</option>
+                                    <option value="12">17</option>
+                                    <option value="13">18</option>
+                                    <option value="14">19</option>
+                                    <option value="15">20</option>
+                                    <option value="16">21</option>
+                                    <option value="17">22</option>
+                                    <option value="18">23</option>
+                                    <option value="19">0</option>
+                                    <option value="20">1</option>
+                                    <option value="21">2</option>
+                                    <option value="22">3</option>
+                                    <option value="23">4</option>
+                                    <option value="24">5</option>
+                                </select>
+                                ：
+                                <select name="pinMinute" id="pinMinute">
+                                    <option value="0">选择分钟</option>
+                                    <option value="1">00</option>
+                                    <option value="2">10</option>
+                                    <option value="3">20</option>
+                                    <option value="4">30</option>
+                                    <option value="5">40</option>
+                                    <option value="6">50</option>
+                                </select></td>
+                            <td width="48%"><div id="deparTimeTip" style="width:280px"></div></td>
+                        </tr>
+                    </table></td>
+                </tr>
+            </table>
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td  width="120" height="41" align="right" ><font color="#FF0000">*</font>&nbsp; <span id="zuoweiname">提供座位：</span></td>
+                    <td><table width="100%" border="0" cellspacing="0">
+                        <tr>
+                            <td width="13%"><table width="100%" border="0" cellspacing="0">
+                                <tr>
+                                    <td width="25%"><input name="ZuoWei" id="ZuoWei" type="text" class="tjbd" style="width:90px" maxlength="70" />
+                                        &nbsp;<span id="zuoweidw">个</span></td>
+                                    <td width="75%"><div id="ZuoWeiTip" style="width:280px"></div></td>
+                                </tr>
+                            </table></td>
+                        </tr>
+                    </table></td>
+                </tr>
+            </table>
+
+
+
+
+
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" id="tujing">
+                <tr>
+                    <td  width="120" height="41" align="right">途经地点：</td>
+                    <td><table width="100%" border="0" cellspacing="0">
+                        <tr>
+                            <td width="13%"><table width="100%" border="0" cellspacing="0">
+                                <tr>
+                                    <td width="25%"><input name="tujingZhan" id="tujingZhan" type="text" class="tjbd" style="width:400px" maxlength="70" /></td>
+                                    <td width="75%"><div id="tujingZhanTip" style="width:280px"></div></td>
+                                </tr>
+                            </table></td>
+                        </tr>
+                    </table></td>
+                </tr>
+            </table>
+
+            {/if}
+
+            {if $type_id == 1}
+
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td width="120" height="45" align="right">
+                        车辆颜色：</td>
+                    <td><table width="100%" border="0" cellspacing="0">
+                        <tr>
+                            <td width="7%" height="35">
+                                <select name="color" id="color">
+                                    <option value="0" selected="selected">全部</option>
+                                    <option value="1">黑色</option>
+                                    <option value="2">白色</option>
+                                    <option value="3">银灰色</option>
+                                    <option value="4">深灰色</option>
+                                    <option value="5">红色</option>
+                                    <option value="6">蓝色</option>
+                                    <option value="7">绿色</option>
+                                    <option value="8">黄色</option>
+                                    <option value="9">香槟色</option>
+                                    <option value="10">紫色</option>
+                                    <option value="11">棕色</option>
+                                    <option value="12">其他</option>
+                                </select></td>
+                            <td width="93%"><div id="colorTip" style="width:260px"></div></td>
+                        </tr>
+                    </table></td>
+                </tr>
+            </table>
+
+            {/if}
+            {if $type_id != 8}
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td width="120" height="41" align="right">
+                        <span style="color:#FF0000" id="price_b">* </span>
+                        价　　格：</td>
+                    <td><table width="100%" border="0" cellspacing="0">
+                        <tr>
+                            <td width="25%"><input type="text" class="tjbd" id="price" style="width:150px" maxlength="10" />
+                                元</td>
+                            <td width="75%"><div id="priceTip" style="width:280px"></div></td>
+                        </tr>
+                    </table></td>
+                </tr>
+            </table>
+            {/if}
+            {if $type_id == 1 || $type_id == 9 || $type_id == 3}
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" id="Ylicheng">
+                <tr>
+                    <td width="120" height="45" align="right">
+                        {if $type_id == 1}
+                        <span style="color:#FF0000" id="mileage_b">* </span>
+                        {/if}
+                        行驶里程：</td>
+                    <td><table width="100%" border="0" cellspacing="0">
+                        <tr>
+                            <td width="13%"><input type="text" class="tjbd" id="mileage" name="mileage" style="width:150px" maxlength="10" /></td>
+                            <td width="10%">&nbsp;万公里</td>
+                            <td width="77%"><div id="mileageTip" style="width:260px"></div></td>
+                        </tr>
+                    </table></td>
+                </tr>
+            </table>
+            {/if}
+            {if $type_id == 1 || $type_id == 9 || $type_id == 3}
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" id="Yshangpaisj">
+                <tr>
+                    <td width="120" height="45" align="right">
+                        {if $type_id != 9}
+                        <span style="color:#FF0000" id="LicenseYear_b">* </span>
+                        {/if}
+                        上牌时间：</td>
+                    <td><table width="100%" border="0" cellspacing="0">
+                        <tr>
+                            <td width="23%" height="35">
+                                <input type="text" class="tjbd" id="LicenseYear" name="LicenseYear" style="width:150px" maxlength="20" readonly="readonly"  />&nbsp;&nbsp;
+                                <img onclick="WdatePicker({el:'LicenseYear',dateFmt:'yyyy-MM'})" src="http://r.imgccoo.cn/post/images/date/skin/datePicker.gif" width="16" height="22" align="absmiddle" style="cursor:pointer;" title="选择上牌时间">
+                            </td>
+                            <td width="77%"><div id="LicenseYearTip" style="width:260px"></div></td>
+                        </tr>
+                    </table></td>
+                </tr>
+            </table>
+            {/if}
+            {if $type_id == 1}
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td width="120" height="45" align="right"> 车辆参数：</td>
+                    <td><table width="100%" border="0" cellspacing="0">
+                        <tr>
+                            <td width="35%" height="35"><select name="gearbox" id="gearbox">
+                                <option value="0" selected="selected">变速箱</option>
+                                <option value="1">手动</option>
+                                <option value="2">自动</option>
+                                <option value="3">手自一体</option>
+                            </select>
+                            </td>
+                            <td width="65%"><div id="driveModeTip" style="width:260px"></div></td>
+                        </tr>
+                    </table></td>
+                </tr>
+            </table>
+            {/if}
+            {if $type_id == 9}
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td width="120" height="45" align="right"> 排放标准：</td>
+                    <td><table width="100%" border="0" cellspacing="0">
+                        <tr>
+                            <td width="35%" height="35"><select name="discharge" id="discharge">
+                                <option value="0" selected="selected" >请选择</option>
+                                <option value="2">国二</option>
+                                <option value="3">国三</option>
+                                <option value="4">国四</option>
+                                <option value="5">国五</option>
+                            </select>
+                            </td>
+                            <td width="65%"><div id="dischargeTip" style="width:260px"></div></td>
+                        </tr>
+                    </table></td>
+                </tr>
+            </table>
+            {/if}
+
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" {if $type_id == 8} style="display:none" {/if} >
+                <tr>
+                    <td width="120" height="41" align="right"><font color="#FF0000">*</font>
+
+                        标　　题
+
+                        ：</td>
+                    <td><table width="100%" border="0" cellspacing="0">
+                        <tr>
+                            <td width="25%"><input type="text" class="tjbd" id="oTitle" style="width:400px" maxlength="25" /></td>
+                            <td width="75%"><div id="oTitleTip" style="width:280px"></div></td>
+                        </tr>
+                    </table></td>
+                </tr>
+            </table>
+
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td width="120" height="220" align="right" valign="top"><br>
+                        补充说明：</td>
+                    <td><table width="100%" border="0" cellspacing="0">
+                        <tr>
+                            <td width="25%"><textarea name="textarea" class="tjbd1"  id="infoHtml" style="width:500px; height:200px; font-size:12px;"></textarea></td>
+                            <td width="75%"><div id="infoHtmlTip" style="width:280px"></div></td>
+                        </tr>
+                    </table></td>
+                </tr>
+            </table>
+            <div class="clear"></div>
+            <div class="sctp" id="Ytupian">
+                <table width="830" border="0" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td width="120"></td>
+                        <td width="750"><input type="hidden" name="upNum" id="upNum" value="8" />
+                            <input type="hidden" name="upLoadList" id="upLoadList"  />
+                            <div class="plan"><a href="javascript:;" class="upload-swf"> <span id="UpLoadBtn"></span></a> <a href="javascript:;" class="upload-mb" id="upload_mb" onclick="showDg();"></a>
+                                <p id="upStrInfoImagesDiv" style="clear:left"></p>
+                            </div>
+                            <div id="Imagesli" style=" width:750px; float:left"></div>
+                            <div id="upLoading"></div></td>
+                    </tr>
+                </table>
+            </div>
+            {if $type_id == 7}
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td  width="120" height="41" align="right">地图位置：</td>
+                    <td><table width="100%" border="0" cellspacing="0">
+                        <tr>
+                            <td width="14%"><input style="height:26px; width:170px; padding:0 2px 0 2px" type="button" value="在地图上标记位置" onClick="ShowWin('标注地图','/post/public/map.asp',750,550);" />
+                                <input id="MapId" type="hidden" name="nid" /></td>
+                            <td width="86%"><div id="mapTip" style="width:280px"></div></td>
+                        </tr>
+                    </table></td>
+                </tr>
+            </table>
+            {/if}
+            {if $strTempLink == 0}
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" id="c_ConnectPerson" style="display:none;">
+                <tr>
+                    <td  width="120" height="41" align="right"><span style="color:#FF0000">*</span>联 系 人：</td>
+                    <td><table width="100%" border="0" cellspacing="0">
+                        <tr>
+                            <td width="14%"><input type="text" class="tjbd" id="LinkMan" style="width:150px" maxlength="10" /></td>
+                            <td width="86%"><div id="LinkManTip" style="width:280px"></div></td>
+                        </tr>
+                    </table></td>
+                </tr>
+            </table>
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td width="120" height="45" align="right"><font color="#FF0000">*</font> 联系电话：</td>
+                    <td><table width="100%" border="0" cellspacing="0">
+                        <tr>
+                            <td width="14%"><input type="text" class="tjbd" id="tel" style="width:150px" maxlength="20" /></td>
+                            <td width="86%"><div id="telTip" style="width:280px"></div></td>
+                        </tr>
+                    </table></td>
+                </tr>
+            </table>
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" id="bdTel" style="display:none">
+                <tr>
+                    <td width="120" height="45" align="right"><font color="#FF0000">*</font> 短信验证码：</td>
+                    <td><table width="100%" border="0" cellspacing="0">
+                        <tr>
+                            <td width="25%"><input type="text" class="tjbd" id="telbd" style="width:65px" maxlength="6" />
+                                <a href="javascript:void(0);" onclick="GetTelMsg();" id="telmsg" class="blue">点击获取</a></td>
+                            <td width="75%"><div id="telbdTip" style="width:280px"></div></td>
+                        </tr>
+                    </table></td>
+                </tr>
+            </table>
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" id="c_qq" style="display:none">
+                <tr>
+                    <td width="120" height="41" align="right">QQ 号码：</td>
+                    <td><table width="100%" border="0" cellspacing="0">
+                        <tr>
+                            <td width="14%"><input type="text"  class="tjbd" id="QQ" style="width:150px" maxlength="11"/></td>
+                            <td width="86%"><div id="QQTip" style="width:280px"></div></td>
+                        </tr>
+                    </table></td>
+                </tr>
+            </table>
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" id="c_email" style="display:none">
+                <tr style="display:none">
+                    <td width="120" height="41" align="right">电子邮箱：</td>
+                    <td><table width="100%" border="0" cellspacing="0">
+                        <tr>
+                            <td width="14%"><input type="text"  class="tjbd" id="email" style="width:150px" maxlength="30"/></td>
+                            <td width="86%"><div id="emailTip" style="width:280px"></div></td>
+                        </tr>
+                    </table></td>
+                </tr>
+            </table>
+            {/if}
+        </div>
+        <div class="clear"></div>
+        {if $is_login == 0}
+        {include file="common/login" /}
+        {/if}
+        <div class="clear"></div>
+
+        {include file="common/recom_adv" /}
+
+        <div class="ljfb">
+
+            <input type="submit" name="button" id="button" value="立即发布" class="fbbu" />
+
+            <span id="msgbox"></span> </div>
+        <div class="clear"></div>
+    </form>
+    <script type="text/javascript">
+        $.ajax({
+            dataType:'script',
+            scriptCharset:'gb2312',
+            url:'http://r.imgccoo.cn/post/images/js/swfupload.js',
+            success:function(){
+                $.ajax({
+                    dataType:'script',
+                    scriptCharset:'gb2312',
+                    url:'http://r.imgccoo.cn/post/images/js/fabu_upimg.js',
+                    success:function(){
+                        $('#upStrInfoImagesDiv').html('按住 "ctrl" 键可一次选择多张图片，最多可以上传' + parseInt($('#upNum').val()) + '张图片，每张不超过' + _upSize + '。');
+                        init("http://up9.ccoo.cn/upload.ashx?siteid={:session('site_id')}&uid={:session('uid')}&mode=s&filesrc=post&print=2&size=2&frmpage=" + document.location.href, 8, 'UpLoadBtn', 'ImagesDiv', 'Imagesli', 'Images_input', 'ImagesInfo', 'upNum', 'upLoadList', 'upLoading');
+                    }
+                })
+            }
+        });
+
+
+        $.ajax({
+            dataType:'script',
+            scriptCharset:'gb2312',
+            url:'http://r.imgccoo.cn/post/images/ui.core.js',
+            success:function(){
+                $.ajax({
+                    dataType:'script',
+                    scriptCharset:'gb2312',
+                    url:'http://r.imgccoo.cn/post/images/ui.sortable.js',
+                    success:function(){
+                        $("#Imagesli").sortable();
+                    }
+                })
+            }
+        });
+
+        $(function(){
+            if ($('.locking').length > 0) {
+                $('.locking').click(function() {
+                    alert($('.showtip p').text());
+                });
+            }
+            firstRecoFun();
+        });
+        function firstRecoFun(){
+            var recState="0";//状态 0默认，1正在编辑，2提交成功
+            var mainCls="0";//大类	1招聘，2简历，3房屋出售，4出租，5求购，6求租，7二手，8上门，9车辆，10生活，11商业，12教育，13交友
+
+            recState=$.cookie('recState');
+            mainCls=$.cookie('mainCls');
+
+            if(recState=="1" && mainCls=="9"){
+                var recBoxhtml="<iframe id='zheIframe' src='javascript:false' style='z-index:1;position: absolute; filter: alpha(opacity=0);opacity:0;" +
+                        "-moz-opacity:0; visibility:inherit;top: 0px;left: 0px;'></iframe>" +
+                        "<div id='zheDiv' style='z-index: 2; position: absolute; filter: alpha(opacity=50);opacity:.5;" +
+                        "-moz-opacity:0.5;BACKGROUND-COLOR: #000; zoom: 1; top: 0px;left: 0px;'></div>" +
+                        "<div class='showRecBox'>" + "<span>您有未正常提交的信息，是否恢复信息？</span>" +
+                        "<div><a href='javascript:;' onclick='return RecoFun();'>是</a>&nbsp;&nbsp;<a href='javascript:;' onclick='closeRecBox(1);return false;'>否</a>" +
+                        "</div></div>"
+                var w=$(document.body).width();
+                var h=$(document.body).height();
+                if($('.showRecBox').length==0){
+                    $(document.body).append(recBoxhtml)
+                }
+                var mw=$('.showRecBox').width();
+
+                $('#zheIframe').css('width', w+"px");
+                $('#zheIframe').css('height', h+"px");
+                $('#zheDiv').css('width', w+"px");
+                $('#zheDiv').css('height', h+"px");
+
+                $('#zheIframe').show();
+                $('#zheDiv').show();
+
+                $('.showRecBox').css('left',(w-mw)/2 + 'px');
+                $('.showRecBox').show();
+            }
+        }
+        function closeRecBox(sw){
+            $('.showRecBox').remove();
+            $('#zheDiv').remove();
+            $('#zheIframe').remove();
+            if(sw==1){
+                $.cookie('recState',"0");
+
+                clearRecFun();
+            }
+        }
+        function saveAllRec(){
+            $.cookie('Rec_ClassId',$("#ClassId").val());
+            $.cookie('Rec_IsHaveCar',$("input[name='IsHaveCar']:checked").val());
+            $.cookie('Rec_Pinche',$("input[name='Pinche']:checked").val());
+            $.cookie('Rec_QiDian',$('#QiDian').val())
+            $.cookie('Rec_ZhongDian',$('#ZhongDian').val())
+
+            $.cookie('Rec_tujingZhan',$('#tujingZhan').val())
+            $.cookie('Rec_deparTime',$('#deparTime').val())
+            $.cookie('Rec_carpoolCls',$('#carpoolCls').val())
+            $.cookie('Rec_pinHour',$('#pinHour').val())
+            $.cookie('Rec_pinMinute',$('#pinMinute').val())
+
+            $.cookie('Rec_gongxu',$("input[name='gongxu']:checked").val());
+            $.cookie('Rec_IsBaoyang',$("input[name='IsBaoyang']:checked").val());
+            $.cookie('Rec_IsShigu',$("input[name='IsShigu']:checked").val());
+            $.cookie('Rec_source',$("input[name='source']:checked").val());
+            $.cookie('Rec_oTitle',$("#oTitle").val());
+            $.cookie('Rec_price',$("#price").val());
+            $.cookie('Rec_ShiYong',$("#ShiYong").val());
+
+            $.cookie('Rec_HtmlArea',$("#HtmlArea").val());
+            $.cookie('Rec_infoHtml',$("#infoHtml").val());
+            $.cookie('Rec_LicenseYear',$("#LicenseYear").val());
+
+
+            $.cookie('Rec_pinpaicl',$("#pinpaicl").val());
+
+            $.cookie('Rec_color',$("#color").val());
+            $.cookie('Rec_GouCheYear',$("#GouCheYear").val());
+            $.cookie('Rec_DianYa',$("#DianYa").val());
+
+            $.cookie('Rec_DianChi',$("#DianChi").val());
+            $.cookie('Rec_age',$("#age").val());
+            $.cookie('Rec_mileage',$("#mileage").val());
+            $.cookie('Rec_emission',$("#emission").val());
+            $.cookie('Rec_FaDongji',$("#FaDongji").val());
+            $.cookie('Rec_ShopName',$("#ShopName").val());
+            $.cookie('Rec_ZuoWei',$("#ZuoWei").val());
+
+            $.cookie('Rec_gearbox',$("#gearbox").val());
+            $.cookie('Rec_driveMode',$("#driveMode").val());
+            $.cookie('Rec_checkEnd',$("#checkEnd").val());
+            $.cookie('Rec_LicenseSell',$("input[name='LicenseSell']:checked").val());
+            $.cookie('Rec_XinJiu',$("input[name='XinJiu']:checked").val());
+            $.cookie('Rec_LinkMan',$("#LinkMan").val());
+            $.cookie('Rec_Tel',$("#tel").val());
+            $.cookie('Rec_email',$("#email").val());
+            $.cookie('Rec_QQ',$("#QQ").val());
+        }
+        function clearRecFun(){
+            $.cookie('Rec_ClassId',null);
+            $.cookie('Rec_IsHaveCar',null);
+            $.cookie('Rec_Pinche',null);
+            $.cookie('Rec_QiDian',null)
+            $.cookie('Rec_ZhongDian',null)
+
+            $.cookie('Rec_tujingZhan',null)
+            $.cookie('Rec_deparTime',null)
+            $.cookie('Rec_carpoolCls',null)
+            $.cookie('Rec_pinHour',null)
+            $.cookie('Rec_pinMinute',null)
+
+            $.cookie('Rec_gongxu',null);
+            $.cookie('Rec_IsBaoyang',null);
+            $.cookie('Rec_IsShigu',null);
+            $.cookie('Rec_source',null);
+            $.cookie('Rec_oTitle',null);
+            $.cookie('Rec_price',null);
+            $.cookie('Rec_ShiYong',null);
+
+            $.cookie('Rec_HtmlArea',null);
+            $.cookie('Rec_infoHtml',null);
+            $.cookie('Rec_LicenseYear',null);
+            $.cookie('Rec_pinpaicl',null);
+
+            $.cookie('Rec_brandN',null);
+            $.cookie('Rec_CheXing',null);
+
+
+            $.cookie('Rec_color',null);
+            $.cookie('Rec_GouCheYear',null);
+            $.cookie('Rec_DianYa',null);
+
+            $.cookie('Rec_DianChi',null);
+            $.cookie('Rec_age',null);
+            $.cookie('Rec_mileage',null);
+            $.cookie('Rec_emission',null);
+            $.cookie('Rec_FaDongji',null);
+            $.cookie('Rec_ShopName',null);
+            $.cookie('Rec_ZuoWei',null);
+
+            $.cookie('Rec_gearbox',null);
+            $.cookie('Rec_driveMode',null);
+            $.cookie('Rec_checkEnd',null);
+            $.cookie('Rec_LicenseSell',null);
+            $.cookie('Rec_XinJiu',null);
+
+            $.cookie('Rec_LinkMan',null);
+            $.cookie('Rec_Tel',null);
+            $.cookie('Rec_email',null);
+            $.cookie('Rec_QQ',null);
+        }
+        function RecoFun(){
+            closeRecBox();
+            var Rec_ClassId=$.cookie('Rec_ClassId');
+            var Rec_IsHaveCar=$.cookie('Rec_IsHaveCar');
+            var Rec_Pinche=$.cookie('Rec_Pinche');
+            var Rec_QiDian=$.cookie('Rec_QiDian')
+            var Rec_ZhongDian=$.cookie('Rec_ZhongDian')
+
+            var Rec_tujingZhan=$.cookie('Rec_tujingZhan')
+            var Rec_carpoolCls=$.cookie('Rec_carpoolCls')
+            var Rec_deparTime=$.cookie('Rec_deparTime')
+            var Rec_pinHour=$.cookie('Rec_pinHour')
+            var Rec_pinMinute=$.cookie('Rec_pinMinute')
+
+            var Rec_gongxu=$.cookie('Rec_gongxu');
+            var Rec_IsBaoyang=$.cookie('Rec_IsBaoyang');
+            var Rec_IsShigu=$.cookie('Rec_IsShigu');
+            var Rec_source=$.cookie('Rec_source');
+            var Rec_oTitle=$.cookie('Rec_oTitle');
+            var Rec_price=$.cookie('Rec_price');
+            var Rec_ShiYong=$.cookie('Rec_ShiYong');
+
+            var Rec_HtmlArea=$.cookie('Rec_HtmlArea');
+            var Rec_infoHtml=$.cookie('Rec_infoHtml');
+            var Rec_LicenseYear=$.cookie('Rec_LicenseYear');
+
+            var Rec_pinpaicl=$.cookie('Rec_pinpaicl');
+            var Rec_brandN=$.cookie('Rec_brandN');
+            var Rec_CheXing=$.cookie('Rec_CheXing');
+            var Rec_color=$.cookie('Rec_color');
+            var Rec_GouCheYear=$.cookie('Rec_GouCheYear');
+            var Rec_DianYa=$.cookie('Rec_DianYa');
+            var Rec_DianChi=$.cookie('Rec_DianChi');
+            var Rec_age=$.cookie('Rec_age');
+            var Rec_mileage=$.cookie('Rec_mileage');
+            var Rec_emission=$.cookie('Rec_emission');
+            var Rec_FaDongji=$.cookie('Rec_FaDongji');
+            var Rec_ShopName=$.cookie('Rec_ShopName');
+            var Rec_ZuoWei=$.cookie('Rec_ZuoWei');
+
+            var Rec_gearbox=$.cookie('Rec_gearbox');
+            var Rec_driveMode=$.cookie('Rec_driveMode');
+            var Rec_checkEnd=$.cookie('Rec_checkEnd');
+            var Rec_LicenseSell=$.cookie('Rec_LicenseSell');
+            var Rec_XinJiu=$.cookie('Rec_XinJiu');
+
+            var Rec_LinkMan=$.cookie('Rec_LinkMan');
+            var Rec_Tel=$.cookie('Rec_Tel');
+            var Rec_email=$.cookie('Rec_email');
+            var Rec_QQ=$.cookie('Rec_QQ');
+
+            if(Rec_IsHaveCar<=2 && Rec_IsHaveCar>=1){
+                $("input:radio[name='IsHaveCar'][value='" + Rec_IsHaveCar + "']").attr('checked','checked');
+                if(Rec_IsHaveCar==1){
+                    $("#tujing").show();
+                    $("#chexing").show();
+                }else{
+                    $("#tujing").hide();
+                    $("#chexing").hide();
+                }
+            }
+            if(Rec_Pinche<=3 && Rec_Pinche>=1){
+                $("input:radio[name='Pinche'][value='" + Rec_Pinche + "']").attr('checked','checked');
+                if(Rec_Pinche==2){
+                    $('#deparTime').hide();
+                    $('#carpoolCls').hide();
+                }else{
+                    $('#deparTime').show();
+                    $('#carpoolCls').hide();
+                }
+            }
+            if(Rec_ClassId!=null && Rec_ClassId!=0){$('#ClassId option[value=' + Rec_ClassId + ']').attr('selected','selected');}
+            if(Rec_QiDian!=null && Rec_QiDian!=""){$("#QiDian").val(Rec_QiDian);}
+            if(Rec_ZhongDian!=null && Rec_ZhongDian!=""){$("#ZhongDian").val(Rec_ZhongDian);}
+            if(Rec_deparTime!=null && Rec_deparTime!=""){$("#deparTime").val(Rec_deparTime);}
+            if(Rec_tujingZhan!=null && Rec_tujingZhan!=""){$("#tujingZhan").val(Rec_tujingZhan);}
+
+            if(Rec_carpoolCls!=null && Rec_carpoolCls!=0){$('#carpoolCls option[value=' + Rec_carpoolCls + ']').attr('selected','selected');}
+            if(Rec_pinHour!=null && Rec_pinHour!=0){$('#pinHour option[value=' + Rec_pinHour + ']').attr('selected','selected');}
+            if(Rec_pinMinute!=null && Rec_pinMinute!=0){$('#pinMinute option[value=' + Rec_pinMinute + ']').attr('selected','selected');}
+
+            if(Rec_gongxu<=2 && Rec_gongxu>=1){$("input:radio[name='gongxu'][value='" + Rec_gongxu + "']").attr('checked','checked');}
+            if(Rec_IsBaoyang<=2 && Rec_IsBaoyang>=1){$("input:radio[name='IsBaoyang'][value='" + Rec_IsBaoyang + "']").attr('checked','checked');}
+            if(Rec_IsShigu<=2 && Rec_IsShigu>=1){$("input:radio[name='IsShigu'][value='" + Rec_IsShigu + "']").attr('checked','checked');}
+            if(Rec_source<=2 && Rec_source>=1){$("input:radio[name='source'][value='" + Rec_source + "']").attr('checked','checked');}
+
+            if(Rec_oTitle!=null && Rec_oTitle!=""){$("#oTitle").val(Rec_oTitle);}
+            if(Rec_price!=null && Rec_price!=""){$("#price").val(Rec_price);}
+            if(Rec_ShiYong!=null && Rec_ShiYong!=""){$("#ShiYong").val(Rec_ShiYong);}
+
+            if(Rec_HtmlArea!=null && Rec_HtmlArea!=""){$("#HtmlArea").val(Rec_HtmlArea);}
+            if(Rec_infoHtml!=null && Rec_infoHtml!=""){$("#infoHtml").val(Rec_infoHtml);}
+
+
+            if(Rec_pinpaicl!=null && Rec_pinpaicl!=""){$("#pinpaicl").val(Rec_pinpaicl);}
+
+            if(Rec_brandN!=null && Rec_brandN!=0){$('#brandN option[value=' + Rec_brandN + ']').attr('selected','selected');}
+            if(Rec_CheXing!=null && Rec_CheXing!=0){$('#CheXing option[value=' + Rec_CheXing + ']').attr('selected','selected');}
+
+            if(Rec_LicenseYear!=null && Rec_LicenseYear!=""){$("#LicenseYear").val(Rec_LicenseYear);}
+            if(Rec_color!=null && Rec_color!=0){$('#color option[value=' + Rec_color + ']').attr('selected','selected');}
+            if(Rec_GouCheYear!=null && Rec_GouCheYear!=0){$('#GouCheYear option[value=' + Rec_GouCheYear + ']').attr('selected','selected');}
+            if(Rec_DianYa!=null && Rec_DianYa!=0){$('#DianYa option[value=' + Rec_DianYa + ']').attr('selected','selected');}
+
+            if(Rec_DianChi!=null && Rec_DianChi!=0){$('#DianChi option[value=' + Rec_DianChi + ']').attr('selected','selected');}
+            if(Rec_age!=null && Rec_age!=0){$('#age option[value=' + Rec_age + ']').attr('selected','selected');}
+
+            if(Rec_mileage!=null && Rec_mileage!=""){$("#mileage").val(Rec_mileage);}
+            if(Rec_emission!=null && Rec_emission!=""){$("#emission").val(Rec_emission);}
+            if(Rec_FaDongji!=null && Rec_FaDongji!=""){$("#FaDongji").val(Rec_FaDongji);}
+            if(Rec_ShopName!=null && Rec_ShopName!=""){$("#ShopName").val(Rec_ShopName);}
+            if(Rec_ZuoWei!=null && Rec_ZuoWei!=""){$("#ZuoWei").val(Rec_ZuoWei);}
+            if(Rec_gearbox!=null && Rec_gearbox!=0){$('#gearbox option[value=' + Rec_gearbox + ']').attr('selected','selected');}
+            if(Rec_driveMode!=null && Rec_driveMode!=0){$('#driveMode option[value=' + Rec_driveMode + ']').attr('selected','selected');}
+
+            if(Rec_checkEnd!=null && Rec_checkEnd!=""){$("#checkEnd").val(Rec_checkEnd);}
+            if(Rec_LicenseSell<=2 && Rec_LicenseSell>=1){$("input:radio[name='LicenseSell'][value='" + Rec_LicenseSell + "']").attr('checked','checked');}
+            if(Rec_XinJiu<=2 && Rec_XinJiu>=1){$("input:radio[name='XinJiu'][value='" + Rec_XinJiu + "']").attr('checked','checked');}
+
+            if(Rec_LinkMan!=null && Rec_LinkMan!=""){$('#LinkMan').val(Rec_LinkMan);}
+            if(Rec_Tel!=null && Rec_Tel!=""){$('#tel').val(Rec_Tel);}
+            if(Rec_email!=null && Rec_email!=""){$('#email').val(Rec_email);}
+            if(Rec_QQ!=null && Rec_QQ!=""){$('#QQ').val(Rec_QQ);}
+
+            return false;
+        }
+    </script>
+    <div id="imgModule" style="display:none;">
+        <div id="ImagesDiv{{N}}" style="float:left;width:82px;font-size:12px;padding:0 5px 0 0;line-height:18px;" class="mobileli">
+            <input name="Images_input" type="hidden" value="{{image}}">
+            <img src="{{simage}}" width="80" height="60" border="0"><br>
+            <center>
+                <a href="javascript:void(0);" onClick="deldiv('ImagesDiv{{N}}','{{image}}');return false;">删 除</a>
+            </center>
+        </div>
+    </div>
+    <script>
+        var dgWin, uptime;
+        function showDg() {
+            uptime = (new Date()).Format("yyyy/M/dHms");
+            if ($('#Imagesli img').length == 8) {
+                $.dialog.alert($('#upStrInfoImagesDiv').html());
+            } else {
+                dgWin = ShowWin('手机传图', '/post/fabu/upload_mobile.asp?pictime=' + uptime, 780, 320);
+            }
+        }
+        //手机上传图片，网页显示AJAX
+        var autotime=null;
+        $("#upload_mb").click(function() {
+            clearInterval(autotime);
+            autotime = setInterval(function() {
+                orderback(uptime);
+            }, 5000);
+        });
+
+        var module='';
+        var imgLength=0;
+        $.ajaxSetup({
+            cache: false
+        });
+
+        function orderback(pictime) {
+            $.ajax({
+                type: "post",
+                url: "/post/fabu/kind.asp?action=ajaxpics&picids=" + pictime,
+                error: function() {
+                    alert("系统错误，请与管理员联系！");
+                },
+                success: function(data) {
+                    if (data != "" && data != 1001) {
+                        if ($('#Imagesli img').length == 8) {
+                            clearInterval(autotime);
+                            dgWin.close();
+                        } else {
+                            var images = data.split(',');
+                            for (var x in images) {
+                                var plen = parseInt($('#Imagesli img').length);
+                                var l = $('#Imagesli').length;
+                                if (plen == 8) {
+                                    UpdateUpPicText();
+                                    clearInterval(autotime);
+                                    dgWin.close();
+                                } else {
+                                    var temp = '';
+                                    temp = $('#imgModule').html();
+                                    temp = temp.replace(/{{N}}/g, x + l);
+                                    temp = temp.replace(/{{image}}/g, images[x]);
+                                    temp = temp.replace(/{{simage}}/g, images[x]);
+                                    $('#Imagesli').append(temp);
+                                }
+                            }
+                            UpdateUpPicText();
+                            clearInterval(autotime);
+                            dgWin.close();
+                        }
+                    }
+                }
+            });
+        }
+        function UpdateUpPicText() {
+            var imgNum = $('#Imagesli .mobileli').length;
+            var htmlText = '';
+            htmlText = '您已经上传了 <font style="font-weight:bold;color:red;">' + imgNum + '</font> 张图片，';
+            htmlText += '还可以再上传 <font style="font-weight:bold;color:red;">' + (8 - imgNum) + '</font> 张';
+            htmlText += '， 每张不超过5 MB。';
+            $('#upStrInfoImagesDiv').html(htmlText);
+            $('#upNum').val(8 - $('#Imagesli').children().length);
+            UpImages();
+        }
+        // 对Date的扩展，将 Date 转化为指定格式的String
+        // 月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符，
+        // 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字)
+        // 例子：
+        // (new Date()).Format("yyyy-MM-dd hh:mm:ss.S") ==> 2006-07-02 08:09:04.423
+        // (new Date()).Format("yyyy-M-d h:m:s.S")      ==> 2006-7-2 8:9:4.18
+        Date.prototype.Format = function (fmt) { //author: meizz
+            var o = {
+                "M+": this.getMonth() + 1, //月份
+                "d+": this.getDate(), //日
+                "H+": this.getHours(), //小时
+                "m+": this.getMinutes(), //分
+                "s+": this.getSeconds(), //秒
+                "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+                "S": this.getMilliseconds() //毫秒
+            };
+            if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+            for (var k in o)
+                if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+            return fmt;
+        }
+    </script>
+    <div id="bdtelid" result="0" style="display:none;"></div>
+    <script type="text/javascript">
+        var isUserFabu = 0;
+        var isUserName = 'sid58077994';
+        // 验证号码
+        $('#tel').bind('change keyup blur', function() {
+            if (isUserFabu == 1 || isUserName != '') {
+                CheckTel();
+            }
+        });
+        $('#telbd').bind('change keyup blur', function() {
+            var btTelId = parseInt($('#bdtelid').attr('result'));
+            if (btTelId == 1) {
+                //$('#bdTel').remove();
+            }
+        });
+
+        function CheckTel() {
+            var Tel = $('#tel').val();
+            if (Tel != '') {
+                if (/^(([0\\+]\\d{2,3}-)?(0\\d{2,3})-)?(\\d{7,8})(-(\\d{3,}))?$|(^(1[3|4|5|6|7|8|9])[0-9]{9}$)/.test(Tel)) {
+                    $.ajax({
+                        type: 'GET',
+                        beforeSend: function() {},
+                        url: '/post/ajax/ajax.asp',
+                        data: {
+                            action: 'fabutel',
+                            tel: Tel,
+                            channel: 3,
+                            n: Math.random()
+                        },
+                        dataType: 'json',
+                        error: '',
+                        success: function(data) {
+                            if (data.err != 1) {
+                                $('#bdTel').css('display', '');
+                                //
+                                $("#telbd").formValidator({
+                                    validatorGroup: "3",
+                                    onShow: "",
+                                    onFocus: "请输入短信验证码",
+                                    onCorrect: "填写正确",
+                                    defaultValue: ""
+                                }).regexValidator({
+                                    regExp: "num",
+                                    dataType: "enum",
+                                    onError: "短信验证码为6位数"
+                                }).inputValidator({
+                                    min: 6,
+                                    max: 6,
+                                    onError: "请填写你收到的6位数字的验证码"
+                                }).ajaxValidator({
+                                    dataType: "json",
+                                    async: true,
+                                    url: '/home/release/checkCode/',
+                                    data: {
+                                        //action: 'chktel',
+                                        tel: Tel,
+                                        telcode: function() {
+                                            return $("#telbd").val()
+                                        },
+                                        n: Math.random()
+                                    },
+                                    success: function(data) {
+                                        if (data.code == 1) {
+                                            $('#bdtelid').attr('result', 1);
+                                            /*$('#bdTel').remove();*/
+                                            return true;
+                                        } else {
+                                            return data.msg;
+                                        }
+                                    },
+                                    buttons: $("#button"),
+                                    error: function(jqXHR, textStatus, errorThrown) {
+                                        alert("服务器没有返回数据，可能服务器忙，请重试" + errorThrown);
+                                    },
+                                    onError: "该验证码不正确",
+                                    onWait: "正在校队验证码的真实性，请稍候..."
+                                }).defaultPassed();
+                            } else {
+                                $('#bdTel').css('display', 'none');
+                                $('#telbd').val('888888');
+                            }
+                        }
+                    })
+                } else {
+                    $('#bdTel').css('display', 'none');
+                    $('#telbd').val('');
+                }
+            }
+        }
+
+        function GetTelMsg() {
+            if ($('#tel').val() == '') {
+                alert('联系电话不能为空');
+                $('#tel').focus();
+                return false;
+            }
+            if (/^(([0\\+]\\d{2,3}-)?(0\\d{2,3})-)?(\\d{7,8})(-(\\d{3,}))?$|(^(1[3|4|5|6|7|8|9])[0-9]{9}$)/.test($('#tel').val())) {
+                $.ajax({
+                    type: 'GET',
+                    beforeSend: function() {},
+                    url: '/post/ajax/ajax.asp',
+                    data: {
+                        action: 'sendtel',
+                        tel: $('#tel').val(),
+                        n: Math.random()
+                    },
+                    dataType: 'json',
+                    error: '',
+                    success: function(data) {
+                        if (data.err == 0) {
+                            alert('短信已经发送至：' + $('#tel').val() + ',请查收');
+                            timer();
+                        } else {
+                            alert('今日发送短信次数过多，请改日再试！');
+                        }
+                    }
+                })
+            }
+        }
+
+        //倒计时
+        var ele = document.getElementById('telmsg');
+
+        function timer() {
+            ele.onclick = null;
+            var now = new Date().getTime();
+            window.timeout = window.setTimeout(function() {
+                var ofs = parseInt((new Date().getTime() - now) / 1000);
+                if (ofs >= 120) {
+                    window.clearTimeout(window.timeout);
+                    ele.innerHTML = "点击获取";
+                    ele.onclick = GetTelMsg;
+                } else {
+                    ele.innerHTML = (120 - ofs + "") + "可重发";
+                    window.setTimeout(arguments.callee, 300);
+                }
+            }, 300)
+        }
+    </script>
+
+</div>
+<div class="jg"></div>
+{/block}
+
+{block name="zhushou"}
+{include file="public:zhushou"}
+{/block}
+
+{block name="under_js"}
+
+{/block}
+

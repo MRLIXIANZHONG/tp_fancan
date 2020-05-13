@@ -1,0 +1,30 @@
+<div class="fl right-list">
+    <ul>
+        {if $menu.u_isagent == 1}
+        <li class=""><a href="/post/users/agent/">经纪人房源</a></li>
+        {/if}
+        {if $menu.u_iszj == 1}
+        <li class=""><a href="/post/users/zj/">我的中介</a></li>
+        {/if}
+        {if $menu.u_isrzorgs == 1}
+        <li class=""><a href="/post/users/mq/">我的招聘</a></li>
+        {/if}
+        {if $menu.u_isessj == 1}
+        <li><a href="/post/users/essj/">二手商家</a></li>
+        {/if}
+        {if $menu.u_isch == 1}
+        <li><a href="/post/users/ch/">二手车行</a></li>
+        {/if}
+        {if $menu.u_xlp == 1}
+        <li><a href="/post/users/xinloupan/xlp_info.asp/">新楼盘管理</a></li>
+        {/if}
+        {if $menu.u_shenghuo == 1}
+        <li><a href="/post/users/shenghuo/index.asp">生活服务</a></li>
+        {/if}
+        <li class="on"><a href="/post/users/u_index.asp">我的发布</a></li>
+        <li class=""><a href="/post/users/job/jl_list.asp">我的求职</a></li>
+        <li class=""><a href="/post/users/u_shoucang.asp">我的收藏</a></li>
+        <li class=""><a href="/post/users/pay/buy_list.asp?type=1">支付记录</a></li>
+        <li class=""><a href="/postvip/coupon/coupon">优惠卡券</a></li>
+    </ul>
+</div>

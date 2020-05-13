@@ -1,0 +1,30 @@
+<div class="fl-tit clearfix">
+    <img class="fl" src="{:session('userface')}" alt="用户头像">
+    <div class="fl info">
+        <p class="p1">
+            <span class="s1">{:session('nickname')}（{:session('username')}）</span>
+            <!-- .s2 on 为未绑定手机号时样式 -->
+            <span class="s2"><i></i>{:session('userInfo.mobile')}</span>
+        </p>
+        <p class="p2">
+            <span>
+              <em>注册时间：</em>
+              <i>{:session('userInfo.regtime')}</i>
+            </span>
+            <span>
+              <em>最后登录：</em>
+              <i>{:session('userInfo.lastTime')}</i>
+            </span>
+            <span class="s">
+              <em>登录次数：</em>
+              <i>{:session('userInfo.logNum')}</i>
+            </span>
+        </p>
+    </div>
+    <div class="change fr">
+        <a href="/my/info.asp">
+            <i></i>
+            <p>修改个人资料</p>
+        </a>
+    </div>
+</div>

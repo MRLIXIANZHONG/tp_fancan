@@ -1,0 +1,116 @@
+<div class="daohangcon">
+    <div class="condition">
+        <div class="check-job clearfix">
+            <div class="block1">
+                <input type="hidden" id="IsKind" value="0">
+                <input type="hidden" id="ClassId" value="0">
+                <p>
+                    <a href="javascript:void(0)">
+                        <i></i>
+                        <span id="JobclsName">点击选择职位类别</span>
+                    </a>
+                </p>
+            </div>
+            <div class="sousuo">
+                <form action="/post/zhaopin/" method="post" name="myform" target="_blank" id="myform" onsubmit="return ChkTKey();">
+                    <input type="text" name="key" class="searchmarinpt" id="sskey" value="输入公司名称或职位" maxlength="20" onfocus="NullTJs(1);" onblur="NullTJs(2);">
+                    <input type="submit" value="搜索" class="soso">
+                    <span class="more-search">高级搜索
+                                        <i class=""></i>
+                                    </span>
+                </form>
+            </div>
+        </div>
+        <div class="block-box">
+            <div class="block">
+                <input id="XueLiId" type="hidden" value="0">
+                <p>
+                    <a href="javascript:void(0)">
+                        <i></i>
+                        <span>学历要求</span>
+                    </a>
+                </p>
+                <div class="blockselect">
+                    <a href="javascript:;" val="0">不限</a>
+                    <a href="javascript:;" val="1">初中</a>
+                    <a href="javascript:;" val="2">高中/中专</a>
+                    <a href="javascript:;" val="3">大专</a>
+                    <a href="javascript:;" val="4">本科</a>
+                    <a href="javascript:;" val="5">硕士以上</a>
+                </div>
+            </div>
+            <div class="block smbox">
+                <input id="RecordId" type="hidden" value="0">
+                <p>
+                    <a href="javascript:void(0)">
+                        <i></i>
+                        <span>经验要求</span>
+                    </a>
+                </p>
+                <div class="blockselect">
+                    <a href="javascript:;" val="0">不限</a>
+                    <a href="javascript:;" val="1">应届毕业生</a>
+                    <a href="javascript:;" val="2">一年</a>
+                    <a href="javascript:;" val="3">1-3年</a>
+                    <a href="javascript:;" val="4">3-5年</a>
+                    <a href="javascript:;" val="5">5-8年</a>
+                    <a href="javascript:;" val="6">8年以上</a>
+                </div>
+            </div>
+            <div class="block smbox">
+                <input id="semoney" type="hidden" value="0">
+                <p>
+                    <a href="javascript:void(0)">
+                        <i></i>
+                        <span>薪水范围</span>
+                    </a>
+                </p>
+                <div class="blockselect">
+                    <a href="javascript:;" val="0">面议</a>
+                    <a href="javascript:;" val="1">1000元以下</a>
+                    <a href="javascript:;" val="2">1000-1999元</a>
+                    <a href="javascript:;" val="3">2000-2999元</a>
+                    <a href="javascript:;" val="4">3000-4999元</a>
+                    <a href="javascript:;" val="5">5000-7999元</a>
+                    <a href="javascript:;" val="6">8000-11999元</a>
+                    <a href="javascript:;" val="7">12000-19999元</a>
+                    <a href="javascript:;" val="8">20000元以上</a>
+                </div>
+            </div>
+            <div class="block smbox">
+                <input type="hidden" id="IsQuyu" value="0">
+                <p>
+                    <a href="javascript:void(0)">
+                        <i></i>
+                        <span>所在区域</span>
+                    </a>
+                </p>
+                <div class="blockselect">
+                    <a href="javascript:;" val="0">不限</a><a href="javascript:;" val="13503">市区</a><a href="javascript:;" val="13504">郊区</a><a href="javascript:;" val="23349">民主路</a><a href="javascript:;" val="23364">光明街</a><a href="javascript:;" val="23350">中兴大路</a><a href="javascript:;" val="23365">幸福大街</a><a href="javascript:;" val="23351">文化路</a><a href="javascript:;" val="23375">富裕路</a><a href="javascript:;" val="23352">洮安路</a><a href="javascript:;" val="23366">瑞光街</a><a href="javascript:;" val="23353">海明路</a><a href="javascript:;" val="23367">长庆街</a><a href="javascript:;" val="23354">民生路</a><a href="javascript:;" val="23368">金辉街</a><a href="javascript:;" val="23355">新华大路</a><a href="javascript:;" val="23369">明仁街</a><a href="javascript:;" val="23356">胜利路</a><a href="javascript:;" val="23370">青年大街</a><a href="javascript:;" val="23357">纯阳路</a><a href="javascript:;" val="23371">和平街</a><a href="javascript:;" val="23358">棉纺路</a><a href="javascript:;" val="23372">爱国街</a><a href="javascript:;" val="23359">三合路</a><a href="javascript:;" val="23360">九一三路</a><a href="javascript:;" val="23361">强大路</a><a href="javascript:;" val="23362">朝阳路</a><a href="javascript:;" val="23363">辽北路</a><a href="javascript:;" val="23373">庆学路</a><a href="javascript:;" val="23376">兴安路</a><a href="javascript:;" val="24746">白城周边县市</a><a href="javascript:;" val="24747">其他</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="remen"> <b>热门职位:</b>
+
+        <a href="/post/zhaopins/list-26938-64227-0-0-0-0-1.html" title="导购员" target="_blank">导购员</a>
+
+        <a href="/post/zhaopins/list-67495-72136-0-0-0-0-1.html" title="服务员" target="_blank">服务员</a>
+
+        <a href="/post/zhaopins/list-44944-64228-0-0-0-0-1.html" title="文员" target="_blank">文员</a>
+
+        <a href="/post/zhaopins/list-26938-72124-0-0-0-0-1.html" title="业务经理" target="_blank">业务经理</a>
+
+        <a href="/post/zhaopins/list-67497-72132-0-0-0-0-1.html" title="货车司机" target="_blank">货车司机</a>
+
+        <a href="/post/zhaopins/list-26938-72365-0-0-0-0-1.html" title="营业员" target="_blank">营业员</a>
+
+        <a href="/post/zhaopins/list-67495-72134-0-0-0-0-1.html" title="厨师" target="_blank">厨师</a>
+
+        <a href="/post/zhaopins/list-18732-62909-0-0-0-0-1.html" title="保安" target="_blank">保安</a>
+
+    </div>
+
+</div>

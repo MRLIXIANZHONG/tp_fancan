@@ -1,0 +1,964 @@
+{extend name="public/basew" /}
+{block name="meta"}
+{if $title}
+<title>{$title}</title>
+{else /}
+<title>【{$areaName}招聘网|{$areaName}人才网|{$areaName}人才市场】-{$siteName}</title>
+{/if}
+{if $keyword}
+<meta name="keywords" content="{$keyword}" />
+{else /}
+<meta name="keywords" content="{$areaName}找工作,{$areaName}招聘求职,{$areaName}人才,{$areaName}招聘" />
+{/if}
+{if $description}
+<meta name="description" content="{$description}">
+{else /}
+<meta name="description" content="{$areaName}招聘求职频道为您提供大量的{$areaName}招聘信息,求职简历信息,是{$areaName}地区综合招聘求职平台,您也可以免费发布招聘职位,求职简历信息。">
+{/if}
+
+{/block}
+{block name="fc_css"}
+<link href="http://r.imgccoo.cn/website/fenlei/css/fenlei_zp.css?v2" rel="stylesheet" type="text/css">
+{/block}
+{block name='css'}
+<script src="http://res.pccoo.cn/post/js/jquery.js" type="text/javascript"></script>
+<link href="http://img.pccoo.cn/wap/webapp/css/swiper.v2.css" rel="stylesheet">
+{/block}
+{block name='top_js'}
+<script type="text/javascript">
+    var siteid = "{$site_id}";
+    if (/Android|webOS|iPhone|iPod|BlackBerry|Windows CE|Windows Phone/i.test(navigator.userAgent)) {
+        if (window.location.href.indexOf("?pc") < 0) {
+            window.location.href = "{$codeWinUrl}/post/zhaopin/";
+    }
+    }
+    function getNumber(startNum, endNum) {
+        var randomNumber;
+        randomNumber = Math.round(Math.random() * (endNum - startNum)) + startNum;
+        return randomNumber;
+    }
+
+    function indexValue(sid, i) {
+        $('#' + sid).val(i);
+        var v='请输入关键字';
+        if(i==0){
+            $('#sForm').attr('action','/post/zhaopin/')
+            v='请输入职位或公司名称'
+
+        }
+        if(i==1){
+            $('#sForm').attr('action','/post/qiuzhi/')
+            v='请输入简历关键字'
+        }
+        var f="sTopFocus(1,'topKeyInput','"+v+"');",
+                b="sTopFocus(2,'topKeyInput','"+v+"');";
+        var e=document.getElementById('topKeyInput');
+        e.value=v;
+        e.setAttribute('onfocus',f);
+        e.setAttribute('onblur',b);
+    }
+
+    function indexSo(strId, strText) {
+        if ($('#' + strId).val() == "" || $('#' + strId).val() == strText) {
+            $('#' + strId).val("");
+            $('#' + strId).focus();
+            alert(strText);
+            return false
+        }
+    }
+    function sTopFocus(i, strId, strText) {
+        if (i == 1) {
+            if ($('#' + strId).val() == strText) {
+                $('#' + strId).val("");
+            }
+        } else {
+            if ($('#' + strId).val() == "") {
+                $('#' + strId).val(strText);
+            }
+        }
+    }
+
+    $(function() {
+        $(".topnav").hover(function() {
+            $(this).addClass("curr");
+            $(this).children("div").show();
+        }, function() {
+            $(this).removeClass("curr");
+            $(this).children("div").hide();
+        });
+        $(".topnav li").hover(function() {
+            $(this).addClass("tcurr");
+        }, function() {
+            $(this).removeClass("tcurr");
+        });
+    });
+    //收藏
+    function GetCollection(stype, dataid) {
+        $.ajax({
+            type: 'GET',
+            beforeSend: function () {
+                showTip({tit:'数据处理中...',time:1000000})
+            },
+            url: '/post/ajax/post_shoucang.asp',
+            data: {
+                action: 'insert',
+                stype: stype,
+                id: dataid,
+                n: Math.random()
+            },
+            dataType: 'json',
+            success: function (json) {
+                removeTip();
+                switch (json.code) {
+                    case 0:
+                        $('#scBtn1 .xicon-shouchang1').addClass('xicon-shouchang2').removeClass('xicon-shouchang1');
+                        showTip({tit:'已经收藏过!',time:1000})
+                        break;
+                    case 1:
+                        showTip({tit:'收藏成功!',time:1000})
+                        $('#scBtn1 .xicon-shouchang1').addClass('xicon-shouchang2').removeClass('xicon-shouchang1');
+                        $('#scBtn2').addClass('on').find('.xicon-xingxing3').addClass('xicon-xingxing4').removeClass('xicon-xingxing3')
+                        break;
+                    case 2:
+                        showTip({tit:'请登录后进行收藏!',time:1000},function () {
+                            ShowWin('会员登录', '/post/users/login.asp?iscloseurl=1', 350, 230);
+                        });
+                        break;
+                    default:
+                        showTip({tit:json.msg,time:1000})
+                }
+            },
+            error:function(){
+                removeTip();
+                showTip({tit:'请求失败请稍候再试!',time:1000})
+            }
+        });
+    }
+</script>
+{/block}
+
+{block name='search'}
+
+{/block}
+{block name='menu'}
+{/block}
+
+{block name="crumbs"}
+{/block}
+
+{block name="content"}
+<div class="fc-wrap">
+    <!-- logo区start -->
+    <div id="cz" class="w newred-search zp">
+        <div id="logo" class="fl"> <a href="/"><img src="http://c.imgccoo.cn/logo/{$site_id}.gif" alt="{$site_id}" >
+            <span><b>·</b> 人才网</span></a> </div>
+        <form name="form33" action="/post/zhaopin/"  id="sForm" method="get" accept-charset="gbk" _charset="gbk" onsubmit="return indexSo('topKeyInput','请输入关键字')" class="fl" target="_blank">
+            <div id="search" class="fl">
+                <!-- <div class="s_left fl"></div> -->
+                <div class="sea-box">
+                    <div class="s_leib fl" id="x_sou">
+                        <p>搜职位</p>
+                        <i class="row"></i>
+                        <ul>
+                            <li><a href="javascript:void(0);" onclick="indexValue('indexTopClass',0);return false;">搜职位</a></li>
+                            <li><a href="javascript:void(0);" onclick="indexValue('indexTopClass',1);return false;">搜人才</a></li>
+                        </ul>
+                    </div>
+                    <div class="s_text fl">
+                        <input name="key" type="text" id="topKeyInput" onfocus="sTopFocus(1,'topKeyInput','请输入职位或公司名称');" onblur="sTopFocus(2,'topKeyInput','请输入职位或公司名称');" value="请输入职位或公司名称" maxlength="30" class="dss">
+                    </div>
+                    <div class="s_sous fl">
+                        <input type="submit"  value="">
+                    </div>
+                </div>
+                <!--<div class="s_right fl"></div>-->
+                <div class="btn_1 fr"><a href="/post/fabu/" target="_blank">发布信息</a></div>
+            </div>
+            {if $KindHotList}
+            <div class="linkBox">
+                <div class="fl">
+                    热门职位：
+                    {if $KindHotList}
+                    {foreach $KindHotList as $val}
+                    {if $val.Pid eq 0}
+                    <a href="/post/zhaopins/list-{$val['id']}-0-0-0-0-0-1.html" target="_blank" class="link">{$val.kindname}</a>
+                    {else /}
+                    <a href="/post/zhaopins/list-{$val['Pid']}-{$val['id']}-0-0-0-0-1.html" target="_blank" class="link">{$val.kindname}</a>
+                    {/if}
+                    {/foreach}
+                    {/if}
+                </div>
+                <a href="/post/zhaopins/list-0-0-0-0-0-0-1.html" target="_blank" class="link fr">高级搜索>></a>
+            </div>
+            {/if}
+        </form>
+        <div class="c"></div>
+    </div>
+    <!-- 主菜单start -->
+    <div class="zp-linkBox clearfix fc-cont">
+        <a class="link fl on" href="/post/job/">首页</a>
+        <a class="link fl" href="/post/zhaopin/">找工作</a>
+        <a class="link fl" href="/post/qiuzhi/">找人才</a>
+        <a class="link fl" href="/post/jianzhi/">兼职</a>
+        <a class="link fl" href="/post/zhaopin/zhichangzixun/">资讯</a>
+        <a class="link fl" href="/post/zhaopin/gongjuxiang/">HR工具箱</a>
+        <a class="link fl" href="/post/zhaopin/bbs/">职场俱乐部</a>
+        {if condition="$zph_num gt 0"}
+        <a class="link fl new" href="/post/zhaopinhui/">招聘会</a>
+        {/if}
+        <a class="link fl" href="/postvip/jobvip/jobindex">会员服务</a>
+    </div>
+
+    <!-- 主菜单end -->
+    <!-- 类别菜单及用户信息start -->
+    {if $firstkindlist}
+    <div class="zp-jobWrap">
+        <div class="zp-jobBox fc-cont clearfix">
+            <!-- 类别菜单start -->
+            <ul class="linkBox fl {if $no_child eq 1}no-child{/if}">
+                <li class="item1">
+                    <a class="link" href="/post/zhaopins/list-0-0-0-0-0-0-1.html" target="_blank"><i class="icon"></i>全部分类</a>
+                    <div class="hide-menu1">
+                        {foreach $firstkindlist as  $key=>$val}
+                        {if $key % 5 eq 0}<ul class="liBox clearfix">{/if}
+                        <li class="list fl">
+                            <p class="tit"><a href="/post/zhaopins/list-{$val['id']}-0-0-0-0-0-1.html" target="_blank">{$val['kindname']}</a></p>
+                            {if isset($val['Seckindlist'])}
+                            <div class="links">
+                                {foreach $val['Seckindlist'] as  $k=>$value}
+                                {if $k gt 0}丨{/if}<a href="/post/zhaopins/list-{$value['Pid']}-{$value['id']}-0-0-0-0-1.html" target="_blank">{$value['kindname']}</a>
+                                {/foreach}
+                            </div>
+                            {/if}
+                        </li>
+                        {if $key-4 egt 0 and ($key-4)%5 eq 0}</ul>{/if}
+                        {/foreach}
+                    </div>
+                </li>
+                {foreach $firstkindlist as $key=>$val}
+                {if $key lt 11}
+                <li class="item">
+                    <a class="link" href="/post/zhaopins/list-{$val['id']}-0-0-0-0-0-1.html" target="_blank">{$val['kindname']}</a>
+                    <div class="hide-menu">
+                        <p class="tit"><a href="/post/zhaopins/list-{$val['id']}-0-0-0-0-0-1.html" target="_blank">{$val['kindname']}</a></p>
+                        {if isset($val['Seckindlist'])}
+                        <ul class="clearfix">
+                            {foreach $val['Seckindlist'] as  $k=>$value}
+                            <li class="list fl"><a href="/post/zhaopins/list-{$value['Pid']}-{$value['id']}-0-0-0-0-1.html" target="_blank">{$value['kindname']}</a></li>
+                            {/foreach}
+                        </ul>
+                        {/if}
+                    </div>
+                </li>
+                {/if}
+                {/foreach}
+            </ul>
+            <!-- 类别菜单end -->
+            <div class="infoBox fl">
+                <div class="con1 clearfix">
+                    <!-- 图片滚动区start -->
+                    <div class="slideBox swiper-container fl">
+                        <div class="swiper-wrapper">
+                            {foreach $BannerList as $val}
+                            <div class="swiper-slide">
+                                {if $val['BannerType'] eq 4}
+                                    {if $is_login eq 1}
+                                        <a href="{$val['Url']}" target="_blank" class="zph">
+                                        {else /}
+                                        <a href="/post/fabu/?ch=qz" target="_blank" class="zph">
+                                    {/if}
+                                    {else /}
+                                    <a href="{$val['Url']}" target="_blank" class="zph">
+                                {/if}
+                                        {if $val['ImgUrl']}
+                                        <img src="{$val['ImgUrl']}" alt="{$val.Name}">
+                                        {else/}
+                                        <img src="{$val['ImgUrl']|default='http://img.pccoo.cn/website/fenlei/uploadPic/zp_index_zph.jpg'}" alt="{$val.Name}">
+                                        {/if}
+                                        {if $val['BannerType'] eq 1 AND !$val['ImgUrl']}
+                                        <div class="zphInfo">
+                                            <div class="info">{$val.Name}</div>
+                                            <p class="time">活动时间：{:date_to_time($val.StartDate)}-{:date_to_time($val.EndDate)}</p>
+                                        </div>
+                                        {/if}
+                                    </a>
+                            </div>
+                            {/foreach}
+                        </div>
+                        <!-- Add Pagination -->
+                        <div class="swiper-pagination"></div>
+                    </div>
+                    <!-- 图片滚动区end -->
+                    {if $is_login eq 1}
+                    {if $userdata['qiyeku_Id']>0}
+                    <!-- 用户信息-公司start -->
+                    <div class="userBox fl">
+                        <div class="userInfo">
+                            {if $userdata.white_viptype eq 1}
+                                <a class="link-user" href="/post/zhaopin/minqi/index{$userdata['qiyeku_Id']}.html" target="_blank">
+                                {elseif $userdata.white_viptype eq 0 /}
+                                <a class="link-user" href="/post/job/rz/{$userdata['white_id']}/" target="_blank">
+                                {else /}
+                                <a class="link-user" href="javascript:;">
+                            {/if}
+                                <div class="imgBox">
+                                    <img class="img"
+                                         src="{$userdata['UFace']|default='http://img.pccoo.cn/website/fenlei/uploadPic/zp_default_qiye.jpg'}">
+                                </div>
+                                <div class="info">
+                                    <p class="name">{$userdata['UName']}{if $userdata.white_viptype eq 1}<i class="xicon-comtype mq"></i>{elseif $userdata.white_viptype eq 0/}<i class="xicon-comtype rz"></i>{/if}</p>
+                                    <p>欢迎回来</p>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="userDoInfo clearfix">
+                            <a class="item fl" href="/post/users/mq/?ctype=1" target="_blank">
+                                <span class="num {if $userdata.ReceiveNotRead gt 0}new{/if}">{$userdata.ReceiveJLNum}</span>
+                                <p class="tit">收到简历</p>
+                            </a>
+                            <a class="item fl" href="/post/users/mq/?ctype=3" target="_blank">
+                                <span class="num">{$userdata.DownJLNum}</span>
+                                <p class="tit">下载简历</p>
+                            </a>
+                            <a class="item fl" href="/post/users/mq/?ctype=2" target="_blank">
+                                <span class="num">{$userdata.InterviewInvitationNum}</span>
+                                <p class="tit">面试邀请</p>
+                            </a>
+                            <a class="item fl" href="/post/users/mq/" target="_blank">
+                                <i class="xicon-zp-do xicon-zp-zhiwei"></i>
+                                <p class="tit">职位管理</p>
+                            </a>
+                            <a class="item fl" href="/post/users/mq/mq_info.asp" target="_blank">
+                                <i class="xicon-zp-do xicon-zp-gongsi"></i>
+                                <p class="tit">公司管理</p>
+                            </a>
+                            <a class="item fl" href="/post/fabu/" target="_blank">
+                                <i class="xicon-zp-do xicon-zp-fabu"></i>
+                                <p class="tit">发布职位</p>
+                            </a>
+                        </div>
+                        <div class="btnBox1 clearfix">
+                            <a class="btn btn1 fl" href="/post/users/mq/" target="_blank">个人中心</a>
+                            <a class="btn btn2 fr" href="/post/logout.asp">退出登录</a>
+                        </div>
+                        <div class="link"><a href="/post/job/xiaolv.html" target="_blank">如何提高招聘效率？</a></div>
+                    </div>
+                    <!-- 公司用户信息-公司end -->
+                    {elseif $userdata['jl_Id']>0 /}
+                    <!-- 用户信息-个人start -->
+                    <div class="userBox fl">
+                        <div class="userInfo">
+                            <a href="/post/users/job/jl_list.asp" target="_blank" class="link-user">
+                                <div class="imgBox">
+                                    <img src="{$userdata['UFace']|default='http://img.pccoo.cn/website/fenlei/uploadPic/zp_default_weidenglu.png'}" class="img">
+                                </div>
+                                <div class="info">
+                                    {if $userdata['UName']}
+                                    <p class="name">{$userdata['UName']|default='城市通昵称'}</p>
+                                    {else /}
+                                        {if $nickname}
+                                        <p class="name">{$nickname}</p>
+                                        {else /}
+                                        <p class="name">城市通昵称</p>
+                                        {/if}
+                                    {/if}
+                                    <p>欢迎回来</p>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="userDoInfo clearfix">
+                            <a class="item fl" href="/post/users/job/jl_list.asp" target="_blank">
+                                <span class="num">{$userdata['ApplyNum']}</span>
+                                <p class="tit">投递记录</p>
+                            </a>
+                            <a class="item fl" href="/post/users/job/jl_list.asp" target="_blank">
+                                <span class="num">{$userdata['LookNum']}</span>
+                                <p class="tit">企业看过</p>
+                            </a>
+                            <a class="item fl" href="/post/users/job/jl_list.asp" target="_blank">
+                                <span class="num">{$userdata['InterviewNum']}</span>
+                                <p class="tit">面试邀请</p>
+                            </a>
+                            <a class="item fl" href="/post/qiuzhi/{$userdata.jl_Id}x.html" target="_blank">
+                                <i class="xicon-zp-do xicon-zp-yulan"></i>
+                                <p class="tit">简历预览</p>
+                            </a>
+                            <a class="item fl" href="/post/users/job/jl_edit.asp?userjlid={$userdata['jl_Id']}" target="_blank">
+                                <i class="xicon-zp-do xicon-zp-xiugai"></i>
+                                <p class="tit">修改简历</p>
+                            </a>
+                            <a class="item fl" href="/post/users/u_shoucang.asp" target="_blank">
+                                <i class="xicon-zp-do xicon-zp-shoucang"></i>
+                                <p class="tit">职位收藏</p>
+                            </a>
+                        </div>
+                        <div class="btnBox1 clearfix">
+                            <a href="/post/users/job/jl_list.asp" target="_blank" class="btn btn1 fl">个人中心</a>
+                            <a href="/post/logout.asp" class="btn btn2 fr">退出登录</a>
+                        </div>
+                        <div class="link"><a href="/post/job/jianlizhuanti.html" target="_blank">如何提高求职效率？</a></div>
+                    </div>
+                    <!-- 公司用户信息-个人end -->
+                    {else /}
+                    <!-- 用户信息-新注册start -->
+                    <div class="userBox fl">
+                        <div class="userInfo">
+                            <div class="imgBox">
+                                {if $userdata['UFace']}
+                                <img src="{$userdata['UFace']}" class="img">
+                                {else /}
+                                {if cookie('userface')}
+                                <img src="{:cookie('userface')}" class="img">
+                                {else /}
+                                <img src="http://img.pccoo.cn/website/fenlei/uploadPic/zp_default_weidenglu.png" class="img">
+                                {/if}
+                                {/if}
+                            </div>
+                            <div class="info">
+                                {if $userdata['UName']}
+                                <p class="name">{$userdata['UName']|default='城市通昵称'}</p>
+                                {else /}
+                                {if $nickname}
+                                <p class="name">{$nickname}</p>
+                                {else /}
+                                <p class="name">城市通昵称</p>
+                                {/if}
+                                {/if}
+                                <p>欢迎回来</p>
+                            </div>
+                        </div>
+                        <div class="userDoNew">
+                            <p class="tit">我是企业，我要招人</p>
+                            <a href="/post/fabu/?ch=zp" target="_blank" class="btn btn1">发布职位</a>
+                        </div>
+                        <div class="userDoNew">
+                            <p class="tit">我是求职者，我要找工作</p>
+                            <a href="/post/fabu/?ch=qz" target="_blank" class="btn btn3">注册简历</a>
+                        </div>
+                    </div>
+                    <!-- 公司用户信息-新注册end -->
+                    {/if}
+                    {else /}
+                    <!-- 用户信息-未登录start -->
+                    <div class="userBox fl">
+                        <div class="userInfo-noload">
+                            <img src="http://img.pccoo.cn/website/fenlei/uploadPic/zp_default_weidenglu.png" class="img">
+                            <p class="tit">Hi,欢迎登录！</p>
+                        </div>
+                        <div class="btnBox1 clearfix">
+                            <a href="/login/?backurl={$pc_url}" class="btn btn1 fl">登录</a>
+                            <a href="/reg/?backurl={$pc_url}" target="_blank" class="btn btn2 fr">注册</a>
+                        </div>
+                        <div class="user-loadBox">
+                            <p class="tit"><i>其他方式登录</i></p>
+                            <div class="type">
+                                <a href="http://wxlogin.ccoo.cn/?siteid={$site_id}&amp;callback={$pc_url}" class="link"><i class="xicon-zp-do xicon-zp-weixin"></i></a>
+                                <a href="https://graph.qq.com/oauth2.0/authorize?which=ConfirmPage&amp;client_id=204708&amp;response_type=token&amp;scope=all&amp;redirect_uri=http%3A%2F%2Fqqlogin.ccoo.cn%2F%3Fsource%3D0%26siteid%3D{$site_id}%26path%3D{$pc_url}" class="link"><i class="xicon-zp-do xicon-zp-qq"></i></a>
+                                <a href="http://passport.ccoo.cn/sina/?Path={$pc_url}" class="link"><i class="xicon-zp-do xicon-zp-weibo"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 公司用户信息-未登录end -->
+                    {/if}
+                </div>
+                <div class="con2 clearfix">
+                    <a class="link fl" href="/post/zhaopins/list-0-0-0-0-99-0-1.html" target="_blank"><img class="img" alt="高薪职位"
+                                                                                                           src="http://img.pccoo.cn/website/fenlei/uploadPic/zp_gxzw.jpg"></a>
+                    <a class="link fl" href="/post/zhaopins/list-0-0-0-0-0-0-1.html?fuli=8" target="_blank"><img class="img" alt="年终奖"
+                                                                                                                 src="http://img.pccoo.cn/website/fenlei/uploadPic/zp_nzj.jpg"></a>
+                    <a class="link fl" href="/post/zhaopins/list-0-0-0-0-0-0-1.html?fuli=2" target="_blank"><img class="img" alt="周末双休"
+                                                                                                                 src="http://img.pccoo.cn/website/fenlei/uploadPic/zp_week_free.jpg"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {/if}
+
+    <!-- 类别菜单及用户信息end -->
+    <!-- 广告start -->
+    {if $adtopinfo}
+        {if is_array($adtopinfo)}
+            {foreach $adtopinfo as $val}
+                <div class="zp-adBox fc-cont">
+                    {if is_array($val)}
+                    <a href="{$val.Href}" target="_blank" style="position: relative; display: block;">
+                        <img border="0" align="top" src="{:str_replace('_500x300(w).','.',str_replace('r','p',$val.Pic))}" width="1200" height="90" title="{$val.Title}" alt="{$val.Title}">
+                    </a>
+                    {else /}
+
+                    {/if}
+                </div>
+            {/foreach}
+        {else /}
+        <div class="zp-adBox fc-cont">
+            {$adtopinfo|raw}
+        </div>
+        {/if}
+    {/if}
+    <!-- 广告end -->
+    <!-- 名企专区start -->
+    {if $QiYeKuList}
+    <div class="fc-cont zp-mqBox">
+        <div class="zp-titbox1 clearfix">
+            <span class="tit">{$areaName}名企专区</span><span class="tit-s">特权VIP服务！</span>
+            <p class="fr">名企会员服务<a href="/postvip/JobVip/AddJobVip" target="_blank" class="col-link">了解一下>></a></p>
+        </div>
+        <ul class="zp-mqUl clearfix">
+            {foreach $QiYeKuList as $val}
+            {if $val['indexStyle'] eq 1}
+            <li class="list1 fl">
+                {if $val['indexPic']}
+                <a href="/post/zhaopin/minqi/index{$val.id}.html" target="_blank" class="link-imgBox">
+                    <img src="{$val['indexPic']}" alt="{$val.compname}" class="img">
+                </a>
+                {else /}
+                <a href="/post/zhaopin/minqi/index{$val.id}.html" target="_blank" class="link-default">
+                    <div class="infoBox">
+                        <p class="info">诚·聘·英·才</p>
+                    </div>
+                    <div class="nameBox"><div class="name">{$val.compname}</div></div>
+                </a>
+                {/if}
+                {if $val.JobList}
+                <div class="jobBox-com">
+                    <div class="liBox">
+                        <ul class="liBox-ul">
+                            {foreach $val['JobList'] as $item}
+                            <li class="item clearfix">
+                                <i class="hot fr">Hot</i>
+                                <div class="linkBox">
+                                    {if $item.JobType eq 1}
+                                    <a href="/post/zhaopin/{$item.Id}x.html" target="_blank" class="link">{$item.Title}</a>
+                                    {else /}
+                                    <a href="/post/jianzhi/{$item.Id}x.html" target="_blank" class="link">{$item.Title}</a>
+                                    {/if}
+                                </div>
+                            </li>
+                            {/foreach}
+                        </ul>
+                    </div>
+                    <div class="btnBox"><a class="btn" href="/post/zhaopin/minqi/index{$val.id}.html" target="_blank">公司官网</a></div>
+                </div>
+                {/if}
+            </li>
+            {elseif $val.indexStyle eq -1 /}
+            <li class="zp-adBox1 fl">
+                <a href="{$val.URL}" target="_blank">
+                    <img border="0" align="top" src="{$val.indexPic}">
+                </a>
+            </li>
+            {elseif $val.indexStyle eq 0 /}
+            <li class="list2 fl" style="background:#39f">
+                {if $val.indexPic}
+                <a href="/post/zhaopin/minqi/index{$val.id}.html" target="_blank" class="link-imgBox">
+                    <img src="{$val['indexPic']}" alt="{$val.compname}" class="img">
+                </a>
+                {else /}
+                <a href="/post/zhaopin/minqi/index{$val.id}.html" target="_blank" class="link-default">
+                    <div class="infoBox">
+                        <p class="info">诚聘<br>英才</p>
+                    </div>
+                    <div class="nameBox"><div class="name">{$val.compname}</div></div>
+                </a>
+                {/if}
+                {if $val.JobList}
+                <div class="jobBox-com">
+                    <div class="liBox">
+                        <ul class="liBox-ul">
+                            {foreach $val['JobList'] as $item}
+                            <li class="item clearfix">
+                                <i class="hot fr">Hot</i>
+                                <div class="linkBox">
+                                    {if $item['JobType'] eq 1}
+                                    <a href="/post/zhaopin/{$item.Id}x.html" target="_blank" class="link">{$item.Title}</a>
+                                    {else /}
+                                    <a href="/post/jianzhi/{$item.Id}x.html" target="_blank" class="link">{$item.Title}</a>
+                                    {/if}
+                                </div>
+                            </li>
+                            {/foreach}
+                        </ul>
+                    </div>
+                    <div class="btnBox"><a class="btn" href="/post/zhaopin/minqi/index{$val.id}.html" target="_blank">公司官网</a></div>
+                </div>
+                {/if}
+            </li>
+            {elseif $val.indexStyle eq 2 /}
+            <li class="list3 fl" style="background:#39f">
+                {if $val.indexPic}
+                <a href="/post/zhaopin/minqi/index{$val.id}.html" target="_blank" class="link-imgBox">
+                    <img src="{$val['indexPic']}" alt="{$val.compname}" class="img">
+                </a>
+                {else /}
+                <a href="/post/zhaopin/minqi/index{$val.id}.html" target="_blank" class="link-default">
+                    <div class="infoBox">
+                        <p class="info">诚聘<br>英才</p>
+                    </div>
+                    <div class="nameBox"><div class="name">{$val.compname}</div></div>
+                </a>
+                {/if}
+                {if $val.JobList}
+                <div class="jobBox-com">
+                    <div class="liBox">
+                        <ul class="liBox-ul">
+                            {foreach $val['JobList'] as $item}
+                            <li class="item clearfix">
+                                <div class="linkBox">
+                                    {if $item['JobType'] eq 1}
+                                    <a href="/post/zhaopin/{$item.Id}x.html" target="_blank" class="link">{$item.Title}</a>
+                                    {else /}
+                                    <a href="/post/jianzhi/{$item.Id}x.html" target="_blank" class="link">{$item.Title}</a>
+                                    {/if}
+                                </div>
+                            </li>
+                            {/foreach}
+                        </ul>
+                    </div>
+                    <div class="btnBox"><a class="btn" href="/post/zhaopin/minqi/index{$val.id}.html" target="_blank">公司官网</a></div>
+                </div>
+                {/if}
+            </li>
+            {/if}
+            {/foreach}
+        </ul>
+    </div>
+    {/if}
+    <!-- 名企专区end -->
+    <!-- 推荐信息start -->
+    {if $RecomJobList}
+    <div class="fc-cont zp-zwBox">
+        <div class="zp-titbox1 clearfix">
+            <span class="tit">{$areaName}推荐职位</span><span class="tit-s">提高招聘效率6-8倍！</span>
+            <p class="fr">我也要显示在这里<a class="col-link" href="/postvip/JobVip/AddJobTop" target="_blank">了解一下&gt;&gt;</a></p>
+        </div>
+        {if $RecomJobList}
+        <ul class="zp-zwLiBox clearfix">
+            {foreach $RecomJobList as $val}
+            <li class="item fl">
+                <a class="link" href="/post/zhaopin/{$val.id}x.html" target="_blank">
+                    <div class="titBox clearfix">
+                        <span class="date fr">今天</span>
+                        <p class="tit" title="{$val.title}">{if $val.IsCmd gt 1}<i class="tab tab1">顶</i>{else /}<i class="tab tab2">荐</i>{/if}{$val.title}</p>
+                    </div>
+                    <div class="infoBox">
+                        <span class="price fr">{$val.salaryName}</span>
+                        <p class="tabBox1">
+                            <span class="tab">经验{$val.recordName}</span><span class="tab">学历{$val.educationName}</span>
+                        </p>
+                    </div>
+                    <div class="tabBox2 clearfix">
+                        <span class="tab tab1">{$val.KindName}</span>
+                        {if $val.fuliName}
+                        {foreach $val['fuliNameArr'] as $k=>$fuli}
+                        <span class="tab">{$fuli}</span>
+                        {/foreach}
+                        {/if}
+                    </div>
+                    <div class="comInfo clearfix">{if $val.white_vipType eq 1}<i class="xicon-comtype mq"></i>{elseif $val.white_vipType eq 0 /}<i class="xicon-comtype rz"></i>{/if}
+                        <p class="name">{$val.compname|default='--'}</p></div>
+                </a>
+            </li>
+            {/foreach}
+        </ul>
+        {/if}
+    </div>
+    {/if}
+    <!-- 推荐信息end -->
+
+    <!-- 招聘信息start -->
+    {if $JobList}
+    <div class="fc-cont zp-zwBox">
+        <div class="zp-titbox1 clearfix">
+            <span class="tit">{$areaName}招聘信息</span>{if $JobNum gt 0}<span class="tit-s">本站已有{$JobNum}条招聘职位</span>{/if}
+            <p class="fr">我要<a class="col-link" href="/post/fabu/?ch=zp" target="_blank">发布职位</a><a class="link-more" href="/post/zhaopin/" target="_blank">更多&gt;&gt;</a>
+            </p>
+        </div>
+        {if $JobList}
+        <ul class="zp-zwLiBox clearfix">
+            {foreach $JobList as $val}
+            <li class="item fl">
+                <a class="link" href="/post/zhaopin/{$val.id}x.html" target="_blank">
+                    <div class="titBox clearfix">
+                        <span class="date fr">{$val.edittimeName}</span>
+                        <p class="tit" title="{$val.title}">{$val.title}</p>
+                    </div>
+                    <div class="infoBox">
+                        <span class="price fr">{$val.salaryName}</span>
+                        <p class="tabBox1">
+                            <span class="tab">经验{$val.recordName}</span><span class="tab">学历{$val.educationName}</span>
+                        </p>
+                    </div>
+                    <div class="tabBox2 clearfix">
+                        <span class="tab tab1">{$val.KindName}</span>
+                        {if $val.fuliName}
+                        {foreach $val['fuliNameArr'] as $k=>$fuli}
+                        <span class="tab">{$fuli}</span>
+                        {/foreach}
+                        {/if}
+                    </div>
+                    <div class="comInfo clearfix">{if $val.white_vipType eq 1}<i class="xicon-comtype mq"></i>{elseif $val.white_vipType eq 0 /}<i class="xicon-comtype rz"></i>{/if}
+                        <p class="name">{$val.compname|default='--'}</p></div>
+                </a>
+            </li>
+            {/foreach}
+        </ul>
+        {/if}
+    </div>
+    {/if}
+
+    <!-- 招聘信息end -->
+    <!-- 人才简历start -->
+    {if $BigJLList}
+    <div class="fc-cont zp-jlBox">
+        <div class="zp-titbox1 clearfix">
+            <span class="tit">{$areaName}人才简历</span>{if $JLNum gt 0}<span class="tit-s">本站已有{$JLNum}份人才简历</span>{/if}
+            <p class="fr">我要<a class="col-link" href="/post/fabu/?ch=qz" target="_blank">注册简历</a><a class="link-more" href="/post/qiuzhi/" target="_blank">更多&gt;&gt;</a>
+            </p>
+        </div>
+        {if $BigJLList}
+        <ul class="zp-jlLiBox clearfix">
+            {foreach $BigJLList as $val}
+            <li class="item fl">
+                <a class="link1 {if $val.IsCmd gt 0}tj{/if}" href="/post/qiuzhi/{$val.id}x.html" target="_blank">
+                    <div class="imgBox">
+                        {if $val.UpPic}
+                        <img class="img" src="{$val.UpPic}">
+                        {elseif $val.sexName eq '女' /}
+                        <img class="img" src="http://img.pccoo.cn/website/fenlei/uploadPic/zp_default_jl_nv.png">
+                        {else /}
+                        <img class="img" src="http://img.pccoo.cn/website/fenlei/uploadPic/zp_default_jl_nan.png">
+                        {/if}
+                    </div>
+                    <p class="name">{$val.truename}</p>
+                    <p class="tabBox clearfix">
+                        <i class="tab fl">{$val.sexName}</i>
+                        <i class="tab fl">{$val.age}岁</i>
+                        <i class="tab fl">{$val.eduName}</i>
+                        <i class="tab fl">{$val.recordName}</i>
+                    </p>
+                    <p class="job">{$val.title}</p>
+                    <p class="price">期望薪资：{$val.salaryName}</p>
+                </a>
+            </li>
+            {/foreach}
+        </ul>
+        {/if}
+        {if $JLList}
+        <ul class="zp-jlLiBox clearfix">
+            {foreach $JLList as $val}
+            <li class="item fl">
+                <a class="link2 {if $val.IsCmd gt 0}tj{/if}" href="/post/qiuzhi/{$val.id}x.html" target="_blank">
+                    <div class="infoBox clearfix">
+                        {if $val.UpPic}
+                        <img class="img fl" src="{$val.UpPic}">
+                        {elseif $val.sexName eq '女' /}
+                        <img class="img fl" src="http://img.pccoo.cn/website/fenlei/uploadPic/zp_default_jl_nv.png">
+                        {else /}
+                        <img class="img fl" src="http://img.pccoo.cn/website/fenlei/uploadPic/zp_default_jl_nan.png">
+                        {/if}
+                        <span class="name fl">{$val.truename}</span>
+                        <i class="tab fl">{$val.sexName}</i>
+                        <i class="tab fl">{$val.age}岁</i>
+                    </div>
+                    <p class="tabBox clearfix">
+                        <i class="tab fl">学历{$val.eduName}</i>
+                        <i class="tab fl">{$val.recordName}经验</i>
+                    </p>
+                    <p class="job">求职意向：<i>{$val.title}</i></p>
+                    <p class="price">期望薪资：{$val.salaryName}</p>
+                </a>
+            </li>
+            {/foreach}
+        </ul>
+        {/if}
+    </div>
+    {/if}
+
+    <!-- 人才简历end -->
+    <!-- 职场资讯及工具箱start -->
+    {if $NewsList}
+    <div class="fc-cont clearfix">
+        <div class="zp-zxBox fl">
+            <div class="zp-titbox1 clearfix">
+                <span class="tit">职场资讯</span>
+                <a class="fr" href="/post/zhaopin/zhichangzixun/" target="_blank">更多&gt;&gt;</a>
+            </div>
+            {if $NewsList}
+            <ul class="liBox clearfix">
+                {foreach $NewsList as $val}
+                {if $val.kind eq 1}
+                <li class="item fl">
+                    <a class="link clearfix" href="/post/zhaopin/zhichangzixun/{$val.id}x.html" target="_blank">
+                        <i class="tab tab-zx fl">职场资讯</i>
+                        <i class="date fr">{:date_to_time($val.uptime,'m-d')}</i>
+                        <p class="tit" title="{$val.title}">{$val.title}</p>
+                    </a>
+                </li>
+                {elseif $val.kind eq 2 /}
+                <li class="item fl">
+                    <a class="link clearfix" href="/post/zhaopin/jianlibangzhu/{$val.id}x.html" target="_blank">
+                        <i class="tab tab-jl fl">简历帮助</i>
+                        <i class="date fr">{:date_to_time($val.uptime,'m-d')}</i>
+                        <p class="tit" title="{$val.title}">{$val.title}</p>
+                    </a>
+                </li>
+                {else /}
+                <li class="item fl">
+                    <a class="link clearfix" href="/post/zhaopin/mianshijiqiao/{$val.id}x.html" target="_blank">
+                        <i class="tab tab-ms fl">面试技巧</i>
+                        <i class="date fr">{:date_to_time($val.uptime,'m-d')}</i>
+                        <p class="tit" title="{$val.title}">{$val.title}</p>
+                    </a>
+                </li>
+                {/if}
+                {/foreach}
+            </ul>
+            {/if}
+        </div>
+        <div class="zp-toolBox fr">
+            <div class="zp-titbox1 clearfix">
+                <span class="tit">工具箱</span>
+                <a class="fr" href="/post/zhaopin/gongjuxiang/" target="_blank">更多&gt;&gt;</a>
+            </div>
+            <ul class="liBox">
+                <li class="item">
+                    <a class="link" href="http://r.imgccoo.cn/post/images/word/空白版个人简历表格.doc" target="_blank">
+                        <i class="xicon-zp-tool tool1"></i>
+                        <span class="tit">空白版个人简历表格word</span>
+                    </a>
+                </li>
+                <li class="item">
+                    <a class="link" href="http://r.imgccoo.cn/post/images/word/彩色背景简历模板下载1.doc" target="_blank">
+                        <i class="xicon-zp-tool tool2"></i>
+                        <span class="tit">彩色背景简历模板下载</span>
+                    </a>
+                </li>
+                <li class="item">
+                    <a class="link" href="http://r.imgccoo.cn/post/images/word/应届生简历模版.doc" target="_blank">
+                        <i class="xicon-zp-tool tool3"></i>
+                        <span class="tit">应届生简历模版下载</span>
+                    </a>
+                </li>
+                <li class="item">
+                    <a class="link" href="http://r.imgccoo.cn/post/images/word/通用简历模版.doc" target="_blank">
+                        <i class="xicon-zp-tool tool4"></i>
+                        <span class="tit">通用求职简历模版</span>
+                    </a>
+                </li>
+                <li class="item">
+                    <a class="link" href="http://r.imgccoo.cn/post/images/word/月度考勤统计表.doc" target="_blank">
+                        <i class="xicon-zp-tool tool5"></i>
+                        <span class="tit">月度考勤统计表</span>
+                    </a>
+                </li>
+                <li class="item">
+                    <a class="link" href="http://r.imgccoo.cn/post/images/word/员工培训记录表.doc" target="_blank">
+                        <i class="xicon-zp-tool tool6"></i>
+                        <span class="tit">员工培训记录表</span>
+                    </a>
+                </li>
+                <li class="item">
+                    <a class="link" href="http://r.imgccoo.cn/post/images/word/公司纪律规定.doc" target="_blank">
+                        <i class="xicon-zp-tool tool7"></i>
+                        <span class="tit">公司纪律规定</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    {/if}
+    <!-- 职场资讯及工具箱end -->
+    {if $LinkList}
+    <!-- 友情链接start -->
+    <div class="fc-cont zp-ljBox">
+        <div class="zp-titbox1">
+            <span class="tit">友情链接</span>
+        </div>
+        <div class="clearfix ljLinks">
+            {foreach $LinkList as $val}
+            <a class="ljLink fl" href="http://{$val.fUrl}" target="_blank">{$val.fName}</a>
+            {/foreach}
+        </div>
+    </div>
+    <!-- 友情链接end -->
+    {/if}
+
+    <!-- 悬浮菜单start -->
+    <div class="zp-menuBox" style="display: none;">
+        <div class="fc-cont zp-menuCon clearfix">
+            <a class="link fl on" href="/post/job/">首页</a>
+            <a class="link fl" href="/post/zhaopin/">找工作</a>
+            <a class="link fl" href="/post/qiuzhi/">找人才</a>
+            <a class="link fl" href="/post/jianzhi/">兼职</a>
+            <a class="link fl" href="/post/zhaopin/zhichangzixun/">资讯</a>
+            <a class="link fl" href="/post/zhaopin/gongjuxiang/">HR工具箱</a>
+            <a class="link fl" href="/post/zhaopin/bbs/">职场俱乐部</a>
+            {if condition="$zph_num gt 0"}
+            <a class="link fl" href="/post/zhaopinhui/">招聘会</a>
+            {/if}
+            <a class="link fl" href="/postvip/jobvip/jobindex">会员服务</a>
+            <div class="fr">
+                <a class="btn" href="/post/fabu/?ch=zp" target="_blank">发布职位</a>
+                <a class="btn" href="/post/fabu/?ch=qz" target="_blank">注册简历</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script type="text/javascript" src="http://r.imgccoo.cn/website/fenlei/js/dlv2.0.js" id="dldataObj" jsonStr='{"id":"5"}'></script>
+{/block}
+{block name='footer'}
+{include file="public:footer"}
+{/block}
+
+
+{block name="zhushou"}
+{include file="public:zhushou_new"}
+{/block}
+
+
+{block name="under_js"}
+
+<!-- 底部end -->
+<script src="http://r.imgccoo.cn/wap/webapp/js/swiper.v2.js"></script>
+<script src="http://r.imgccoo.cn/website/fenlei/js/fenlei_fc.js"></script>
+<script src="http://c.imgccoo.cn/js/advtip.js"></script>
+<script type="text/javascript">
+    $(function(){
+        //广告标示
+        $(".ccooliad a").each(function () {
+            $(this).css({ position: 'relative', display: 'block' }).append('<span class="guanggao" style="position:absolute;z-index:9;left:2px;bottom:5px;margin:0;padding:0;width:19px;height:10px;background:url(http://img.pccoo.cn/v10/images/advtip.png);"></span>')
+        });
+        //返回顶部
+        loadGoTop();
+        $('#gotop1').click(function () {
+            $(document).scrollTop(0);
+        })
+        //banner滚动
+        if ($('.slideBox .swiper-slide').length > 1) {
+            var swiper1 = new Swiper('.slideBox', {
+                pagination: '.slideBox .swiper-pagination',
+                paginationClickable: true,
+                autoplay: 3000,
+                autoplayDisableOnInteraction: false,
+                speed: 500,
+                loop: true
+            });
+        } else {
+            $('.slideBox .swiper-pagination').remove()
+        }
+        $(window).scroll(function(){
+            var tabT=$('.zp-jobWrap').offset().top;
+            var top=$(window).scrollTop();
+            if(top>=tabT){
+                $('.zp-menuBox').show();
+            }else{
+                $('.zp-menuBox').hide();
+            }
+            loadGoTop();
+        })
+    })
+</script>
+{/block}
+
+

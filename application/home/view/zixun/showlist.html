@@ -1,0 +1,37 @@
+
+<h3 class="pltit">全部评论</h3>
+<div class="allpl" id="pinglun">
+    {foreach $pinglun_list as $val}
+    <div class="plnr">
+        <div class="plico"><a href="/forum/user/index.asp?username={$val.UserName}" target="_blank"><img src="{$val.userface}" alt="{$val.nick}"></a></div>
+        <div class="nly">
+            <div class="nly1">
+                <i><a href="/forum/user/index.asp?username={$val.UserName}" target="_blank">{$val.nick}</a>{:date_to_time($val.AddTime,'Y/m/d h:i:s')}</i>
+                <div class="lyding" id="plding{$val.id}"><a href="javascript:;" onclick="plDing('{$val.id}');return false;">顶</a> <span>[{$val.ding}]</span> | <a href="javascript:;" onclick="markhuifu('{$val.nick}','{$val.id}');return false;">回复</a></div>
+            </div>
+            <div class="nly2">{$val.Content|raw}</div>
+            {if isset($val['hfinfo'])}
+                {foreach $val['hfinfo'] as $value}
+                    <div class="plej">
+                        <div class="plico"><a href="/forum/user/index.asp?username={$value.UserName}" target="_blank"><img src="{$value.userface}" alt="{$value.nick}"></a></div>
+                        <div class="plej2">
+                            <div class="nly1">
+                                <i><a href="/forum/user/index.asp?username={$value.UserName}" target="_blank">{$value.nick}</a>{:date_to_time($value.AddTime,'Y/m/d h:i:s')}</i>
+                                <div class="lyding" id="plding{$value.id}"><a href="javascript:;" onclick="plDing('{$value.id}');return false;">顶</a> <span>[{$value.ding}]</span></div>
+                            </div>
+                            <div class="nly2">{$value.Content|raw}</div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                {/foreach}
+            {/if}
+        </div>
+        <div class="clear"></div>
+    </div>
+    {/foreach}
+    {if condition="$has_more eq 1"}
+        <div class="pljz"><a href="javascript:getPingLunPage('pinglun','{$sid}','{$page+1}','showList');">更多评论</a></div>
+    {/if}
+
+</div>
+
